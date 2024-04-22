@@ -19,10 +19,23 @@ void ChessGameView::tearDownScreen()
 
 void ChessGameView::imageClickedHandler(const ScalableImage& i, const ClickEvent& e)
 {
-    if (&i == &ChessBoard)
+    if (&i != &ChessBoard)
     {
-        Unicode::snprintf(locationTextBoxBuffer, LOCATIONTEXTBOX_SIZE, "%c%d", e.getX()/34+65, 8-e.getY()/34);
-        locationTextBox.invalidate();
-        locationTextBox.invalidateContent();
+        return;
+    }
+
+    //Debug section
+    Unicode::snprintf(locationTextBoxBuffer, LOCATIONTEXTBOX_SIZE, "%c%d", e.getX() / 34 + 65, 8 - e.getY() / 34);
+    locationTextBox.invalidate();
+    locationTextBox.invalidateContent();
+
+    if (e.getX() < 272)
+    {
+        int position = e.getX() / 34 + (e.getY() / 34) * 8;
+        // board.HandleClick
+    }
+    else
+    {
+        // Menu clicks
     }
 }
