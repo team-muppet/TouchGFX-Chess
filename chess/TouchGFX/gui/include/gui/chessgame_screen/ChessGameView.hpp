@@ -18,7 +18,7 @@ public:
 protected:
     // Declaring callback type of ScalableImage and clickEvent
     Callback<ChessGameView, const ScalableImage&, const ClickEvent&> imageClickedCallback;
-
+    ScalableImage _testpawn;
     //Add Board to view
     Board _chessboard;
 };

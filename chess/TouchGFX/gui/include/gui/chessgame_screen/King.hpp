@@ -4,9 +4,10 @@
 
 class King : public AbstractPiece {
 public:
-    King(PieceColor color) {
+    King(PieceColor color, ScalableImage* image) {
         this->color = color;
         this->type = PieceType::KING;
+        this->_image = image;
     }
 
     std::list<int> PotentialMoves(const AbstractPiece* board[64], const int myPosition) override {
@@ -18,7 +19,7 @@ public:
         return moves;
     }
 
-    std::list<int> PossibleMoves(const AbstractPiece* board[64], const int myPosition) override {
+    std::list<int> PossibleMoves(AbstractPiece* board[64], const int myPosition) override {
         // Implementation for possible moves of a KING
         // Dummy implementation, replace with actual logic
         std::list<int> moves;

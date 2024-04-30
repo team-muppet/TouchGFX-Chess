@@ -225,9 +225,6 @@
     <ClCompile Include="..\..\generated\gui_generated\src\chessgame_screen\ChessGameViewBase.cpp">
       <Filter>Source Files\generated\gui_generated\chessgame_screen</Filter>
     </ClCompile>
-    <ClCompile Include="Board.cpp">
-      <Filter>Source Files\gui\chessgame_screen</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\gui\src\chessgame_screen\Board.cpp">
       <Filter>Source Files\gui\chessgame_screen</Filter>
     </ClCompile>

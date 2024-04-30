@@ -4,9 +4,10 @@
 
 class Bishop : public AbstractPiece {
 public:
-    Bishop(PieceColor color) {
+    Bishop(PieceColor color, ScalableImage* image) {
         this->color = color;
         this->type = PieceType::BISHOP;
+        this->_image = image;
     }
 
     std::list<int> PotentialMoves(const AbstractPiece* board[64], const int myPosition) override {
@@ -18,7 +19,7 @@ public:
         return moves;
     }
 
-    std::list<int> PossibleMoves(const AbstractPiece* board[64], const int myPosition) override {
+    std::list<int> PossibleMoves(AbstractPiece* board[64], const int myPosition) override {
         // Implementation for possible moves of a BISHOP
         // Dummy implementation, replace with actual logic
         std::list<int> moves;

@@ -4,10 +4,14 @@
 
 class Pawn : public AbstractPiece {
 public:
-    Pawn(PieceColor color) {
+    Pawn(PieceColor color, ScalableImage*image) {
         this->color = color;
         this->type = PieceType::PAWN;
-        //this->_image = image;
+        this->_image = image;
+
+        //_image->setVisible(true);
+        //_image->invalidate();
+        //add(this->_image); // Add the pieceImage to the board (the screen)
     }
 
     virtual ~Pawn() {}
@@ -21,7 +25,7 @@ public:
         return moves;
     }
 
-    std::list<int> PossibleMoves(const AbstractPiece* board[64], const int myPosition) override {
+    std::list<int> PossibleMoves(AbstractPiece* board[64], const int myPosition) override {
         // Implementation for possible moves of a pawn
         // Dummy implementation, replace with actual logic
         std::list<int> moves;

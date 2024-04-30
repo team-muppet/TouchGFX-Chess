@@ -4,6 +4,7 @@
 #include <list>
 
 #include <touchgfx/widgets/Image.hpp>
+#include <touchgfx/widgets/ScalableImage.hpp>
 
 using namespace touchgfx;
 
@@ -11,7 +12,7 @@ class AbstractPiece {
 protected:
     PieceColor color; // Indicates whether the piece is white or black
     PieceType type; // Symbol representing the piece on the board
-    //ScalableImage _image; // Image of the piece
+    //ZoomAnimationImage* _image; // Image of the piece
 
 public:
     virtual ~AbstractPiece() {};
@@ -20,7 +21,7 @@ public:
     virtual std::list<int> PotentialMoves(const AbstractPiece* board[64], const int myPosition) = 0;
 
     //Moves that are possible to make, considering the board and other pieces
-    virtual std::list<int> PossibleMoves(const AbstractPiece* board[64], const int myPosition) = 0;
+    virtual std::list<int> PossibleMoves(AbstractPiece* board[64], const int myPosition) = 0;
 
 
     virtual PieceColor GetColor() const {
@@ -30,8 +31,8 @@ public:
     virtual PieceType GetType() const {
 		return type;
 	}
-
-    /*virtual ScalableImage GetImage() const {
-        return _image;
-    }*/
+    ScalableImage* _image;
+    virtual ScalableImage GetImage() const {
+        return *_image;
+    }
 };

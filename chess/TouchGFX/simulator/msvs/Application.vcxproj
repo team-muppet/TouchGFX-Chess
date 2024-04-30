@@ -24,7 +24,6 @@
     <ClCompile Include="..\..\gui\src\chessgame_screen\ChessGamePresenter.cpp"/>
     <ClCompile Include="..\..\gui\src\chessgame_screen\ChessGameView.cpp"/>
     <ClCompile Include="..\..\generated\gui_generated\src\chessgame_screen\ChessGameViewBase.cpp"/>
-    <ClCompile Include="Board.cpp"/>
     <ClCompile Include="..\..\gui\src\chessgame_screen\Board.cpp"/>
   </ItemGroup>
   <ItemGroup>

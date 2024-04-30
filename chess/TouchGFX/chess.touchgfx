@@ -40,16 +40,6 @@
               "BufferSize": 14
             },
             "WideTextAction": 1
-          },
-          {
-            "Type": "ScalableImage",
-            "Name": "scalableImage1",
-            "X": 56,
-            "Y": 93,
-            "Width": 80,
-            "Height": 80,
-            "Filename": "blackhorse.png",
-            "ScalingAlgorithm": "Nearest-neighbor"
           }
         ],
         "Interactions": []

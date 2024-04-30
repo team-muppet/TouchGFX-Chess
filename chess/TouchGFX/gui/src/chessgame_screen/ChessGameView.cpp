@@ -1,14 +1,17 @@
 #include <gui/chessgame_screen/ChessGameView.hpp>
 #include <texts/TextKeysAndLanguages.hpp>
+#include <BitmapDatabase.hpp>
 
 ChessGameView::ChessGameView() : imageClickedCallback(this, &ChessGameView::imageClickedHandler)
 {}
 
 void ChessGameView::setupScreen()
 {
-    _chessboard.setupBoard();
+    
+    _chessboard.setXY(0, 0);
     add(_chessboard);
     ChessGameViewBase::setupScreen();
+    
 
     Background.setAlpha(100);
     ChessBoard.setClickAction(imageClickedCallback);
@@ -33,7 +36,8 @@ void ChessGameView::imageClickedHandler(const ScalableImage& i, const ClickEvent
 
     if (e.getX() < 272)
     {
-        //int position = e.getX() / 34 + (e.getY() / 34) * 8;
+        int position = e.getX() / 34 + (e.getY() / 34) * 8;
+        _chessboard.handleClickEvent(position);
         // board.HandleClick
     }
     else

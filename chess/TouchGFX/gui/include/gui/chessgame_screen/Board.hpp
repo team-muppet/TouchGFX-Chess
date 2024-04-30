@@ -4,6 +4,7 @@
 #include <touchgfx/containers/Container.hpp>
 #include <touchgfx/widgets/Image.hpp>
 #include <touchgfx/containers/ZoomAnimationImage.hpp>
+#include <touchgfx/widgets/ScalableImage.hpp>
 #include <stdlib.h>
 
 #include <gui/chessgame_screen/AbstractPiece.hpp>
@@ -20,9 +21,11 @@ public:
 
 	virtual void setupBoard();
 
-private:
+	virtual void handleClickEvent(int position);
 
-	AbstractPiece* _board[64] = { nullptr };
+protected:
+
+	AbstractPiece* _board[64];
 
 	PieceColor _currentPlayer;
 	
