@@ -225,6 +225,12 @@
     <ClCompile Include="..\..\generated\gui_generated\src\chessgame_screen\ChessGameViewBase.cpp">
       <Filter>Source Files\generated\gui_generated\chessgame_screen</Filter>
     </ClCompile>
+    <ClCompile Include="Board.cpp">
+      <Filter>Source Files\gui\chessgame_screen</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\gui\src\chessgame_screen\Board.cpp">
+      <Filter>Source Files\gui\chessgame_screen</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="$(ApplicationRoot)\assets\texts\texts.xml">
@@ -675,6 +681,33 @@
     </ClInclude>
     <ClInclude Include="..\..\generated\gui_generated\include\gui_generated\chessgame_screen\ChessGameViewBase.hpp">
       <Filter>Header Files\generated\gui_generated\chessgame_screen</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gui\include\gui\chessgame_screen\Board.hpp">
+      <Filter>Header Files\gui\chessgame_screen</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gui\include\gui\chessgame_screen\AbstractPiece.hpp">
+      <Filter>Header Files\gui\chessgame_screen</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gui\include\gui\chessgame_screen\ChessEnums.hpp">
+      <Filter>Header Files\gui\chessgame_screen</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gui\include\gui\chessgame_screen\King.hpp">
+      <Filter>Header Files\gui\chessgame_screen</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gui\include\gui\chessgame_screen\Knight.hpp">
+      <Filter>Header Files\gui\chessgame_screen</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gui\include\gui\chessgame_screen\Bishop.hpp">
+      <Filter>Header Files\gui\chessgame_screen</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gui\include\gui\chessgame_screen\Pawn.hpp">
+      <Filter>Header Files\gui\chessgame_screen</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gui\include\gui\chessgame_screen\Queen.hpp">
+      <Filter>Header Files\gui\chessgame_screen</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gui\include\gui\chessgame_screen\Rook.hpp">
+      <Filter>Header Files\gui\chessgame_screen</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

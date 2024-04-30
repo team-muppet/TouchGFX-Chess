@@ -6,6 +6,8 @@ ChessGameView::ChessGameView() : imageClickedCallback(this, &ChessGameView::imag
 
 void ChessGameView::setupScreen()
 {
+    _chessboard.setupBoard();
+    add(_chessboard);
     ChessGameViewBase::setupScreen();
 
     Background.setAlpha(100);
@@ -31,7 +33,7 @@ void ChessGameView::imageClickedHandler(const ScalableImage& i, const ClickEvent
 
     if (e.getX() < 272)
     {
-        int position = e.getX() / 34 + (e.getY() / 34) * 8;
+        //int position = e.getX() / 34 + (e.getY() / 34) * 8;
         // board.HandleClick
     }
     else

@@ -3,6 +3,7 @@
 
 #include <gui_generated/chessgame_screen/ChessGameViewBase.hpp>
 #include <gui/chessgame_screen/ChessGamePresenter.hpp>
+#include <gui/chessgame_screen/Board.hpp>
 
 class ChessGameView : public ChessGameViewBase
 {
@@ -17,6 +18,9 @@ public:
 protected:
     // Declaring callback type of ScalableImage and clickEvent
     Callback<ChessGameView, const ScalableImage&, const ClickEvent&> imageClickedCallback;
+
+    //Add Board to view
+    Board _chessboard;
 };
 
 #endif // CHESSGAMEVIEW_HPP

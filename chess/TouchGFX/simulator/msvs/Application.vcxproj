@@ -24,6 +24,8 @@
     <ClCompile Include="..\..\gui\src\chessgame_screen\ChessGamePresenter.cpp"/>
     <ClCompile Include="..\..\gui\src\chessgame_screen\ChessGameView.cpp"/>
     <ClCompile Include="..\..\generated\gui_generated\src\chessgame_screen\ChessGameViewBase.cpp"/>
+    <ClCompile Include="Board.cpp"/>
+    <ClCompile Include="..\..\gui\src\chessgame_screen\Board.cpp"/>
   </ItemGroup>
   <ItemGroup>
     <None Include="$(ApplicationRoot)\assets\texts\texts.xml"/>
@@ -165,6 +167,13 @@
     <ClInclude Include="$(TouchGFXReleasePath)\framework\include\touchgfx\widgets\Widget.hpp"/>
     <ClInclude Include="$(ApplicationRoot)\generated\simulator\include\simulator\mainBase.hpp"/>
     <ClInclude Include="..\..\generated\simulator\include\simulator\video\DirectFrameBufferVideoController.hpp"/>
+    <ClInclude Include="..\..\gui\include\gui\chessgame_screen\AbstractPiece.hpp"/>
+    <ClInclude Include="..\..\gui\include\gui\chessgame_screen\Bishop.hpp"/>
+    <ClInclude Include="..\..\gui\include\gui\chessgame_screen\Board.hpp"/>
+    <ClInclude Include="..\..\gui\include\gui\chessgame_screen\ChessEnums.hpp"/>
+    <ClInclude Include="..\..\gui\include\gui\chessgame_screen\Pawn.hpp"/>
+    <ClInclude Include="..\..\gui\include\gui\chessgame_screen\Queen.hpp"/>
+    <ClInclude Include="..\..\gui\include\gui\chessgame_screen\Rook.hpp"/>
     <ClInclude Include="..\..\gui\include\gui\common\FrontendApplication.hpp"/>
     <ClInclude Include="..\..\generated\gui_generated\include\gui_generated\common\FrontendApplicationBase.hpp"/>
     <ClInclude Include="..\..\gui\include\gui\common\FrontendHeap.hpp"/>
@@ -177,6 +186,8 @@
     <ClInclude Include="..\..\gui\include\gui\chessgame_screen\ChessGamePresenter.hpp"/>
     <ClInclude Include="..\..\gui\include\gui\chessgame_screen\ChessGameView.hpp"/>
     <ClInclude Include="..\..\generated\gui_generated\include\gui_generated\chessgame_screen\ChessGameViewBase.hpp"/>
+    <ClInclude Include="..\..\gui\include\gui\chessgame_screen\King.hpp"/>
+    <ClInclude Include="..\..\gui\include\gui\chessgame_screen\Knight.hpp"/>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="$(ApplicationRoot)\generated\simulator\touchgfx.rc"/>

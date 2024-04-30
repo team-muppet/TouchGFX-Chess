@@ -580,6 +580,11 @@
 			<locationURI>PARENT-1-PROJECT_LOC/TouchGFX/target/generated/tgfx_jpeg_utils.c</locationURI>
 		</link>
 		<link>
+			<name>Application/User/gui/Board.cpp</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/TouchGFX/gui/src/chessgame_screen/Board.cpp</locationURI>
+		</link>
+		<link>
 			<name>Application/User/gui/ChessGamePresenter.cpp</name>
 			<type>1</type>
 			<locationURI>PARENT-1-PROJECT_LOC/TouchGFX/gui/src/chessgame_screen/ChessGamePresenter.cpp</locationURI>
@@ -695,9 +700,69 @@
 			<locationURI>PARENT-1-PROJECT_LOC/TouchGFX/generated/images/src/SVGDatabase.cpp</locationURI>
 		</link>
 		<link>
+			<name>Application/User/generated/image_blackbishop.cpp</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/TouchGFX/generated/images/src/image_blackbishop.cpp</locationURI>
+		</link>
+		<link>
+			<name>Application/User/generated/image_blackhorse.cpp</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/TouchGFX/generated/images/src/image_blackhorse.cpp</locationURI>
+		</link>
+		<link>
+			<name>Application/User/generated/image_blackking.cpp</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/TouchGFX/generated/images/src/image_blackking.cpp</locationURI>
+		</link>
+		<link>
+			<name>Application/User/generated/image_blackpawn.cpp</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/TouchGFX/generated/images/src/image_blackpawn.cpp</locationURI>
+		</link>
+		<link>
+			<name>Application/User/generated/image_blackqueen.cpp</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/TouchGFX/generated/images/src/image_blackqueen.cpp</locationURI>
+		</link>
+		<link>
+			<name>Application/User/generated/image_blackrook.cpp</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/TouchGFX/generated/images/src/image_blackrook.cpp</locationURI>
+		</link>
+		<link>
 			<name>Application/User/generated/image_board_brown_sand.cpp</name>
 			<type>1</type>
 			<locationURI>PARENT-1-PROJECT_LOC/TouchGFX/generated/images/src/image_board_brown_sand.cpp</locationURI>
+		</link>
+		<link>
+			<name>Application/User/generated/image_whitebishop.cpp</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/TouchGFX/generated/images/src/image_whitebishop.cpp</locationURI>
+		</link>
+		<link>
+			<name>Application/User/generated/image_whitehorse.cpp</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/TouchGFX/generated/images/src/image_whitehorse.cpp</locationURI>
+		</link>
+		<link>
+			<name>Application/User/generated/image_whiteking.cpp</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/TouchGFX/generated/images/src/image_whiteking.cpp</locationURI>
+		</link>
+		<link>
+			<name>Application/User/generated/image_whitepawn.cpp</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/TouchGFX/generated/images/src/image_whitepawn.cpp</locationURI>
+		</link>
+		<link>
+			<name>Application/User/generated/image_whitequeen.cpp</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/TouchGFX/generated/images/src/image_whitequeen.cpp</locationURI>
+		</link>
+		<link>
+			<name>Application/User/generated/image_whiterook.cpp</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/TouchGFX/generated/images/src/image_whiterook.cpp</locationURI>
 		</link>
 		<link>
 			<name>Application/User/generated/LanguageGb.cpp</name>
