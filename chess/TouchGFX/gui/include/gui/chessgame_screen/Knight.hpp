@@ -1,34 +1,51 @@
 #pragma once
 
 #include "AbstractPiece.hpp"
+#include <BitmapDatabase.hpp>
 
-class Knight: public AbstractPiece {
+class Knight : public AbstractPiece {
 public:
-    Knight(PieceColor color, ScalableImage* image) {
+    Knight(PieceColor color, int position, Container* container) {
         this->color = color;
         this->type = PieceType::KNIGHT;
-        this->_image = image;
+        _image = std::make_unique<ScalableImage>();
+        _image->setBitmap(Bitmap(color == PieceColor::WHITE ? BITMAP_WHITEHORSE_ID : BITMAP_BLACKHORSE_ID));
+        container->add(*_image);
+        Move(position);
     }
 
-    std::list<int> PotentialMoves(const AbstractPiece* board[64], const int myPosition) override {
+    std::list<int> PotentialMoves(const AbstractPiece* board[64], const int myPosition) const override {
         // Implementation for potential moves of a KNIGHT
-        // Dummy implementation, replace with actual logic
         std::list<int> moves;
-        // Example logic: add positions one step forward
-        moves.push_back(myPosition + (color == PieceColor::WHITE ? 8 : -8));
+        int directions[8] = { -17, -15, -10, -6, 6, 10, 15, 17 }; // L-shaped moves
+
+        for (int dir : directions) {
+            int pos = myPosition + dir;
+            // Check if the move is within bounds
+            if (pos >= 0 && pos < 64 &&
+                !((myPosition % 8 == 0 && (dir == -17 || dir == -10 || dir == 6 || dir == 15)) ||
+                    (myPosition % 8 == 1 && (dir == -10 || dir == 6)) ||
+                    (myPosition % 8 == 6 && (dir == -6 || dir == 10)) ||
+                    (myPosition % 8 == 7 && (dir == -15 || dir == -6 || dir == 10 || dir == 17)))) {
+                moves.push_back(pos);
+            }
+        }
+
         return moves;
     }
 
-    std::list<int> PossibleMoves(AbstractPiece* board[64], const int myPosition) override {
+    std::list<int> PossibleMoves(const AbstractPiece* board[64], const int myPosition) const override {
         // Implementation for possible moves of a KNIGHT
-        // Dummy implementation, replace with actual logic
-        std::list<int> moves;
-        // Example logic: add positions one step forward if unoccupied
-        if (board[myPosition + (color == PieceColor::WHITE ? 8 : -8)] == nullptr) {
-            moves.push_back(myPosition + (color == PieceColor::WHITE ? 8 : -8));
+        std::list<int> potentialMoves = PotentialMoves(board, myPosition);
+        std::list<int> possibleMoves;
+
+        for (int move : potentialMoves) {
+            // Add logic to check for valid moves considering other pieces
+            if (board[move] == nullptr || board[move]->GetColor() != this->color) {
+                possibleMoves.push_back(move);
+            }
         }
-        return moves;
+
+        return possibleMoves;
     }
 };
-
-// Implement similar classes for other chess pieces (e.g., KNIGHT, Rook, Knight, Queen, King)

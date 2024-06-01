@@ -11,267 +11,115 @@
 #define BOARD_WIDTH 272
 #define NUM_SQUARES 8
 
-Board::Board() : _currentPlayer(PieceColor::WHITE)
-{
-    //setTouchable(true);
-    // Create and set the position of the pieceImage to the center of the current square
-    /*ScalableImage* pieceImage = new ScalableImage();
-    pieceImage->setBitmap(Bitmap(BITMAP_BLACKPAWN_ID));
-    pieceImage->setPosition(55, 55, 33, 33);
-    _board[0] = new Pawn(PieceColor::WHITE, pieceImage);*/
-
-    // Add the pieceImage to the board (the screen)
-    /*pieceImage.setVisible(true);
-    pieceImage.invalidate();*/
-    /*add(*_board[0]->_image);*/
-
-   /* _board[0]->_image->setVisible(true);
-    _board[0]->_image->invalidate();*/
-	setupBoard();
+Board::Board() : _currentPlayer(PieceColor::WHITE) {
+    setupBoard();
     setWidth(272);
     setHeight(272);
 }
 
-Board::~Board()
-{
-}
+Board::~Board() {}
 
 void Board::setupBoard() {
+    // Initialize WHITE pawns
+    for (int j = 0; j < NUM_SQUARES; ++j) {
+        int position = j + NUM_SQUARES;
+        _board[position] = new Pawn(PieceColor::WHITE, position, this);
+    }
 
+    // Initialize BLACK pawns
+    for (int j = 0; j < NUM_SQUARES; ++j) {
+        int position = 6 * NUM_SQUARES + j;
+        _board[position] = new Pawn(PieceColor::BLACK, position, this);
+    }
 
-    //// Calculate the size of each square
-    int squareWidth = BOARD_WIDTH / NUM_SQUARES;
-    int squareHeight = BOARD_HEIGHT / NUM_SQUARES;
+    // Initialize other pieces
+    // BLACK Bishops
+    int bishopPositions[] = { 2, 5 };
+    for (int j = 0; j < 2; ++j) {
+        int position = (NUM_SQUARES - 1) * NUM_SQUARES + bishopPositions[j];
+        _board[position] = new Bishop(PieceColor::BLACK, position, this);
+    }
 
+    // WHITE Bishops
+    for (int j = 0; j < 2; ++j) {
+        int position = bishopPositions[j];
+        _board[position] = new Bishop(PieceColor::WHITE, position, this);
+    }
 
-   
-    //// Initialize WHITE pawns pieces
-        for (int j = 0; j < NUM_SQUARES; ++j) {
-            ScalableImage* pieceImage = new ScalableImage();
-            // Calculate the position of the center of the current square
-            int centerX = (j * squareWidth) + (squareWidth / 2);
-            int centerY = (squareHeight) + (squareHeight / 2);
-            pieceImage->setBitmap(Bitmap(BITMAP_WHITEPAWN_ID));
-            // Set the position of the pieceImage to the center of the current square
-            pieceImage->setPosition(centerX-16, centerY-16, 33, 33);
-            // Initialize a new Pawn with the calculated position
-            _board[j + NUM_SQUARES] = new Pawn(PieceColor::WHITE, pieceImage);
-            // Add the pieceImage to the board (the screen)
-            add(*_board[j+NUM_SQUARES]->_image);
-        }
-        
-    //// Initialize BLACK pieces
-    // Initialize BLACK pawns pieces
-        for (int j = 0; j < NUM_SQUARES; ++j) {
-            ScalableImage* pieceImage = new ScalableImage();
-            // Calculate the position of the center of the current square
-            int centerX = (j * squareWidth) + (squareWidth / 2);
-            int centerY = (NUM_SQUARES - 2) * squareHeight + (squareHeight / 2); // Second-to-last row
-            pieceImage->setBitmap(Bitmap(BITMAP_BLACKPAWN_ID));
-            // Set the position of the pieceImage to the center of the current square
-            pieceImage->setPosition(centerX - 16, centerY - 16, 33, 33);
-            // Initialize a new Pawn with the calculated position
-            _board[6 * NUM_SQUARES + j] = new Pawn(PieceColor::BLACK, pieceImage);
-            // Add the pieceImage to the board (the screen)
-            add(*_board[6 * NUM_SQUARES + j]->_image);
-        }
+    // BLACK Knights
+    int knightPositions[] = { 1, 6 };
+    for (int j = 0; j < 2; ++j) {
+        int position = (NUM_SQUARES - 1) * NUM_SQUARES + knightPositions[j];
+        _board[position] = new Knight(PieceColor::BLACK, position, this);
+    }
 
-        // Initialize BLACK Bishops pieces
-        for (int j = 0; j < 2; ++j) {
-            ScalableImage* pieceImage = new ScalableImage();
-            // Calculate the position of the center of the current square
-            int centerX = (2 + (j * 3)) * squareWidth + (squareWidth / 2); // Third or sixth square
-            int centerY = (NUM_SQUARES - 1) * squareHeight + (squareHeight / 2); // Last row
-            pieceImage->setBitmap(Bitmap(BITMAP_BLACKBISHOP_ID));
-            // Set the position of the pieceImage to the center of the current square
-            pieceImage->setPosition(centerX - 16, centerY - 16, 33, 33);
-            // Initialize a new Bishop with the calculated position
-            _board[(NUM_SQUARES - 1) * NUM_SQUARES + (2 + (j * 3))] = new Bishop(PieceColor::BLACK, pieceImage);
-            // Add the pieceImage to the board (the screen)
-            add(*_board[(NUM_SQUARES - 1) * NUM_SQUARES + (2 + (j * 3))]->_image);
-        }
+    // WHITE Knights
+    for (int j = 0; j < 2; ++j) {
+        int position = knightPositions[j];
+        _board[position] = new Knight(PieceColor::WHITE, position, this);
+    }
 
-        // Initialize BLACK Knights pieces
-        for (int j = 0; j < 2; ++j) {
-            ScalableImage* pieceImage = new ScalableImage();
-            // Calculate the position of the center of the current square
-            int centerX = (1 + (j * 5)) * squareWidth + (squareWidth / 2); // Second or seventh square
-            int centerY = (NUM_SQUARES - 1) * squareHeight + (squareHeight / 2); // Last row
-            pieceImage->setBitmap(Bitmap(BITMAP_BLACKHORSE_ID));
-            // Set the position of the pieceImage to the center of the current square
-            pieceImage->setPosition(centerX - 16, centerY - 16, 33, 33);
-            // Initialize a new Knight with the calculated position
-            _board[(NUM_SQUARES - 1) * NUM_SQUARES + (1 + (j * 5))] = new Knight(PieceColor::BLACK, pieceImage);
-            // Add the pieceImage to the board (the screen)
-            add(*_board[(NUM_SQUARES - 1) * NUM_SQUARES + (1 + (j * 5))]->_image);
-        }
+    // BLACK Queen
+    int position = (NUM_SQUARES - 1) * NUM_SQUARES + 3;
+    _board[position] = new Queen(PieceColor::BLACK, position, this);
 
-        // Initialize WHITE Bishops pieces
-        for (int j = 0; j < 2; ++j) {
-            ScalableImage* pieceImage = new ScalableImage();
-            // Calculate the position of the center of the current square
-            int centerX = (2 + (j * 3)) * squareWidth + (squareWidth / 2); // Third or sixth square
-            int centerY = squareHeight / 2; // First row
-            pieceImage->setBitmap(Bitmap(BITMAP_WHITEBISHOP_ID));
-            // Set the position of the pieceImage to the center of the current square
-            pieceImage->setPosition(centerX - 16, centerY - 16, 33, 33);
-            // Initialize a new Bishop with the calculated position
-            _board[2 + (j * 3)] = new Bishop(PieceColor::WHITE, pieceImage);
-            // Add the pieceImage to the board (the screen)
-            add(*_board[2 + (j * 3)]->_image);
-        }
+    // WHITE Queen
+    position = 3;
+    _board[position] = new Queen(PieceColor::WHITE, position, this);
 
-        // Initialize WHITE Knights pieces
-        for (int j = 0; j < 2; ++j) {
-            ScalableImage* pieceImage = new ScalableImage();
-            // Calculate the position of the center of the current square
-            int centerX = (1 + (j * 5)) * squareWidth + (squareWidth / 2); // Second or seventh square
-            int centerY = squareHeight / 2; // First row
-            pieceImage->setBitmap(Bitmap(BITMAP_WHITEHORSE_ID));
-            // Set the position of the pieceImage to the center of the current square
-            pieceImage->setPosition(centerX - 16, centerY - 16, 33, 33);
-            // Initialize a new Knight with the calculated position
-            _board[1 + (j * 5)] = new Knight(PieceColor::WHITE, pieceImage);
-            // Add the pieceImage to the board (the screen)
-            add(*_board[1 + (j * 5)]->_image);
-        }
+    // BLACK King
+    position = (NUM_SQUARES - 1) * NUM_SQUARES + 4;
+    _board[position] = new King(PieceColor::BLACK, position, this);
 
-        // Initialize BLACK Queen piece
-        ScalableImage* pieceImage = new ScalableImage();
-        // Calculate the position of the center of the current square
-        int centerX = (3 * squareWidth) + (squareWidth / 2); // Fourth square
-        int centerY = (NUM_SQUARES - 1) * squareHeight + (squareHeight / 2); // Last row
-        pieceImage->setBitmap(Bitmap(BITMAP_BLACKQUEEN_ID));
-        // Set the position of the pieceImage to the center of the current square
-        pieceImage->setPosition(centerX - 16, centerY - 16, 33, 33);
-        // Initialize a new Queen with the calculated position
-        _board[(NUM_SQUARES - 1) * NUM_SQUARES + 3] = new Queen(PieceColor::BLACK, pieceImage);
-        // Add the pieceImage to the board (the screen)
-        add(*_board[(NUM_SQUARES - 1) * NUM_SQUARES + 3]->_image);
+    // WHITE King
+    position = 4;
+    _board[position] = new King(PieceColor::WHITE, position, this);
 
-        // Initialize BLACK King piece
-        pieceImage = new ScalableImage();
-        // Calculate the position of the center of the current square
-        centerX = (4 * squareWidth) + (squareWidth / 2); // Fifth square
-        centerY = (NUM_SQUARES - 1) * squareHeight + (squareHeight / 2); // Last row
-        pieceImage->setBitmap(Bitmap(BITMAP_BLACKKING_ID));
-        // Set the position of the pieceImage to the center of the current square
-        pieceImage->setPosition(centerX - 16, centerY - 16, 33, 33);
-        // Initialize a new King with the calculated position
-        _board[(NUM_SQUARES - 1) * NUM_SQUARES + 4] = new King(PieceColor::BLACK, pieceImage);
-        // Add the pieceImage to the board (the screen)
-        add(*_board[(NUM_SQUARES - 1) * NUM_SQUARES + 4]->_image);
+    // BLACK Rooks
+    int rookPositions[] = { 0, 7 };
+    for (int j = 0; j < 2; ++j) {
+        position = (NUM_SQUARES - 1) * NUM_SQUARES + rookPositions[j];
+        _board[position] = new Rook(PieceColor::BLACK, position, this);
+    }
 
-        // Initialize BLACK Rooks pieces
-        for (int j = 0; j < 2; ++j) {
-            pieceImage = new ScalableImage();
-            // Calculate the position of the center of the current square
-            centerX = (j == 0 ? 0 : (NUM_SQUARES - 1) * squareWidth) + (squareWidth / 2); // First or last square
-            centerY = (NUM_SQUARES - 1) * squareHeight + (squareHeight / 2); // Last row
-            pieceImage->setBitmap(Bitmap(BITMAP_BLACKROOK_ID));
-            // Set the position of the pieceImage to the center of the current square
-            pieceImage->setPosition(centerX - 16, centerY - 16, 33, 33);
-            // Initialize a new Rook with the calculated position
-            _board[(NUM_SQUARES - 1) * NUM_SQUARES + (j == 0 ? 0 : 7)] = new Rook(PieceColor::BLACK, pieceImage);
-            // Add the pieceImage to the board (the screen)
-            add(*_board[(NUM_SQUARES - 1) * NUM_SQUARES + (j == 0 ? 0 : 7)]->_image);
-        }
-
-
-
-        // Initialize pawns (already done in previous loop)
-        // Initialize WHITE Queen piece
-        pieceImage = new ScalableImage();
-        // Calculate the position of the center of the current square
-        centerX = (3 * squareWidth) + (squareWidth / 2); // Fourth square
-        centerY = squareHeight / 2; // First row
-        pieceImage->setBitmap(Bitmap(BITMAP_WHITEQUEEN_ID));
-        // Set the position of the pieceImage to the center of the current square
-        pieceImage->setPosition(centerX - 16, centerY - 16, 33, 33);
-        // Initialize a new Queen with the calculated position
-        _board[3] = new Queen(PieceColor::WHITE, pieceImage);
-        // Add the pieceImage to the board (the screen)
-        add(*_board[3]->_image);
-
-        // Initialize WHITE King piece
-        pieceImage = new ScalableImage();
-        // Calculate the position of the center of the current square
-        centerX = (4 * squareWidth) + (squareWidth / 2); // Fifth square
-        centerY = squareHeight / 2; // First row
-        pieceImage->setBitmap(Bitmap(BITMAP_WHITEKING_ID));
-        // Set the position of the pieceImage to the center of the current square
-        pieceImage->setPosition(centerX - 16, centerY - 16, 33, 33);
-        // Initialize a new King with the calculated position
-        _board[4] = new King(PieceColor::WHITE, pieceImage);
-        // Add the pieceImage to the board (the screen)
-        add(*_board[4]->_image);
-
-        // Initialize WHITE Rooks pieces
-        for (int j = 0; j < 2; ++j) {
-            pieceImage = new ScalableImage();
-            // Calculate the position of the center of the current square
-            centerX = (j == 0 ? 0 : 7) * squareWidth + (squareWidth / 2); // First or last square
-            centerY = squareHeight / 2; // First row
-            pieceImage->setBitmap(Bitmap(BITMAP_WHITEROOK_ID));
-            // Set the position of the pieceImage to the center of the current square
-            pieceImage->setPosition(centerX - 16, centerY - 16, 33, 33);
-            // Initialize a new Rook with the calculated position
-            _board[(j == 0 ? 0 : 7)] = new Rook(PieceColor::WHITE, pieceImage);
-            // Add the pieceImage to the board (the screen)
-            add(*_board[(j == 0 ? 0 : 7)]->_image);
-        }
-
-
-
-
+    // WHITE Rooks
+    for (int j = 0; j < 2; ++j) {
+        position = rookPositions[j];
+        _board[position] = new Rook(PieceColor::WHITE, position, this);
+    }
 }
 
-void Board::handleClickEvent(int position)
-{
-    // Check if the clicked position is valid
+void Board::handleClickEvent(int position) {
     if (position < 0 || position >= NUM_SQUARES * NUM_SQUARES) {
-		return;
-	}
+        return;
+    }
 
-	// Get the piece at the clicked position
-	AbstractPiece* piece = _board[position];
+    AbstractPiece* piece = _board[position];
     if (piece == nullptr) {
-		return;
-	}
+        return;
+    }
 
-	// Check if the piece belongs to the current player
-    if (piece->GetColor() != _currentPlayer) {
-		return;
-	}
+    /*if (piece->GetColor() != _currentPlayer) {
+        return;
+    }*/
 
-	// Get the possible moves for the piece
-	std::list<int> possibleMoves = piece->PossibleMoves(_board, position);
+    AbstractPiece const** const_board = const_cast<AbstractPiece const**>(_board);
 
-    ScalableImage* image = new ScalableImage();
-           image->setBitmap(Bitmap(BITMAP_WHITEHORSE_ID));
-          image->setPosition(60, 60, 33, 33);
-
-           _board[18] = new Knight(PieceColor::WHITE, image);
-       
-           add(*_board[18]->_image);
-
-           _board[18]->_image->setVisible(true);
-           _board[18]->_image->invalidate();
+    std::list<int> possibleMoves = piece->PossibleMoves(const_board, position);
 
 
-	//// Highlight the possible moves
- //   for (int move : possibleMoves) {
- //       // Set the image of the possible move to the white horse
- //       ScalableImage* image = new ScalableImage();
- //       image->setBitmap(Bitmap(BITMAP_WHITEHORSE_ID));
- //       image->setPosition(55, 55, 33, 33);
 
- //       _board[move] = new Knight(PieceColor::WHITE, image);
- //   
- //       add(*_board[move]->_image);
-  
-		// Highlight the move
-		// _board[move]->highlight();
-	//}
+    // Tests
+
+
+    /*_board[position] = new Rook(PieceColor::WHITE, position);
+    auto image = _board[position]->GetImage();
+    add(*image);
+
+
+    image->invalidate();*/
+
+    /*piece->Move(++position);
+
+    this->invalidate();*/
 }
-

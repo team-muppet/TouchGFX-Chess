@@ -1,32 +1,55 @@
 #pragma once
 
 #include "AbstractPiece.hpp"
+#include <BitmapDatabase.hpp>
 
 class Queen : public AbstractPiece {
 public:
-    Queen(PieceColor color, ScalableImage* image) {
+    Queen(PieceColor color, int position, Container* container) {
         this->color = color;
         this->type = PieceType::QUEEN;
-        this->_image = image;
+        _image = std::make_unique<ScalableImage>();
+        _image->setBitmap(Bitmap(color == PieceColor::WHITE ? BITMAP_WHITEQUEEN_ID : BITMAP_BLACKQUEEN_ID));
+        container->add(*_image);
+        Move(position);
     }
 
-    std::list<int> PotentialMoves(const AbstractPiece* board[64], const int myPosition) override {
-        // Implementation for potential moves of a QUEEN
-        // Dummy implementation, replace with actual logic
+    std::list<int> PotentialMoves(const AbstractPiece* board[64], const int myPosition) const override {
         std::list<int> moves;
-        // Example logic: add positions one step forward
-        moves.push_back(myPosition + (color == PieceColor::WHITE ? 8 : -8));
-        return moves;
-    }
+        int directions[8] = { -9, -8, -7, -1, 1, 7, 8, 9 }; // Queen can move in any direction
 
-    std::list<int> PossibleMoves(AbstractPiece* board[64], const int myPosition) override {
-        // Implementation for possible moves of a QUEEN
-        // Dummy implementation, replace with actual logic
-        std::list<int> moves;
-        // Example logic: add positions one step forward if unoccupied
-        if (board[myPosition + (color == PieceColor::WHITE ? 8 : -8)] == nullptr) {
-            moves.push_back(myPosition + (color == PieceColor::WHITE ? 8 : -8));
+        for (int dir : directions) {
+            int pos = myPosition;
+            while (true) {
+                pos += dir;
+                // Check if the move is within bounds and on the correct diagonal
+                if (pos < 0 || pos >= 64 ||
+                    (pos % 8 == 0 && (dir == -9 || dir == -1 || dir == 7)) ||
+                    (pos % 8 == 7 && (dir == -7 || dir == 1 || dir == 9))) {
+                    break;
+                }
+                moves.push_back(pos);
+                // Stop if there is a piece in the way
+                if (board[pos] != nullptr) {
+                    break;
+                }
+            }
         }
+
         return moves;
+    }
+
+    std::list<int> PossibleMoves(const AbstractPiece* board[64], const int myPosition) const override {
+        std::list<int> potentialMoves = PotentialMoves(board, myPosition);
+        std::list<int> possibleMoves;
+
+        for (int move : potentialMoves) {
+            // Add logic to check for valid moves considering other pieces
+            if (board[move] == nullptr || board[move]->GetColor() != this->color) {
+                possibleMoves.push_back(move);
+            }
+        }
+
+        return possibleMoves;
     }
 };
