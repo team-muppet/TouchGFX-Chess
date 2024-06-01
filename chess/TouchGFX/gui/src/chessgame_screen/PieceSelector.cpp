@@ -7,7 +7,7 @@
 #include <memory>
 
 #define MARKER_SIZE 8
-#define MARKER_OFFSET (34-MARKER_SIZE)/2
+#define MARKER_OFFSET (34 - MARKER_SIZE) / 2
 
 PieceSelector::PieceSelector(touchgfx::Container* container)
     : _pieceSelector(34, 34, touchgfx::Color::getColorFromRGB(174, 198, 207), 200),
@@ -20,9 +20,7 @@ PieceSelector::PieceSelector(touchgfx::Container* container)
     for (int i = 0; i < 64; i++) { // Assuming a maximum of 64 markers for an 8x8 board
         auto marker = std::make_unique<touchgfx::Box>(MARKER_SIZE, MARKER_SIZE, touchgfx::Color::getColorFromRGB(0, 0, 0), 100);
         marker->setVisible(false);
-
         marker->moveTo((i % 8) * 34 + MARKER_OFFSET, (i / 8) * 34 + MARKER_OFFSET);
-
         container->add(*marker);
         _moveMarkers.push_back(std::move(marker));
     }
@@ -51,18 +49,27 @@ void PieceSelector::clearMoveMarkers() {
     for (auto& marker : _moveMarkers) {
         marker->setVisible(false);
     }
+    _possibleMoves.clear();
     _container->invalidate(); // Invalidate the container once after hiding all markers
 }
 
 void PieceSelector::displayMoveMarkers(const std::list<int>& positions) {
-    for (size_t pos : positions) {
-        if (pos >= _moveMarkers.size()) {
+    size_t index = 0;
+    for (int pos : positions) {
+        if (index >= _moveMarkers.size()) {
             break; // Safety check to prevent accessing out of bounds
         }
-        auto& marker = _moveMarkers[pos];
+        auto& marker = _moveMarkers[index];
         marker->setVisible(true);
+        marker->moveTo((pos % 8) * 34 + MARKER_OFFSET, (pos / 8) * 34 + MARKER_OFFSET);
+        _possibleMoves.push_back(pos);
+        index++;
     }
     _container->invalidate(); // Invalidate the container once after showing all markers
+}
+
+bool PieceSelector::isPossibleMove(int position) const {
+    return std::find(_possibleMoves.begin(), _possibleMoves.end(), position) != _possibleMoves.end();
 }
 
 PieceSelector::~PieceSelector() {

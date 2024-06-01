@@ -16,10 +16,12 @@ public:
     void selectPiece(int position, const std::list<int>& possibleMoves);
     void deselectPiece();
     bool isVisible() const;
+    bool isPossibleMove(int position) const; // Check if a position is a possible move
 
 private:
     Box _pieceSelector;
     std::vector<std::unique_ptr<Box>> _moveMarkers;
+    std::list<int> _possibleMoves; // Store possible moves
     Container* _container;
 
     void clearMoveMarkers();

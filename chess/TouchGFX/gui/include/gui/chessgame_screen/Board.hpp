@@ -29,6 +29,7 @@ protected:
     std::array<std::unique_ptr<AbstractPiece>, 64> _board;
     PieceColor _currentPlayer;
     PieceSelector _pieceSelector;
+    int _selectedPiecePosition; // Track the currently selected piece position
 
     virtual void MovePiece(int from, int to);
     void addPiece(std::unique_ptr<AbstractPiece> piece, int position);

@@ -28,6 +28,11 @@ void ChessGameView::imageClickedHandler(const ScalableImage& i, const ClickEvent
         return;
     }
 
+    if (e.getType() != touchgfx::ClickEvent::ClickEventType::RELEASED)
+    {
+        return;
+    }
+
     //Debug section
     Unicode::snprintf(locationTextBoxBuffer, LOCATIONTEXTBOX_SIZE, "%c%d", e.getX() / 34 + 65, 8 - e.getY() / 34);
     locationTextBox.invalidate();

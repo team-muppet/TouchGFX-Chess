@@ -14,7 +14,7 @@
 #define NUM_SQUARES 8
 
 Board::Board()
-    : _currentPlayer(PieceColor::WHITE), _pieceSelector(this)
+    : _currentPlayer(PieceColor::WHITE), _pieceSelector(this), _selectedPiecePosition(-1)
 {
     setupBoard();
     setWidth(272);
@@ -93,18 +93,44 @@ void Board::setupBoard() {
     }
 }
 
-
 void Board::handleClickEvent(int position) {
     if (position < 0 || position >= NUM_SQUARES * NUM_SQUARES) {
         return;
     }
 
-    _pieceSelector.deselectPiece();
-
-    highlightPieceAndMoves(position);
+    auto& piece = _board[position];
+    if (_selectedPiecePosition == -1) {
+        if (piece && piece->GetColor() == _currentPlayer) {
+            _selectedPiecePosition = position;
+            highlightPieceAndMoves(position);
+        }
+    }
+    else {
+        if (position == _selectedPiecePosition) {
+            _pieceSelector.deselectPiece();
+            _selectedPiecePosition = -1;
+        }
+        else if (_pieceSelector.isPossibleMove(position)) {
+            MovePiece(_selectedPiecePosition, position);
+            _pieceSelector.deselectPiece();
+            _selectedPiecePosition = -1;
+            _currentPlayer = (_currentPlayer == PieceColor::WHITE) ? PieceColor::BLACK : PieceColor::WHITE;
+        }
+        else {
+            _pieceSelector.deselectPiece();
+            if (piece && piece->GetColor() == _currentPlayer) {
+                _selectedPiecePosition = position;
+                highlightPieceAndMoves(position);
+            }
+            else {
+                _selectedPiecePosition = -1;
+            }
+        }
+    }
 }
 
 void Board::MovePiece(int from, int to) {
+    _board[from]->Move(to);
     _board[to] = std::move(_board[from]);
     _board[from] = nullptr;
 }
@@ -122,40 +148,3 @@ void Board::highlightPieceAndMoves(int position) {
     std::list<int> possibleMoves = piece->PossibleMoves(_board.data(), position);
     _pieceSelector.selectPiece(position, possibleMoves);
 }
-
-
-
-
-///*if (piece->GetColor() != _currentPlayer) {
-//    return;
-//}*/
-//
-///*AbstractPiece const** const_board = const_cast<AbstractPiece const**>(_board);
-//
-//std::list<int> possibleMoves = piece->PossibleMoves(const_board, position);*/
-//
-//
-//_pieceSelector->moveTo((position % 8) * 34, (position / 8) * 34);
-//_pieceSelector->setVisible(true);
-//_pieceSelector->invalidate();
-//
-//
-//
-////_board[position] = new Rook(PieceColor::WHITE, position, this);
-//
-//
-//
-//
-//
-//// Tests
-//
-///*_board[position] = new Rook(PieceColor::WHITE, position);
-//auto image = _board[position]->GetImage();
-//add(*image);
-//
-//
-//image->invalidate();*/
-//
-///*piece->Move(++position);
-//
-//this->invalidate();*/
