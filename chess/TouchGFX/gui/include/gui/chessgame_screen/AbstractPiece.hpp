@@ -16,13 +16,17 @@ protected:
     std::unique_ptr<ScalableImage> _image; // Image of the piece
 
 public:
+    AbstractPiece(PieceColor c, PieceType t, const Bitmap& bmp)
+        : color(c), type(t), _image(std::make_unique<ScalableImage>(bmp))
+    {}
+
     virtual ~AbstractPiece() {};
 
     // All moves inside the board if no other piece is blocking the way
-    virtual std::list<int> PotentialMoves(const AbstractPiece* board[64], const int myPosition) const = 0;
+    virtual std::list<int> PotentialMoves(const std::unique_ptr<AbstractPiece> board[64], const int myPosition) const = 0;
 
     // Moves that are possible to make, considering the board and other pieces
-    virtual std::list<int> PossibleMoves(const AbstractPiece* board[64], const int myPosition) const = 0;
+    virtual std::list<int> PossibleMoves(const std::unique_ptr<AbstractPiece> board[64], const int myPosition) const = 0;
 
     virtual PieceColor GetColor() const {
         return color;
@@ -36,13 +40,11 @@ public:
         return _image.get();
     }
 
-    void Move(int position) const
-    {
+    void Move(int position) const {
         int x = (position % 8) * 34;
         int y = (position / 8) * 34;
 
         _image->setPosition(x, y, 33, 33);
-
         _image->invalidate();
     }
 };

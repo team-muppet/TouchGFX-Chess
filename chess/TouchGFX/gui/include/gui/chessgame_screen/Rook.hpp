@@ -5,16 +5,14 @@
 
 class Rook : public AbstractPiece {
 public:
-    Rook(PieceColor color, int position, Container* container) {
-        this->color = color;
-        this->type = PieceType::ROOK;
-        _image = std::make_unique<ScalableImage>();
-        _image->setBitmap(Bitmap(color == PieceColor::WHITE ? BITMAP_WHITEROOK_ID : BITMAP_BLACKROOK_ID));
+    Rook(PieceColor color, int position, Container* container)
+        : AbstractPiece(color, PieceType::ROOK, Bitmap(color == PieceColor::WHITE ? BITMAP_WHITEROOK_ID : BITMAP_BLACKROOK_ID))
+    {
         container->add(*_image);
         Move(position);
     }
 
-    std::list<int> PotentialMoves(const AbstractPiece* board[64], const int myPosition) const override {
+    std::list<int> PotentialMoves(const std::unique_ptr<AbstractPiece> board[64], const int myPosition) const override {
         std::list<int> moves;
         int directions[4] = { -8, -1, 1, 8 }; // Rook can move vertically or horizontally
 
@@ -38,7 +36,7 @@ public:
         return moves;
     }
 
-    std::list<int> PossibleMoves(const AbstractPiece* board[64], const int myPosition) const override {
+    std::list<int> PossibleMoves(const std::unique_ptr<AbstractPiece> board[64], const int myPosition) const override {
         std::list<int> potentialMoves = PotentialMoves(board, myPosition);
         std::list<int> possibleMoves;
 

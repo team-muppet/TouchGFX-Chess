@@ -9,6 +9,7 @@
             "Name": "Background",
             "Width": 480,
             "Height": 272,
+            "LockPosition": true,
             "Color": {
               "Red": 255,
               "Green": 255,
@@ -32,6 +33,7 @@
             "Y": 93,
             "Width": 72,
             "Height": 64,
+            "LockPosition": true,
             "TextId": "__SingleUse_FT70",
             "TextRotation": "0",
             "Wildcard1": {

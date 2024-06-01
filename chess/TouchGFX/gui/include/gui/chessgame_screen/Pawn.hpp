@@ -5,16 +5,14 @@
 
 class Pawn : public AbstractPiece {
 public:
-    Pawn(PieceColor color, int position, Container* container) {
-        this->color = color;
-        this->type = PieceType::PAWN;
-        _image = std::make_unique<ScalableImage>();
-        _image->setBitmap(Bitmap(color == PieceColor::WHITE ? BITMAP_WHITEPAWN_ID : BITMAP_BLACKPAWN_ID));
+    Pawn(PieceColor color, int position, Container* container)
+        : AbstractPiece(color, PieceType::PAWN, Bitmap(color == PieceColor::WHITE ? BITMAP_WHITEPAWN_ID : BITMAP_BLACKPAWN_ID))
+    {
         container->add(*_image);
         Move(position);
     }
 
-    std::list<int> PotentialMoves(const AbstractPiece* board[64], const int myPosition) const override {
+    std::list<int> PotentialMoves(const std::unique_ptr<AbstractPiece> board[64], const int myPosition) const override {
         std::list<int> moves;
         int direction = (color == PieceColor::WHITE) ? -8 : 8; // White moves up, Black moves down
 
@@ -45,7 +43,7 @@ public:
         return moves;
     }
 
-    std::list<int> PossibleMoves(const AbstractPiece* board[64], const int myPosition) const override {
+    std::list<int> PossibleMoves(const std::unique_ptr<AbstractPiece> board[64], const int myPosition) const override {
         std::list<int> potentialMoves = PotentialMoves(board, myPosition);
         std::list<int> possibleMoves;
 

@@ -5,16 +5,14 @@
 
 class Knight : public AbstractPiece {
 public:
-    Knight(PieceColor color, int position, Container* container) {
-        this->color = color;
-        this->type = PieceType::KNIGHT;
-        _image = std::make_unique<ScalableImage>();
-        _image->setBitmap(Bitmap(color == PieceColor::WHITE ? BITMAP_WHITEHORSE_ID : BITMAP_BLACKHORSE_ID));
+    Knight(PieceColor color, int position, Container* container)
+        : AbstractPiece(color, PieceType::KNIGHT, Bitmap(color == PieceColor::WHITE ? BITMAP_WHITEHORSE_ID : BITMAP_BLACKHORSE_ID))
+    {
         container->add(*_image);
         Move(position);
     }
 
-    std::list<int> PotentialMoves(const AbstractPiece* board[64], const int myPosition) const override {
+    std::list<int> PotentialMoves(const std::unique_ptr<AbstractPiece> board[64], const int myPosition) const override {
         // Implementation for potential moves of a KNIGHT
         std::list<int> moves;
         int directions[8] = { -17, -15, -10, -6, 6, 10, 15, 17 }; // L-shaped moves
@@ -34,7 +32,7 @@ public:
         return moves;
     }
 
-    std::list<int> PossibleMoves(const AbstractPiece* board[64], const int myPosition) const override {
+    std::list<int> PossibleMoves(const std::unique_ptr<AbstractPiece> board[64], const int myPosition) const override {
         // Implementation for possible moves of a KNIGHT
         std::list<int> potentialMoves = PotentialMoves(board, myPosition);
         std::list<int> possibleMoves;

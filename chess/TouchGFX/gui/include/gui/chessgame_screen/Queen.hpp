@@ -5,16 +5,14 @@
 
 class Queen : public AbstractPiece {
 public:
-    Queen(PieceColor color, int position, Container* container) {
-        this->color = color;
-        this->type = PieceType::QUEEN;
-        _image = std::make_unique<ScalableImage>();
-        _image->setBitmap(Bitmap(color == PieceColor::WHITE ? BITMAP_WHITEQUEEN_ID : BITMAP_BLACKQUEEN_ID));
+    Queen(PieceColor color, int position, Container* container)
+        : AbstractPiece(color, PieceType::QUEEN, Bitmap(color == PieceColor::WHITE ? BITMAP_WHITEQUEEN_ID : BITMAP_BLACKQUEEN_ID))
+    {
         container->add(*_image);
         Move(position);
     }
 
-    std::list<int> PotentialMoves(const AbstractPiece* board[64], const int myPosition) const override {
+    std::list<int> PotentialMoves(const std::unique_ptr<AbstractPiece> board[64], const int myPosition) const override {
         std::list<int> moves;
         int directions[8] = { -9, -8, -7, -1, 1, 7, 8, 9 }; // Queen can move in any direction
 
@@ -39,7 +37,7 @@ public:
         return moves;
     }
 
-    std::list<int> PossibleMoves(const AbstractPiece* board[64], const int myPosition) const override {
+    std::list<int> PossibleMoves(const std::unique_ptr<AbstractPiece> board[64], const int myPosition) const override {
         std::list<int> potentialMoves = PotentialMoves(board, myPosition);
         std::list<int> possibleMoves;
 

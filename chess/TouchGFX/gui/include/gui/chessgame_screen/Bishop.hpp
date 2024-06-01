@@ -5,17 +5,14 @@
 
 class Bishop : public AbstractPiece {
 public:
-    Bishop(PieceColor color, int position, Container* container) {
-        this->color = color;
-        this->type = PieceType::BISHOP;
-        _image = std::make_unique<ScalableImage>();
-        _image->setBitmap(Bitmap(color == PieceColor::WHITE ? BITMAP_WHITEBISHOP_ID : BITMAP_BLACKBISHOP_ID));
-
+    Bishop(PieceColor color, int position, Container* container)
+        : AbstractPiece(color, PieceType::BISHOP, Bitmap(color == PieceColor::WHITE ? BITMAP_WHITEBISHOP_ID : BITMAP_BLACKBISHOP_ID))
+    {
         container->add(*_image);
         Move(position);
     }
 
-    std::list<int> PotentialMoves(const AbstractPiece* board[64], const int myPosition) const override {
+    std::list<int> PotentialMoves(const std::unique_ptr<AbstractPiece> board[64], const int myPosition) const override {
         // Implementation for potential moves of a BISHOP
         std::list<int> moves;
         int directions[4] = { -9, -7, 7, 9 }; // Diagonal moves
@@ -39,7 +36,7 @@ public:
         return moves;
     }
 
-    std::list<int> PossibleMoves(const AbstractPiece* board[64], const int myPosition) const override {
+    std::list<int> PossibleMoves(const std::unique_ptr<AbstractPiece> board[64], const int myPosition) const override {
         // Implementation for possible moves of a BISHOP
         std::list<int> potentialMoves = PotentialMoves(board, myPosition);
         std::list<int> possibleMoves;

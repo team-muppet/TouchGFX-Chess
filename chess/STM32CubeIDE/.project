@@ -595,6 +595,11 @@
 			<locationURI>PARENT-1-PROJECT_LOC/TouchGFX/gui/src/chessgame_screen/ChessGameView.cpp</locationURI>
 		</link>
 		<link>
+			<name>Application/User/gui/PieceSelector.cpp</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/TouchGFX/gui/src/chessgame_screen/PieceSelector.cpp</locationURI>
+		</link>
+		<link>
 			<name>Application/User/gui/FrontendApplication.cpp</name>
 			<type>1</type>
 			<locationURI>PARENT-1-PROJECT_LOC/TouchGFX/gui/src/common/FrontendApplication.cpp</locationURI>

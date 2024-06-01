@@ -7,7 +7,6 @@ ChessGameView::ChessGameView() : imageClickedCallback(this, &ChessGameView::imag
 
 void ChessGameView::setupScreen()
 {
-    
     _chessboard.setXY(0, 0);
     add(_chessboard);
     ChessGameViewBase::setupScreen();
