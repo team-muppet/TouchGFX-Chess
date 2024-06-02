@@ -22,8 +22,8 @@ public:
                 pos += dir;
                 // Check if the move is within bounds and on the correct diagonal
                 if (pos < 0 || pos >= 64 ||
-                    (pos % 8 == 0 && (dir == -9 || dir == -1 || dir == 7)) ||
-                    (pos % 8 == 7 && (dir == -7 || dir == 1 || dir == 9))) {
+                    ((pos - dir) % 8 == 0 && (dir == -9 || dir == -1 || dir == 7)) ||
+                    ((pos - dir) % 8 == 7 && (dir == -7 || dir == 1 || dir == 9))) {
                     break;
                 }
                 moves.push_back(pos);

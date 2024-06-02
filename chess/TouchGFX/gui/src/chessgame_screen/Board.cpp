@@ -131,6 +131,7 @@ void Board::handleClickEvent(int position) {
 
 void Board::MovePiece(int from, int to) {
     _board[from]->Move(to);
+    _board[to] = nullptr;
     _board[to] = std::move(_board[from]);
     _board[from] = nullptr;
 }

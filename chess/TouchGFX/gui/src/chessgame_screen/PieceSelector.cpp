@@ -5,6 +5,7 @@
 #include <vector>
 #include <list>
 #include <memory>
+#include <algorithm>
 
 #define MARKER_SIZE 8
 #define MARKER_OFFSET (34 - MARKER_SIZE) / 2

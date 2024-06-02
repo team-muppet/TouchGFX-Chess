@@ -78,7 +78,42 @@
     "FrameworkFeatures": {
       "LCD24bpp": {
         "Id": "LCD24bpp",
-        "IsEnabled": true
+        "Features": [
+          {
+            "Id": "TextureMapperImageFormats",
+            "Features": [
+              {
+                "Id": "RGB888",
+                "IsEnabled": true
+              },
+              {
+                "Id": "ARGB8888",
+                "IsEnabled": true
+              },
+              {
+                "Id": "L8_RGB888",
+                "IsEnabled": true
+              },
+              {
+                "Id": "L8_ARGB888",
+                "Features": [
+                  {
+                    "Id": "NearestNeighbor",
+                    "IsEnabled": true
+                  }
+                ]
+              },
+              {
+                "Id": "A4",
+                "IsEnabled": true
+              }
+            ]
+          },
+          {
+            "Id": "L8Compression",
+            "IsEnabled": true
+          }
+        ]
       }
     },
     "GenerateAssetsCommand": "make -f simulator/gcc/Makefile assets -j8",
