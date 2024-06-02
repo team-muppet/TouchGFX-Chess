@@ -1,0 +1,16 @@
+C:/Repos/ams-project-2/chess/Drivers/BSP/STM32H7B3I-DK/stm32h7b3i_discovery_bus.c:184:9:BSP_I2C4_Init	4
+C:/Repos/ams-project-2/chess/Drivers/BSP/STM32H7B3I-DK/stm32h7b3i_discovery_bus.c:227:9:BSP_I2C4_DeInit	3
+C:/Repos/ams-project-2/chess/Drivers/BSP/STM32H7B3I-DK/stm32h7b3i_discovery_bus.c:255:26:MX_I2C4_Init	4
+C:/Repos/ams-project-2/chess/Drivers/BSP/STM32H7B3I-DK/stm32h7b3i_discovery_bus.c:301:9:BSP_I2C4_WriteReg	3
+C:/Repos/ams-project-2/chess/Drivers/BSP/STM32H7B3I-DK/stm32h7b3i_discovery_bus.c:332:9:BSP_I2C4_ReadReg	3
+C:/Repos/ams-project-2/chess/Drivers/BSP/STM32H7B3I-DK/stm32h7b3i_discovery_bus.c:363:9:BSP_I2C4_WriteReg16	3
+C:/Repos/ams-project-2/chess/Drivers/BSP/STM32H7B3I-DK/stm32h7b3i_discovery_bus.c:394:9:BSP_I2C4_ReadReg16	3
+C:/Repos/ams-project-2/chess/Drivers/BSP/STM32H7B3I-DK/stm32h7b3i_discovery_bus.c:424:9:BSP_I2C4_IsReady	2
+C:/Repos/ams-project-2/chess/Drivers/BSP/STM32H7B3I-DK/stm32h7b3i_discovery_bus.c:440:9:BSP_GetTick	1
+C:/Repos/ams-project-2/chess/Drivers/BSP/STM32H7B3I-DK/stm32h7b3i_discovery_bus.c:516:17:I2C_GetTiming	7
+C:/Repos/ams-project-2/chess/Drivers/BSP/STM32H7B3I-DK/stm32h7b3i_discovery_bus.c:554:13:I2C_Compute_PRESC_SCLDEL_SDADEL	11
+C:/Repos/ams-project-2/chess/Drivers/BSP/STM32H7B3I-DK/stm32h7b3i_discovery_bus.c:635:17:I2C_Compute_SCLL_SCLH	12
+C:/Repos/ams-project-2/chess/Drivers/BSP/STM32H7B3I-DK/stm32h7b3i_discovery_bus.c:713:13:I2C4_MspInit	1
+C:/Repos/ams-project-2/chess/Drivers/BSP/STM32H7B3I-DK/stm32h7b3i_discovery_bus.c:758:13:I2C4_MspDeInit	1
+C:/Repos/ams-project-2/chess/Drivers/BSP/STM32H7B3I-DK/stm32h7b3i_discovery_bus.c:784:16:I2C4_WriteReg	2
+C:/Repos/ams-project-2/chess/Drivers/BSP/STM32H7B3I-DK/stm32h7b3i_discovery_bus.c:803:16:I2C4_ReadReg	2

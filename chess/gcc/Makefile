@@ -190,7 +190,11 @@ include_paths := $(library_includes) \
     LIBJPEG/Target \
     $(libjpeg_path)/include \
     LIBJPEG/App \
-	Utilities/JPEG
+	Utilities/JPEG \
+	Middlewares/Third_Party/FatFs/src \
+	FATFS/Target \
+	FATFS/App \
+	Middlewares/Third_Party/rapidjson
 
 source_paths = $(foreach comp, $(all_components), $(comp)/src) \
     $(foreach comp, $(cubemx_components), $(comp)/Src) \
@@ -286,6 +290,14 @@ include_paths += platform/os $(board_include_paths) $(os_include_paths)
 
 c_source_files := $(call find, $(source_paths),*.c) $(os_source_files) $(board_c_files)
 source_files += $(board_cpp_files)
+c_source_files += \
+    Middlewares/Third_Party/FatFs/src/ff.c \
+    Middlewares/Third_Party/FatFs/src/diskio.c \
+	Middlewares/Third_Party/FatFs/src/ff_gen_drv.c \
+	FATFS/Target/fatfs_platform.c \
+    FATFS/Target/sd_diskio.c \
+	FATFS/Target/bsp_driver_sd.c \
+	FATFS/App/fatfs.c
 
 libjpeg_source_path = Middlewares/Third_Party/LibJPEG/source
 video_object_files := $(call find, $(asset_videos_output),*.o)

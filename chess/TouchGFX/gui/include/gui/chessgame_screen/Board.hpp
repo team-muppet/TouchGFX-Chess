@@ -24,6 +24,7 @@ public:
     virtual ~Board();
     virtual void setupBoard();
     virtual void handleClickEvent(int position);
+	virtual void serializeBoardState();
 
 protected:
     std::array<std::unique_ptr<AbstractPiece>, 64> _board;

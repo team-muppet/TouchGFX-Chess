@@ -184,6 +184,18 @@
     <Filter Include="Source Files\generated\gui_generated\chessgame_screen">
       <UniqueIdentifier>4AB43ED9-9979-C798-E75E-77FE63F2D086</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\gui\rapidjson">
+      <UniqueIdentifier>56E5FD71-0000-A2CB-2839-73528F467467</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\gui\rapidjson\internal">
+      <UniqueIdentifier>7E87A028-2F68-3B4E-610B-CEB1FA644BC7</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\gui\rapidjson\error">
+      <UniqueIdentifier>2115B97B-D207-D823-6A8C-DFD4F758AD21</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\gui\rapidjson\msinttypes">
+      <UniqueIdentifier>674E5BCC-B83A-4150-DAA2-73DF304A5681</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(TouchGFXReleasePath)\framework\source\platform\driver\touch\SDL2TouchController.cpp">
@@ -711,6 +723,120 @@
     </ClInclude>
     <ClInclude Include="..\..\gui\include\gui\chessgame_screen\Pawn.hpp">
       <Filter>Header Files\gui\chessgame_screen</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gui\include\gui\rapidjson\allocators.h">
+      <Filter>Source Files\gui\rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gui\include\gui\rapidjson\internal\biginteger.h">
+      <Filter>Source Files\gui\rapidjson\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gui\include\gui\rapidjson\internal\clzll.h">
+      <Filter>Source Files\gui\rapidjson\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gui\include\gui\rapidjson\cursorstreamwrapper.h">
+      <Filter>Source Files\gui\rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gui\include\gui\rapidjson\internal\diyfp.h">
+      <Filter>Source Files\gui\rapidjson\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gui\include\gui\rapidjson\document.h">
+      <Filter>Source Files\gui\rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gui\include\gui\rapidjson\internal\dtoa.h">
+      <Filter>Source Files\gui\rapidjson\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gui\include\gui\rapidjson\error\en.h">
+      <Filter>Source Files\gui\rapidjson\error</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gui\include\gui\rapidjson\encodedstream.h">
+      <Filter>Source Files\gui\rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gui\include\gui\rapidjson\encodings.h">
+      <Filter>Source Files\gui\rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gui\include\gui\rapidjson\error\error.h">
+      <Filter>Source Files\gui\rapidjson\error</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gui\include\gui\rapidjson\filereadstream.h">
+      <Filter>Source Files\gui\rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gui\include\gui\rapidjson\filewritestream.h">
+      <Filter>Source Files\gui\rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gui\include\gui\rapidjson\fwd.h">
+      <Filter>Source Files\gui\rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gui\include\gui\rapidjson\internal\ieee754.h">
+      <Filter>Source Files\gui\rapidjson\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gui\include\gui\rapidjson\msinttypes\inttypes.h">
+      <Filter>Source Files\gui\rapidjson\msinttypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gui\include\gui\rapidjson\istreamwrapper.h">
+      <Filter>Source Files\gui\rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gui\include\gui\rapidjson\internal\itoa.h">
+      <Filter>Source Files\gui\rapidjson\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gui\include\gui\rapidjson\memorybuffer.h">
+      <Filter>Source Files\gui\rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gui\include\gui\rapidjson\memorystream.h">
+      <Filter>Source Files\gui\rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gui\include\gui\rapidjson\internal\meta.h">
+      <Filter>Source Files\gui\rapidjson\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gui\include\gui\rapidjson\ostreamwrapper.h">
+      <Filter>Source Files\gui\rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gui\include\gui\rapidjson\pointer.h">
+      <Filter>Source Files\gui\rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gui\include\gui\rapidjson\internal\pow10.h">
+      <Filter>Source Files\gui\rapidjson\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gui\include\gui\rapidjson\prettywriter.h">
+      <Filter>Source Files\gui\rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gui\include\gui\rapidjson\rapidjson.h">
+      <Filter>Source Files\gui\rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gui\include\gui\rapidjson\reader.h">
+      <Filter>Source Files\gui\rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gui\include\gui\rapidjson\internal\regex.h">
+      <Filter>Source Files\gui\rapidjson\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gui\include\gui\rapidjson\schema.h">
+      <Filter>Source Files\gui\rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gui\include\gui\rapidjson\internal\stack.h">
+      <Filter>Source Files\gui\rapidjson\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gui\include\gui\rapidjson\msinttypes\stdint.h">
+      <Filter>Source Files\gui\rapidjson\msinttypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gui\include\gui\rapidjson\stream.h">
+      <Filter>Source Files\gui\rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gui\include\gui\rapidjson\internal\strfunc.h">
+      <Filter>Source Files\gui\rapidjson\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gui\include\gui\rapidjson\stringbuffer.h">
+      <Filter>Source Files\gui\rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gui\include\gui\rapidjson\internal\strtod.h">
+      <Filter>Source Files\gui\rapidjson\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gui\include\gui\rapidjson\internal\swap.h">
+      <Filter>Source Files\gui\rapidjson\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gui\include\gui\rapidjson\uri.h">
+      <Filter>Source Files\gui\rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gui\include\gui\rapidjson\writer.h">
+      <Filter>Source Files\gui\rapidjson</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

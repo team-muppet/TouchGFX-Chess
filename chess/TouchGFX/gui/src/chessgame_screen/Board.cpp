@@ -8,6 +8,12 @@
 #include <touchgfx/Color.hpp>
 #include <touchgfx/widgets/canvas/Circle.hpp>
 #include <touchgfx/widgets/canvas/PainterABGR2222.hpp>
+#include <rapidjson.h>
+#include "document.h"
+#include "writer.h"
+#include "stringbuffer.h"
+#include <string>
+
 
 #define BOARD_HEIGHT 272
 #define BOARD_WIDTH 272
@@ -94,6 +100,7 @@ void Board::setupBoard() {
 }
 
 void Board::handleClickEvent(int position) {
+	serializeBoardState();
     if (position < 0 || position >= NUM_SQUARES * NUM_SQUARES) {
         return;
     }
@@ -128,6 +135,41 @@ void Board::handleClickEvent(int position) {
         }
     }
 }
+
+void Board::serializeBoardState()
+{
+    rapidjson::Document document;
+    document.SetObject();
+    rapidjson::Document::AllocatorType& allocator = document.GetAllocator();
+
+    // Serialize the board
+    rapidjson::Value boardArray(rapidjson::kArrayType);
+    for (const auto& piece : _board) {
+        if (piece) {
+            rapidjson::Value pieceObject(rapidjson::kObjectType);
+            pieceObject.AddMember("type", static_cast<int>(piece->GetType()), allocator);
+            pieceObject.AddMember("color", static_cast<int>(piece->GetColor()), allocator);
+            boardArray.PushBack(pieceObject, allocator);
+        }
+        else {
+            boardArray.PushBack(rapidjson::Value(rapidjson::kNullType), allocator);
+        }
+    }
+    document.AddMember("board", boardArray, allocator);
+    document.AddMember("currentPlayer", static_cast<int>(_currentPlayer), allocator);
+
+    // Convert JSON document to string
+    rapidjson::StringBuffer buffer;
+    rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
+    document.Accept(writer);
+
+	int size = buffer.GetSize();
+
+	std::string serializedBoard = buffer.GetString();
+    std::string serializedBoards(serializedBoard, size);
+}
+
+
 
 void Board::MovePiece(int from, int to) {
     // Ensure the piece at 'from' is moved to its new position internally
