@@ -14,6 +14,8 @@
 #include <gui/chessgame_screen/AbstractPiece.hpp>
 #include <gui/chessgame_screen/ChessEnums.hpp>
 #include <gui/chessgame_screen/PieceSelector.hpp>
+#include <gui/chessgame_screen/SquareRenderer.hpp>
+#include <gui/chessgame_screen/BoardRenderer.hpp>
 
 using namespace touchgfx;
 
@@ -24,7 +26,7 @@ public:
     virtual ~Board();
     virtual void setupBoard();
     virtual void handleClickEvent(int position);
-	virtual void serializeBoardState();
+    virtual void serializeBoardState();
 
 protected:
     std::array<std::unique_ptr<AbstractPiece>, 64> _board;
@@ -33,10 +35,17 @@ protected:
     int _selectedPiecePosition; // Track the currently selected piece position
 
     virtual void MovePiece(int from, int to);
-    void addPiece(std::unique_ptr<AbstractPiece> piece, int position);
 
 private:
     void highlightPieceAndMoves(int position);
+    void updateBoardColors(); // New method to update board colors
+
+    // New variables for tracking the last move
+    int _lastMoveFrom; // Track the starting position of the last move
+    int _lastMoveTo;   // Track the ending position of the last move
+
+    SquareRenderer _squareRenderer;
+    BoardRenderer _boardRenderer;
 };
 
 #endif /* BOARD_HPP */

@@ -1,106 +1,38 @@
 #include <gui/chessgame_screen/Board.hpp>
-#include <gui/chessgame_screen/Pawn.hpp>
-#include <gui/chessgame_screen/Rook.hpp>
-#include <gui/chessgame_screen/Knight.hpp>
-#include <gui/chessgame_screen/Bishop.hpp>
-#include <gui/chessgame_screen/Queen.hpp>
-#include <gui/chessgame_screen/King.hpp>
-#include <touchgfx/Color.hpp>
-#include <touchgfx/widgets/canvas/Circle.hpp>
-#include <touchgfx/widgets/canvas/PainterABGR2222.hpp>
 #include <rapidjson.h>
 #include "document.h"
 #include "writer.h"
 #include "stringbuffer.h"
 #include <string>
 
-
 #define BOARD_HEIGHT 272
 #define BOARD_WIDTH 272
 #define NUM_SQUARES 8
 
+const colortype CAPTURE_MOVE_COLOR = Color::getColorFromRGB(255, 69, 0);  // Soft Red/Orange
+const colortype LAST_MOVE_COLOR = Color::getColorFromRGB(144, 238, 144); // Light Green
+
 Board::Board()
-    : _currentPlayer(PieceColor::WHITE), _pieceSelector(this), _selectedPiecePosition(-1)
+    : _currentPlayer(PieceColor::WHITE), _selectedPiecePosition(-1), _lastMoveFrom(-1), _lastMoveTo(-1), _squareRenderer(), _pieceSelector(), _boardRenderer()
 {
-    setupBoard();
     setWidth(272);
     setHeight(272);
+    add(_squareRenderer); // Add the square renderer first
+    add(_pieceSelector); // Add the piece selector second
+    add(_boardRenderer); // Add the board renderer last
+
+    setupBoard();
 }
 
 Board::~Board() {}
 
 void Board::setupBoard() {
-    // Initialize BLACK pawns
-    for (int j = 0; j < NUM_SQUARES; ++j) {
-        int position = j + NUM_SQUARES;
-        addPiece(std::make_unique<Pawn>(PieceColor::BLACK, position, this), position);
-    }
-
-    // Initialize WHITE pawns
-    for (int j = 0; j < NUM_SQUARES; ++j) {
-        int position = 6 * NUM_SQUARES + j;
-        addPiece(std::make_unique<Pawn>(PieceColor::WHITE, position, this), position);
-    }
-
-    // Initialize other pieces
-    // WHITE Bishops
-    int bishopPositions[] = { 2, 5 };
-    for (int j = 0; j < 2; ++j) {
-        int position = (NUM_SQUARES - 1) * NUM_SQUARES + bishopPositions[j];
-        addPiece(std::make_unique<Bishop>(PieceColor::WHITE, position, this), position);
-    }
-
-    // BLACK Bishops
-    for (int j = 0; j < 2; ++j) {
-        int position = bishopPositions[j];
-        addPiece(std::make_unique<Bishop>(PieceColor::BLACK, position, this), position);
-    }
-
-    // WHITE Knights
-    int knightPositions[] = { 1, 6 };
-    for (int j = 0; j < 2; ++j) {
-        int position = (NUM_SQUARES - 1) * NUM_SQUARES + knightPositions[j];
-        addPiece(std::make_unique<Knight>(PieceColor::WHITE, position, this), position);
-    }
-
-    // BLACK Knights
-    for (int j = 0; j < 2; ++j) {
-        int position = knightPositions[j];
-        addPiece(std::make_unique<Knight>(PieceColor::BLACK, position, this), position);
-    }
-
-    // WHITE Queen
-    int position = (NUM_SQUARES - 1) * NUM_SQUARES + 3;
-    addPiece(std::make_unique<Queen>(PieceColor::WHITE, position, this), position);
-
-    // BLACK Queen
-    position = 3;
-    addPiece(std::make_unique<Queen>(PieceColor::BLACK, position, this), position);
-
-    // WHITE King
-    position = (NUM_SQUARES - 1) * NUM_SQUARES + 4;
-    addPiece(std::make_unique<King>(PieceColor::WHITE, position, this), position);
-
-    // BLACK King
-    position = 4;
-    addPiece(std::make_unique<King>(PieceColor::BLACK, position, this), position);
-
-    // WHITE Rooks
-    int rookPositions[] = { 0, 7 };
-    for (int j = 0; j < 2; ++j) {
-        position = (NUM_SQUARES - 1) * NUM_SQUARES + rookPositions[j];
-        addPiece(std::make_unique<Rook>(PieceColor::WHITE, position, this), position);
-    }
-
-    // BLACK Rooks
-    for (int j = 0; j < 2; ++j) {
-        position = rookPositions[j];
-        addPiece(std::make_unique<Rook>(PieceColor::BLACK, position, this), position);
-    }
+    _boardRenderer.setupBoard(_board);
+    updateBoardColors(); // Ensure the board is updated after setup
 }
 
 void Board::handleClickEvent(int position) {
-	serializeBoardState();
+    serializeBoardState();
     if (position < 0 || position >= NUM_SQUARES * NUM_SQUARES) {
         return;
     }
@@ -116,12 +48,14 @@ void Board::handleClickEvent(int position) {
         if (position == _selectedPiecePosition) {
             _pieceSelector.deselectPiece();
             _selectedPiecePosition = -1;
+            updateBoardColors(); // Update the board colors
         }
         else if (_pieceSelector.isPossibleMove(position)) {
             MovePiece(_selectedPiecePosition, position);
             _pieceSelector.deselectPiece();
             _selectedPiecePosition = -1;
             _currentPlayer = (_currentPlayer == PieceColor::WHITE) ? PieceColor::BLACK : PieceColor::WHITE;
+            updateBoardColors(); // Update the board colors
         }
         else {
             _pieceSelector.deselectPiece();
@@ -131,13 +65,13 @@ void Board::handleClickEvent(int position) {
             }
             else {
                 _selectedPiecePosition = -1;
+                updateBoardColors(); // Update the board colors
             }
         }
     }
 }
 
-void Board::serializeBoardState()
-{
+void Board::serializeBoardState() {
     rapidjson::Document document;
     document.SetObject();
     rapidjson::Document::AllocatorType& allocator = document.GetAllocator();
@@ -163,13 +97,11 @@ void Board::serializeBoardState()
     rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
     document.Accept(writer);
 
-	int size = buffer.GetSize();
+    int size = buffer.GetSize();
 
-	std::string serializedBoard = buffer.GetString();
+    std::string serializedBoard = buffer.GetString();
     std::string serializedBoards(serializedBoard, size);
 }
-
-
 
 void Board::MovePiece(int from, int to) {
     // Ensure the piece at 'from' is moved to its new position internally
@@ -177,19 +109,20 @@ void Board::MovePiece(int from, int to) {
 
     // If there is a piece at the destination 'to', remove it from the container
     if (_board[to] != nullptr) {
-        /*auto piece = _board[to].get();
-        remove(*piece->GetImage());*/
         _board[to] = nullptr;
+        _squareRenderer.updateSquareColor(to, CAPTURE_MOVE_COLOR); // Highlight the capture move
     }
 
     // Move the piece from 'from' to 'to'
     _board[to] = std::move(_board[from]);
     _board[from] = nullptr;
-}
 
+    // Store the last move positions
+    _lastMoveFrom = from;
+    _lastMoveTo = to;
 
-void Board::addPiece(std::unique_ptr<AbstractPiece> piece, int position) {
-    _board[position] = std::move(piece);
+    // Update the board colors
+    updateBoardColors();
 }
 
 void Board::highlightPieceAndMoves(int position) {
@@ -209,6 +142,28 @@ void Board::highlightPieceAndMoves(int position) {
     }
 
     _pieceSelector.selectPiece(position, possibleMoves, captureMoves);
+
+    // Update board colors to highlight possible moves and captures
+    updateBoardColors();
 }
 
+void Board::updateBoardColors() {
+    // Reset all squares to their default colors
+    _squareRenderer.resetSquareColors();
 
+    // Highlight the last move
+    if (_lastMoveFrom >= 0 && _lastMoveFrom < 64) {
+        _squareRenderer.updateSquareColor(_lastMoveFrom, LAST_MOVE_COLOR);
+    }
+    if (_lastMoveTo >= 0 && _lastMoveTo < 64) {
+        _squareRenderer.updateSquareColor(_lastMoveTo, LAST_MOVE_COLOR);
+    }
+
+    // Highlight capture moves
+    for (int pos : _pieceSelector.getCaptureMoves()) {
+        _squareRenderer.updateSquareColor(pos, CAPTURE_MOVE_COLOR);
+    }
+
+    // Invalidate the board to trigger a redraw
+    invalidate();
+}

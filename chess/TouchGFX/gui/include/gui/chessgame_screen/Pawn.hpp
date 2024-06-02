@@ -49,18 +49,22 @@ public:
 
         int direction = (color == PieceColor::WHITE) ? -8 : 8;
 
-        for (int move : potentialMoves) {
-            // Forward moves must be to empty squares
-            if (move == myPosition + direction || move == myPosition + 2 * direction) {
-                if (board[move] == nullptr) {
-                    possibleMoves.push_back(move);
-                }
-                else {
-                    break; // Blocked
+        // Forward moves must be to empty squares
+        int oneStepForward = myPosition + direction;
+        int twoStepsForward = myPosition + 2 * direction;
+
+        if (oneStepForward >= 0 && oneStepForward < 64 && board[oneStepForward] == nullptr) {
+            possibleMoves.push_back(oneStepForward);
+            if ((color == PieceColor::WHITE && myPosition / 8 == 6) || (color == PieceColor::BLACK && myPosition / 8 == 1)) {
+                if (twoStepsForward >= 0 && twoStepsForward < 64 && board[twoStepsForward] == nullptr) {
+                    possibleMoves.push_back(twoStepsForward);
                 }
             }
-            else {
-                // Diagonal captures must be to squares occupied by an opponent's piece
+        }
+
+        // Diagonal captures must be to squares occupied by an opponent's piece
+        for (int move : potentialMoves) {
+            if (move == myPosition + direction - 1 || move == myPosition + direction + 1) {
                 if (board[move] != nullptr && board[move]->GetColor() != this->color) {
                     possibleMoves.push_back(move);
                 }

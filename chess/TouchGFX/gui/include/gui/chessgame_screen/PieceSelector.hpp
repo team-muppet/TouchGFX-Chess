@@ -8,22 +8,24 @@
 
 using namespace touchgfx;
 
-class PieceSelector {
+class PieceSelector : public Container {
 public:
-    PieceSelector(touchgfx::Container* container);
+    PieceSelector();
     ~PieceSelector();
     void selectPiece(int position, const std::list<int>& possibleMoves, const std::list<int>& captureMoves);
     void deselectPiece();
     bool isVisible() const;
     bool isPossibleMove(int position) const; // Check if a position is a possible move
 
+    // New methods to get possible and capture moves
+    const std::list<int>& getPossibleMoves() const { return _possibleMoves; }
+    const std::list<int>& getCaptureMoves() const { return _captureMoves; }
+
 private:
     Box _pieceSelector;
-    std::vector<Box> _moveMarkers;
-    std::vector<Box> _captureMarkers; // New vector for capture markers
     std::list<int> _possibleMoves; // Store possible moves
     std::list<int> _captureMoves; // Store capture moves
-    Container* _container;
+    std::vector<Box> _moveMarkers; // Markers for possible moves
 
     void clearMoveMarkers();
     void displayMoveMarkers(const std::list<int>& positions, const std::list<int>& captures);
