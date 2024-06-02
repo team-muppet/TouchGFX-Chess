@@ -6,7 +6,7 @@
 class Queen : public AbstractPiece {
 public:
     Queen(PieceColor color, int position, Container* container)
-        : AbstractPiece(color, PieceType::QUEEN, Bitmap(color == PieceColor::WHITE ? BITMAP_WHITEQUEEN_ID : BITMAP_BLACKQUEEN_ID))
+        : AbstractPiece(color, PieceType::QUEEN, Bitmap(color == PieceColor::WHITE ? BITMAP_WHITEQUEEN_ID : BITMAP_BLACKQUEEN_ID), container)
     {
         container->add(*_image);
         Move(position);

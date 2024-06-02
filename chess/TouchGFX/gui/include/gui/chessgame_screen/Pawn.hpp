@@ -6,7 +6,7 @@
 class Pawn : public AbstractPiece {
 public:
     Pawn(PieceColor color, int position, Container* container)
-        : AbstractPiece(color, PieceType::PAWN, Bitmap(color == PieceColor::WHITE ? BITMAP_WHITEPAWN_ID : BITMAP_BLACKPAWN_ID))
+        : AbstractPiece(color, PieceType::PAWN, Bitmap(color == PieceColor::WHITE ? BITMAP_WHITEPAWN_ID : BITMAP_BLACKPAWN_ID), container)
     {
         container->add(*_image);
         Move(position);

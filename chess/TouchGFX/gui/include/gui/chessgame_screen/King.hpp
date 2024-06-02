@@ -6,7 +6,7 @@
 class King : public AbstractPiece {
 public:
     King(PieceColor color, int position, Container* container)
-        : AbstractPiece(color, PieceType::KING, Bitmap(color == PieceColor::WHITE ? BITMAP_WHITEKING_ID : BITMAP_BLACKKING_ID))
+        : AbstractPiece(color, PieceType::KING, Bitmap(color == PieceColor::WHITE ? BITMAP_WHITEKING_ID : BITMAP_BLACKKING_ID), container)
     {
         container->add(*_image);
         Move(position);

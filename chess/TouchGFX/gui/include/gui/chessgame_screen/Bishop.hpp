@@ -6,7 +6,7 @@
 class Bishop : public AbstractPiece {
 public:
     Bishop(PieceColor color, int position, Container* container)
-        : AbstractPiece(color, PieceType::BISHOP, Bitmap(color == PieceColor::WHITE ? BITMAP_WHITEBISHOP_ID : BITMAP_BLACKBISHOP_ID))
+        : AbstractPiece(color, PieceType::BISHOP, Bitmap(color == PieceColor::WHITE ? BITMAP_WHITEBISHOP_ID : BITMAP_BLACKBISHOP_ID), container)
     {
         container->add(*_image);
         Move(position);

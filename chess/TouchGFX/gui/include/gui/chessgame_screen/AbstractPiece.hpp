@@ -14,13 +14,16 @@ protected:
     PieceColor color; // Indicates whether the piece is white or black
     PieceType type; // Symbol representing the piece on the board
     std::unique_ptr<ScalableImage> _image; // Image of the piece
+    Container* _container;
 
 public:
-    AbstractPiece(PieceColor c, PieceType t, const Bitmap& bmp)
-        : color(c), type(t), _image(std::make_unique<ScalableImage>(bmp))
+    AbstractPiece(PieceColor c, PieceType t, const Bitmap& bmp, Container* container)
+        : color(c), type(t), _image(std::make_unique<ScalableImage>(bmp)), _container(container)
     {}
 
-    virtual ~AbstractPiece() {};
+    virtual ~AbstractPiece() {
+        _container->remove(*_image);
+    };
 
     // All moves inside the board if no other piece is blocking the way
     virtual std::list<int> PotentialMoves(const std::unique_ptr<AbstractPiece> board[64], const int myPosition) const = 0;

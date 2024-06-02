@@ -6,7 +6,7 @@
 class Rook : public AbstractPiece {
 public:
     Rook(PieceColor color, int position, Container* container)
-        : AbstractPiece(color, PieceType::ROOK, Bitmap(color == PieceColor::WHITE ? BITMAP_WHITEROOK_ID : BITMAP_BLACKROOK_ID))
+        : AbstractPiece(color, PieceType::ROOK, Bitmap(color == PieceColor::WHITE ? BITMAP_WHITEROOK_ID : BITMAP_BLACKROOK_ID), container)
     {
         container->add(*_image);
         Move(position);

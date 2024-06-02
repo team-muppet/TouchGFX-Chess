@@ -6,7 +6,7 @@
 class Knight : public AbstractPiece {
 public:
     Knight(PieceColor color, int position, Container* container)
-        : AbstractPiece(color, PieceType::KNIGHT, Bitmap(color == PieceColor::WHITE ? BITMAP_WHITEHORSE_ID : BITMAP_BLACKHORSE_ID))
+        : AbstractPiece(color, PieceType::KNIGHT, Bitmap(color == PieceColor::WHITE ? BITMAP_WHITEHORSE_ID : BITMAP_BLACKHORSE_ID), container)
     {
         container->add(*_image);
         Move(position);

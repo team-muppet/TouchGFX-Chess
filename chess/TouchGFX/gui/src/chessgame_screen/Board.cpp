@@ -130,11 +130,21 @@ void Board::handleClickEvent(int position) {
 }
 
 void Board::MovePiece(int from, int to) {
+    // Ensure the piece at 'from' is moved to its new position internally
     _board[from]->Move(to);
-    _board[to] = nullptr;
+
+    // If there is a piece at the destination 'to', remove it from the container
+    if (_board[to] != nullptr) {
+        /*auto piece = _board[to].get();
+        remove(*piece->GetImage());*/
+        _board[to] = nullptr;
+    }
+
+    // Move the piece from 'from' to 'to'
     _board[to] = std::move(_board[from]);
     _board[from] = nullptr;
 }
+
 
 void Board::addPiece(std::unique_ptr<AbstractPiece> piece, int position) {
     _board[position] = std::move(piece);
