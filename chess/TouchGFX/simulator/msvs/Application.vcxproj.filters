@@ -231,6 +231,12 @@
     <ClCompile Include="..\..\gui\src\chessgame_screen\PieceSelector.cpp">
       <Filter>Source Files\gui\chessgame_screen</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\gui\src\chessgame_screen\BoardRenderer.cpp">
+      <Filter>Source Files\gui\chessgame_screen</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\gui\src\chessgame_screen\SquareRenderer.cpp">
+      <Filter>Source Files\gui\chessgame_screen</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="$(ApplicationRoot)\assets\texts\texts.xml">
@@ -710,6 +716,12 @@
       <Filter>Header Files\gui\chessgame_screen</Filter>
     </ClInclude>
     <ClInclude Include="..\..\gui\include\gui\chessgame_screen\Pawn.hpp">
+      <Filter>Header Files\gui\chessgame_screen</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gui\include\gui\chessgame_screen\BoardRenderer.hpp">
+      <Filter>Header Files\gui\chessgame_screen</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gui\include\gui\chessgame_screen\SquareRenderer.hpp">
       <Filter>Header Files\gui\chessgame_screen</Filter>
     </ClInclude>
   </ItemGroup>

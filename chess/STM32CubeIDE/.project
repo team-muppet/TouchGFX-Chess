@@ -650,6 +650,11 @@
 			<locationURI>PARENT-1-PROJECT_LOC/TouchGFX/gui/src/chessgame_screen/Board.cpp</locationURI>
 		</link>
 		<link>
+			<name>Application/User/gui/BoardRenderer.cpp</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/TouchGFX/gui/src/chessgame_screen/BoardRenderer.cpp</locationURI>
+		</link>
+		<link>
 			<name>Application/User/gui/ChessGamePresenter.cpp</name>
 			<type>1</type>
 			<locationURI>PARENT-1-PROJECT_LOC/TouchGFX/gui/src/chessgame_screen/ChessGamePresenter.cpp</locationURI>
@@ -663,6 +668,11 @@
 			<name>Application/User/gui/PieceSelector.cpp</name>
 			<type>1</type>
 			<locationURI>PARENT-1-PROJECT_LOC/TouchGFX/gui/src/chessgame_screen/PieceSelector.cpp</locationURI>
+		</link>
+		<link>
+			<name>Application/User/gui/SquareRenderer.cpp</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/TouchGFX/gui/src/chessgame_screen/SquareRenderer.cpp</locationURI>
 		</link>
 		<link>
 			<name>Application/User/gui/FrontendApplication.cpp</name>
