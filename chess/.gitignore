@@ -4,3 +4,5 @@ EWARM/settings/
 EWARM/STM32F746/
 
 **/.vs/
+
+TouchGFX/config/
