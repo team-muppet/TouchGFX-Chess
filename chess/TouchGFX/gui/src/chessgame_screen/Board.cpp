@@ -199,5 +199,16 @@ void Board::highlightPieceAndMoves(int position) {
     }
 
     std::list<int> possibleMoves = piece->PossibleMoves(_board.data(), position);
-    _pieceSelector.selectPiece(position, possibleMoves);
+    std::list<int> captureMoves;
+
+    // Identify capture moves
+    for (int pos : possibleMoves) {
+        if (_board[pos] != nullptr && _board[pos]->GetColor() != piece->GetColor()) {
+            captureMoves.push_back(pos);
+        }
+    }
+
+    _pieceSelector.selectPiece(position, possibleMoves, captureMoves);
 }
+
+
