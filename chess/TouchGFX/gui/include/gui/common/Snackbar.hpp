@@ -11,11 +11,8 @@ using namespace touchgfx;
 class Snackbar
 {
 public:
-    Snackbar(Container* parentContainer, const uint16_t& bitmapId, int x, int y, int fadeInDuration = 10, int visibleDuration = 50, int fadeOutDuration = 30);
+    Snackbar(Container* parentContainer, const uint16_t& bitmapId, int x, int y, int fadeInDuration = 20, int visibleDuration = 50, int fadeOutDuration = 30);
     virtual ~Snackbar();
-    void show();
-
-    
 
 protected:
     Container* parentContainer;

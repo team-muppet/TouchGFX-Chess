@@ -10,20 +10,13 @@ Snackbar::Snackbar(Container* parentContainer, const uint16_t& bitmapId, int x, 
     image.setAlpha(0);
 
     parentContainer->add(image);
+
     image.setFadeAnimationEndedAction(fadeOutAnimationCallback);
+    image.startFadeAnimation(255, fadeInDuration, EasingEquations::quintEaseIn);
 }
 
 Snackbar::~Snackbar()
 {
-}
-
-void Snackbar::show()
-{
-    image.setVisible(true);
-    image.setFadeAnimationDelay(0);
-    image.setFadeAnimationEndedAction(fadeOutAnimationCallback);
-    image.startFadeAnimation(255, fadeInDuration, EasingEquations::quintEaseIn);
-    image.invalidate();
 }
 
 void Snackbar::startFadeOutAnimation()

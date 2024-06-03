@@ -82,7 +82,6 @@ void Board::handleClickEvent(int position) {
             // Check for check condition and display the check indicator
             if (isKingInCheck(PieceColor::WHITE) || isKingInCheck(PieceColor::BLACK)) {
                 Snackbar* checkSnackbar = new Snackbar(this, BITMAP_CHECKIMAGE_ID, 86, 116);
-                checkSnackbar->show();
             }
         }
         else {
@@ -170,18 +169,19 @@ void Board::highlightPieceAndMoves(int position) {
     }
 
     std::list<int> possibleMoves = piece->PossibleMoves(_board.data(), position);
+    std::list<int> validMoves = filterValidMoves(possibleMoves, position);
     std::list<int> captureMoves;
 
-    // Identify capture moves
-    for (int pos : possibleMoves) {
+    // Identify capture moves within valid moves
+    for (int pos : validMoves) {
         if (_board[pos] != nullptr && _board[pos]->GetColor() != piece->GetColor()) {
             captureMoves.push_back(pos);
         }
     }
 
-    _pieceSelector.selectPiece(position, possibleMoves, captureMoves);
+    _pieceSelector.selectPiece(position, validMoves, captureMoves);
 
-    // Update board colors to highlight possible moves and captures
+    // Update board colors to highlight valid moves and captures
     updateBoardColors();
 }
 
@@ -225,4 +225,52 @@ bool Board::isKingInCheck(PieceColor color) {
     }
 
     return false;
+}
+
+
+bool Board::wouldMoveCauseCheck(int from, int to) {
+    // Temporarily move the piece
+    std::unique_ptr<AbstractPiece> tempPiece = std::move(_board[to]);
+    _board[to] = std::move(_board[from]);
+    _board[from] = nullptr;
+
+    // Update king position if the king is moved
+    if (_board[to] && _board[to]->GetType() == PieceType::KING) {
+        if (_board[to]->GetColor() == PieceColor::WHITE) {
+            _whiteKingPosition = to;
+        }
+        else {
+            _blackKingPosition = to;
+        }
+    }
+
+    bool isInCheck = isKingInCheck(_currentPlayer);
+
+    // Undo the move
+    _board[from] = std::move(_board[to]);
+    _board[to] = std::move(tempPiece);
+
+    // Restore king position if the king was moved
+    if (_board[from] && _board[from]->GetType() == PieceType::KING) {
+        if (_board[from]->GetColor() == PieceColor::WHITE) {
+            _whiteKingPosition = from;
+        }
+        else {
+            _blackKingPosition = from;
+        }
+    }
+
+    return isInCheck;
+}
+
+
+
+std::list<int> Board::filterValidMoves(const std::list<int>& possibleMoves, int from) {
+    std::list<int> validMoves;
+    for (int to : possibleMoves) {
+        if (!wouldMoveCauseCheck(from, to)) {
+            validMoves.push_back(to);
+        }
+    }
+    return validMoves;
 }
