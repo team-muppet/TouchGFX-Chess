@@ -10,8 +10,8 @@ void ChessGameView::setupScreen()
     _chessboard.setXY(0, 0);
     add(_chessboard);
     ChessGameViewBase::setupScreen();
-    
 
+    
     Background.setAlpha(100);
     ChessBoard.setClickAction(imageClickedCallback);
 }

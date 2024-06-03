@@ -13,13 +13,27 @@ const colortype CAPTURE_MOVE_COLOR = Color::getColorFromRGB(255, 69, 0);  // Sof
 const colortype LAST_MOVE_COLOR = Color::getColorFromRGB(144, 238, 144); // Light Green
 
 Board::Board()
-    : _currentPlayer(PieceColor::WHITE), _selectedPiecePosition(-1), _lastMoveFrom(-1), _lastMoveTo(-1), _squareRenderer(), _pieceSelector(), _boardRenderer()
+    : _currentPlayer(PieceColor::WHITE),
+    _selectedPiecePosition(-1),
+    _lastMoveFrom(-1),
+    _lastMoveTo(-1),
+    _squareRenderer(),
+    _pieceSelector(),
+    _boardRenderer(),
+    initialFadeAnimationCallback(this, &Board::onInitialFadeAnimationEnded),
+    fadeOutAnimationCallback(this, &Board::onFadeOutAnimationEnded)
 {
     setWidth(272);
     setHeight(272);
-    add(_squareRenderer); // Add the square renderer first
-    add(_pieceSelector); // Add the piece selector second
-    add(_boardRenderer); // Add the board renderer last
+    add(_squareRenderer);
+    add(_pieceSelector);
+    add(_boardRenderer);
+
+    Check.setXY(86, 116);
+    Check.setBitmap(Bitmap(BITMAP_CHECKIMAGE_ID));
+    Check.setAlpha(0);
+    Check.setVisible(false);
+    add(Check);
 
     setupBoard();
 }
@@ -48,14 +62,24 @@ void Board::handleClickEvent(int position) {
         if (position == _selectedPiecePosition) {
             _pieceSelector.deselectPiece();
             _selectedPiecePosition = -1;
-            updateBoardColors(); // Update the board colors
+            updateBoardColors();
         }
         else if (_pieceSelector.isPossibleMove(position)) {
             MovePiece(_selectedPiecePosition, position);
             _pieceSelector.deselectPiece();
             _selectedPiecePosition = -1;
             _currentPlayer = (_currentPlayer == PieceColor::WHITE) ? PieceColor::BLACK : PieceColor::WHITE;
-            updateBoardColors(); // Update the board colors
+            updateBoardColors();
+
+            // Check for check condition and display the check indicator
+            if (isKingInCheck(_currentPlayer)) {
+                Check.setVisible(true);
+                Check.startFadeAnimation(255, 20, EasingEquations::quintEaseIn);
+                Check.setFadeAnimationEndedAction(initialFadeAnimationCallback);
+            }
+            else {
+                Check.setVisible(false);
+            }
         }
         else {
             _pieceSelector.deselectPiece();
@@ -65,7 +89,7 @@ void Board::handleClickEvent(int position) {
             }
             else {
                 _selectedPiecePosition = -1;
-                updateBoardColors(); // Update the board colors
+                updateBoardColors();
             }
         }
     }
@@ -125,6 +149,22 @@ void Board::MovePiece(int from, int to) {
     updateBoardColors();
 }
 
+void Board::startFadeOutAnimation()
+{
+    // Set a delay before starting the fade out animation
+    Check.setFadeAnimationDelay(100); // 1 second delay
+    Check.setFadeAnimationEndedAction(fadeOutAnimationCallback);
+    Check.startFadeAnimation(0, 50, EasingEquations::quintEaseIn); // Fade out
+}
+
+void Board::onInitialFadeAnimationEnded(const FadeAnimator<Image>& animator) {
+    startFadeOutAnimation();
+}
+
+void Board::onFadeOutAnimationEnded(const FadeAnimator<Image>& animator) {
+    Check.setVisible(false);
+}
+
 void Board::highlightPieceAndMoves(int position) {
     auto& piece = _board[position];
     if (!piece) {
@@ -166,4 +206,33 @@ void Board::updateBoardColors() {
 
     // Invalidate the board to trigger a redraw
     invalidate();
+}
+
+bool Board::isKingInCheck(PieceColor color) {
+    int kingPosition = -1;
+    // Find the king's position
+    for (int i = 0; i < NUM_SQUARES * NUM_SQUARES; ++i) {
+        auto& piece = _board[i];
+        if (piece && piece->GetType() == PieceType::KING && piece->GetColor() == color) {
+            kingPosition = i;
+            break;
+        }
+    }
+
+    if (kingPosition == -1) {
+        return false; // King not found, should not happen
+    }
+
+    // Check if any opponent piece can move to the king's position
+    for (int i = 0; i < NUM_SQUARES * NUM_SQUARES; ++i) {
+        auto& piece = _board[i];
+        if (piece && piece->GetColor() != color) {
+            std::list<int> possibleMoves = piece->PossibleMoves(_board.data(), i);
+            if (std::find(possibleMoves.begin(), possibleMoves.end(), kingPosition) != possibleMoves.end()) {
+                return true; // King is in check
+            }
+        }
+    }
+
+    return false;
 }
