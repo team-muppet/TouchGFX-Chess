@@ -4,6 +4,7 @@
 #include "writer.h"
 #include "stringbuffer.h"
 #include <string>
+#include <gui/common/Snackbar.hpp>
 
 #define BOARD_HEIGHT 272
 #define BOARD_WIDTH 272
@@ -21,21 +22,13 @@ Board::Board()
     _blackKingPosition(-1),
     _squareRenderer(),
     _pieceSelector(),
-    _boardRenderer(),
-    initialFadeAnimationCallback(this, &Board::onInitialFadeAnimationEnded),
-    fadeOutAnimationCallback(this, &Board::onFadeOutAnimationEnded)
+    _boardRenderer()
 {
     setWidth(272);
     setHeight(272);
     add(_squareRenderer);
     add(_pieceSelector);
     add(_boardRenderer);
-
-    Check.setXY(86, 116);
-    Check.setBitmap(Bitmap(BITMAP_CHECKIMAGE_ID));
-    Check.setAlpha(0);
-    Check.setVisible(false);
-    add(Check);
 
     setupBoard();
 }
@@ -88,13 +81,8 @@ void Board::handleClickEvent(int position) {
 
             // Check for check condition and display the check indicator
             if (isKingInCheck(PieceColor::WHITE) || isKingInCheck(PieceColor::BLACK)) {
-                Check.setVisible(true);
-                Check.setFadeAnimationDelay(0);
-                Check.setFadeAnimationEndedAction(initialFadeAnimationCallback);
-                Check.startFadeAnimation(255, 20, EasingEquations::quintEaseIn);
-            }
-            else {
-                Check.setVisible(false);
+                Snackbar* checkSnackbar = new Snackbar(this, BITMAP_CHECKIMAGE_ID, 86, 116);
+                checkSnackbar->show();
             }
         }
         else {
@@ -173,22 +161,6 @@ void Board::MovePiece(int from, int to) {
 
     // Update the board colors
     updateBoardColors();
-}
-
-void Board::startFadeOutAnimation()
-{
-    // Set a delay before starting the fade out animation
-    Check.setFadeAnimationDelay(100); // 1 second delay
-    Check.setFadeAnimationEndedAction(fadeOutAnimationCallback);
-    Check.startFadeAnimation(0, 50, EasingEquations::quintEaseIn); // Fade out
-}
-
-void Board::onInitialFadeAnimationEnded(const FadeAnimator<Image>& animator) {
-    startFadeOutAnimation();
-}
-
-void Board::onFadeOutAnimationEnded(const FadeAnimator<Image>& animator) {
-    Check.setVisible(false);
 }
 
 void Board::highlightPieceAndMoves(int position) {

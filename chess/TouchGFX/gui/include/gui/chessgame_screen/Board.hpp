@@ -40,12 +40,6 @@ protected:
 
     virtual void MovePiece(int from, int to);
 
-    void startFadeOutAnimation();
-    void onInitialFadeAnimationEnded(const FadeAnimator<Image>& animator);
-    void onFadeOutAnimationEnded(const FadeAnimator<Image>& animator);
-    Callback<Board, const FadeAnimator<Image>&> initialFadeAnimationCallback;
-    Callback<Board, const FadeAnimator<Image>&> fadeOutAnimationCallback;
-
 private:
     void highlightPieceAndMoves(int position);
     void updateBoardColors(); // New method to update board colors
