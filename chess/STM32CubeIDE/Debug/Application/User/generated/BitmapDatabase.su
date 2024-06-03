@@ -1,2 +1,0 @@
-C:/Repos/ams-project-2/chess/TouchGFX/generated/images/src/BitmapDatabase.cpp:43:37:const touchgfx::Bitmap::BitmapData* BitmapDatabase::getInstance()	4	static
-C:/Repos/ams-project-2/chess/TouchGFX/generated/images/src/BitmapDatabase.cpp:48:10:uint16_t BitmapDatabase::getInstanceSize()	4	static
