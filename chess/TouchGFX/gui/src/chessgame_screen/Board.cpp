@@ -83,11 +83,11 @@ void Board::handleClickEvent(int position) {
             updateBoardColors();
 
             if (isKingInCheck(PieceColor::WHITE) != -1 || isKingInCheck(PieceColor::BLACK) != -1) {
-                Snackbar* checkSnackbar = new Snackbar(this, BITMAP_CHECKIMAGE_ID, 86, 116);
+                new Snackbar(this, BITMAP_CHECKIMAGE_ID, 86, 116);
             }
 
             if (hasCheckmate(_currentPlayer)) {
-                Snackbar* checkmateSnackbar = new Snackbar(this, BITMAP_CHECKMATEIMAGE_ID, 86, 116);
+                new Snackbar(this, BITMAP_CHECKMATEIMAGE_ID, 86, 116);
                 // Add additional logic for checkmate if needed, like ending the game
             }
         }
