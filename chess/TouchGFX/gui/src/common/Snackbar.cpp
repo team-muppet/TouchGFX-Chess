@@ -1,7 +1,7 @@
 #include <gui/common/Snackbar.hpp>
 #include <touchgfx/containers/Container.hpp>
 
-Snackbar::Snackbar(Container* parentContainer, const uint16_t& bitmapId, int x, int y, int fadeInDuration, int visibleDuration, int fadeOutDuration)
+Snackbar::Snackbar(touchgfx::Container* parentContainer, const uint16_t& bitmapId, int x, int y, int fadeInDuration, int visibleDuration, int fadeOutDuration)
     : parentContainer(parentContainer), fadeInDuration(fadeInDuration), visibleDuration(visibleDuration), fadeOutDuration(fadeOutDuration),
     fadeOutAnimationCallback(this, &Snackbar::onFadeOutAnimationEnded)
 {

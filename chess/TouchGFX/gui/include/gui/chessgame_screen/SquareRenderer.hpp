@@ -4,6 +4,7 @@
 #include <touchgfx/containers/Container.hpp>
 #include <touchgfx/widgets/Box.hpp>
 #include <touchgfx/Color.hpp>
+#include <touchgfx/containers/Container.hpp>
 #include <array>
 
 using namespace touchgfx;

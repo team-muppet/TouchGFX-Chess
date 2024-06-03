@@ -5,6 +5,8 @@
 #include "stringbuffer.h"
 #include <string>
 #include <gui/common/Snackbar.hpp>
+#include <algorithm> // For std::find
+#include <list> // For std::list
 
 #define BOARD_HEIGHT 272
 #define BOARD_WIDTH 272
@@ -22,8 +24,8 @@ Board::Board()
     _whiteKingPosition(-1),
     _blackKingPosition(-1),
     _squareRenderer(),
-    _pieceSelector(),
-    _boardRenderer()
+    _boardRenderer(),
+    _pieceSelector()
 {
     setWidth(272);
     setHeight(272);

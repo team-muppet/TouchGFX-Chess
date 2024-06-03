@@ -17,6 +17,7 @@
 #include <gui/chessgame_screen/SquareRenderer.hpp>
 #include <gui/chessgame_screen/BoardRenderer.hpp>
 #include <touchgfx/mixins/FadeAnimator.hpp>
+#include <touchgfx/containers/Container.hpp>
 #include <BitmapDatabase.hpp>
 
 using namespace touchgfx;
@@ -33,11 +34,9 @@ public:
 protected:
     std::array<std::unique_ptr<AbstractPiece>, 64> _board;
     PieceColor _currentPlayer;
-    PieceSelector _pieceSelector;
+    
     int _selectedPiecePosition; // Track the currently selected piece position
-
     touchgfx::FadeAnimator< touchgfx::Image > Check;
-
     virtual void MovePiece(int from, int to);
 
 private:
@@ -59,6 +58,7 @@ private:
 
     SquareRenderer _squareRenderer;
     BoardRenderer _boardRenderer;
+    PieceSelector _pieceSelector;
 };
 
 #endif /* BOARD_HPP */

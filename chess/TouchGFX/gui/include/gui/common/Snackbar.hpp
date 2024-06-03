@@ -5,13 +5,14 @@
 #include <touchgfx/mixins/FadeAnimator.hpp>
 #include <BitmapDatabase.hpp>
 #include <touchgfx/EasingEquations.hpp>
+#include <touchgfx/containers/Container.hpp>
 
 using namespace touchgfx;
 
 class Snackbar
 {
 public:
-    Snackbar(Container* parentContainer, const uint16_t& bitmapId, int x, int y, int fadeInDuration = 20, int visibleDuration = 50, int fadeOutDuration = 30);
+    Snackbar(touchgfx::Container* parentContainer, const uint16_t& bitmapId, int x, int y, int fadeInDuration = 20, int visibleDuration = 50, int fadeOutDuration = 30);
     virtual ~Snackbar();
 
 protected:
