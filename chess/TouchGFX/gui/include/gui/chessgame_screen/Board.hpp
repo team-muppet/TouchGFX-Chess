@@ -43,10 +43,9 @@ protected:
 private:
     void highlightPieceAndMoves(int position);
     void updateBoardColors(); // New method to update board colors
-    bool isKingInCheck(PieceColor color); // New method to check if the king is in check
+    int isKingInCheck(PieceColor color); // Modified method to return the position of the checking piece
     bool wouldMoveCauseCheck(int from, int to);
     std::list<int> filterValidMoves(const std::list<int>& possibleMoves, int from);
-
 
     // New variables for tracking the last move
     int _lastMoveFrom; // Track the starting position of the last move

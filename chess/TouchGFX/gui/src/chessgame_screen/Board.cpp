@@ -12,6 +12,7 @@
 
 const colortype CAPTURE_MOVE_COLOR = Color::getColorFromRGB(255, 69, 0);  // Soft Red/Orange
 const colortype LAST_MOVE_COLOR = Color::getColorFromRGB(144, 238, 144); // Light Green
+const colortype KING_CHECK_COLOR = Color::getColorFromRGB(255, 182, 193); // Light Red
 
 Board::Board()
     : _currentPlayer(PieceColor::WHITE),
@@ -79,8 +80,7 @@ void Board::handleClickEvent(int position) {
             _currentPlayer = (_currentPlayer == PieceColor::WHITE) ? PieceColor::BLACK : PieceColor::WHITE;
             updateBoardColors();
 
-            // Check for check condition and display the check indicator
-            if (isKingInCheck(PieceColor::WHITE) || isKingInCheck(PieceColor::BLACK)) {
+            if (isKingInCheck(PieceColor::WHITE) != -1 || isKingInCheck(PieceColor::BLACK) != -1) {
                 Snackbar* checkSnackbar = new Snackbar(this, BITMAP_CHECKIMAGE_ID, 86, 116);
             }
         }
@@ -202,15 +202,25 @@ void Board::updateBoardColors() {
         _squareRenderer.updateSquareColor(pos, CAPTURE_MOVE_COLOR);
     }
 
+    // Check if any king is in check and highlight the checking piece
+    int whiteKingCheckPosition = isKingInCheck(PieceColor::WHITE);
+    int blackKingCheckPosition = isKingInCheck(PieceColor::BLACK);
+    if (whiteKingCheckPosition != -1) {
+        _squareRenderer.updateSquareColor(whiteKingCheckPosition, KING_CHECK_COLOR); // Light Red
+    }
+    if (blackKingCheckPosition != -1) {
+        _squareRenderer.updateSquareColor(blackKingCheckPosition, KING_CHECK_COLOR); // Light Red
+    }
+
     // Invalidate the board to trigger a redraw
     invalidate();
 }
 
-bool Board::isKingInCheck(PieceColor color) {
+int Board::isKingInCheck(PieceColor color) {
     int kingPosition = (color == PieceColor::WHITE) ? _whiteKingPosition : _blackKingPosition;
 
     if (kingPosition == -1) {
-        return false; // King not found, should not happen
+        return -1; // King not found, should not happen
     }
 
     // Check if any opponent piece can move to the king's position
@@ -219,14 +229,13 @@ bool Board::isKingInCheck(PieceColor color) {
         if (piece && piece->GetColor() != color) {
             std::list<int> possibleMoves = piece->PossibleMoves(_board.data(), i);
             if (std::find(possibleMoves.begin(), possibleMoves.end(), kingPosition) != possibleMoves.end()) {
-                return true; // King is in check
+                return i; // Return the position of the checking piece
             }
         }
     }
 
-    return false;
+    return -1; // No check
 }
-
 
 bool Board::wouldMoveCauseCheck(int from, int to) {
     // Temporarily move the piece
@@ -244,7 +253,7 @@ bool Board::wouldMoveCauseCheck(int from, int to) {
         }
     }
 
-    bool isInCheck = isKingInCheck(_currentPlayer);
+    bool isInCheck = isKingInCheck(_currentPlayer) != -1;
 
     // Undo the move
     _board[from] = std::move(_board[to]);
@@ -262,8 +271,6 @@ bool Board::wouldMoveCauseCheck(int from, int to) {
 
     return isInCheck;
 }
-
-
 
 std::list<int> Board::filterValidMoves(const std::list<int>& possibleMoves, int from) {
     std::list<int> validMoves;
