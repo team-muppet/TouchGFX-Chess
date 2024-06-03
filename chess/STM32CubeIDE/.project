@@ -680,6 +680,11 @@
 			<locationURI>PARENT-1-PROJECT_LOC/TouchGFX/gui/src/common/FrontendApplication.cpp</locationURI>
 		</link>
 		<link>
+			<name>Application/User/gui/Snackbar.cpp</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/TouchGFX/gui/src/common/Snackbar.cpp</locationURI>
+		</link>
+		<link>
 			<name>Application/User/gui/Model.cpp</name>
 			<type>1</type>
 			<locationURI>PARENT-1-PROJECT_LOC/TouchGFX/gui/src/model/Model.cpp</locationURI>
@@ -783,6 +788,11 @@
 			<name>Application/User/generated/image_CheckImage.cpp</name>
 			<type>1</type>
 			<locationURI>PARENT-1-PROJECT_LOC/TouchGFX/generated/images/src/image_CheckImage.cpp</locationURI>
+		</link>
+		<link>
+			<name>Application/User/generated/image_CheckmateImage.cpp</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/TouchGFX/generated/images/src/image_CheckmateImage.cpp</locationURI>
 		</link>
 		<link>
 			<name>Application/User/generated/image_blackbishop.cpp</name>

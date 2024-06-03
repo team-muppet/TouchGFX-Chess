@@ -83,6 +83,11 @@ void Board::handleClickEvent(int position) {
             if (isKingInCheck(PieceColor::WHITE) != -1 || isKingInCheck(PieceColor::BLACK) != -1) {
                 Snackbar* checkSnackbar = new Snackbar(this, BITMAP_CHECKIMAGE_ID, 86, 116);
             }
+
+            if (isCheckmate(PieceColor::WHITE) || isCheckmate(PieceColor::BLACK)) {
+                Snackbar* checkmateSnackbar = new Snackbar(this, BITMAP_CHECKMATEIMAGE_ID, 86, 116);
+                // Add additional logic for checkmate if needed, like ending the game
+            }
         }
         else {
             _pieceSelector.deselectPiece();
@@ -270,6 +275,27 @@ bool Board::wouldMoveCauseCheck(int from, int to) {
     }
 
     return isInCheck;
+}
+
+bool Board::hasLegalMoves(PieceColor color) {
+    for (int i = 0; i < NUM_SQUARES * NUM_SQUARES; ++i) {
+        auto& piece = _board[i];
+        if (piece && piece->GetColor() == color) {
+            std::list<int> possibleMoves = piece->PossibleMoves(_board.data(), i);
+            std::list<int> validMoves = filterValidMoves(possibleMoves, i);
+            if (!validMoves.empty()) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+bool Board::isCheckmate(PieceColor color) {
+    if (isKingInCheck(color) != -1 && !hasLegalMoves(color)) {
+        return true;
+    }
+    return false;
 }
 
 std::list<int> Board::filterValidMoves(const std::list<int>& possibleMoves, int from) {

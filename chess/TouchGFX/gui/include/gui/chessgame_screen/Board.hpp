@@ -45,6 +45,8 @@ private:
     void updateBoardColors(); // New method to update board colors
     int isKingInCheck(PieceColor color); // Modified method to return the position of the checking piece
     bool wouldMoveCauseCheck(int from, int to);
+    bool hasLegalMoves(PieceColor color); // New method to check if the player has any legal moves
+    bool isCheckmate(PieceColor color); // New method to check for checkmate
     std::list<int> filterValidMoves(const std::list<int>& possibleMoves, int from);
 
     // New variables for tracking the last move
