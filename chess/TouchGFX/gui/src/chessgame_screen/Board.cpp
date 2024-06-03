@@ -17,6 +17,8 @@ Board::Board()
     _selectedPiecePosition(-1),
     _lastMoveFrom(-1),
     _lastMoveTo(-1),
+    _whiteKingPosition(-1),
+    _blackKingPosition(-1),
     _squareRenderer(),
     _pieceSelector(),
     _boardRenderer(),
@@ -42,6 +44,19 @@ Board::~Board() {}
 
 void Board::setupBoard() {
     _boardRenderer.setupBoard(_board);
+    for (int i = 0; i < NUM_SQUARES * NUM_SQUARES; ++i) {
+        auto& piece = _board[i];
+        if (piece) {
+            if (piece->GetType() == PieceType::KING) {
+                if (piece->GetColor() == PieceColor::WHITE) {
+                    _whiteKingPosition = i;
+                }
+                else {
+                    _blackKingPosition = i;
+                }
+            }
+        }
+    }
     updateBoardColors(); // Ensure the board is updated after setup
 }
 
@@ -72,10 +87,11 @@ void Board::handleClickEvent(int position) {
             updateBoardColors();
 
             // Check for check condition and display the check indicator
-            if (isKingInCheck(_currentPlayer)) {
+            if (isKingInCheck(PieceColor::WHITE) || isKingInCheck(PieceColor::BLACK)) {
                 Check.setVisible(true);
-                Check.startFadeAnimation(255, 20, EasingEquations::quintEaseIn);
+                Check.setFadeAnimationDelay(0);
                 Check.setFadeAnimationEndedAction(initialFadeAnimationCallback);
+                Check.startFadeAnimation(255, 20, EasingEquations::quintEaseIn);
             }
             else {
                 Check.setVisible(false);
@@ -140,6 +156,16 @@ void Board::MovePiece(int from, int to) {
     // Move the piece from 'from' to 'to'
     _board[to] = std::move(_board[from]);
     _board[from] = nullptr;
+
+    // Update the king position if a king is moved
+    if (_board[to] && _board[to]->GetType() == PieceType::KING) {
+        if (_board[to]->GetColor() == PieceColor::WHITE) {
+            _whiteKingPosition = to;
+        }
+        else {
+            _blackKingPosition = to;
+        }
+    }
 
     // Store the last move positions
     _lastMoveFrom = from;
@@ -209,15 +235,7 @@ void Board::updateBoardColors() {
 }
 
 bool Board::isKingInCheck(PieceColor color) {
-    int kingPosition = -1;
-    // Find the king's position
-    for (int i = 0; i < NUM_SQUARES * NUM_SQUARES; ++i) {
-        auto& piece = _board[i];
-        if (piece && piece->GetType() == PieceType::KING && piece->GetColor() == color) {
-            kingPosition = i;
-            break;
-        }
-    }
+    int kingPosition = (color == PieceColor::WHITE) ? _whiteKingPosition : _blackKingPosition;
 
     if (kingPosition == -1) {
         return false; // King not found, should not happen

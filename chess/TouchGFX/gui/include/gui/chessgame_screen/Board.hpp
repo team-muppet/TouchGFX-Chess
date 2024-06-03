@@ -55,6 +55,10 @@ private:
     int _lastMoveFrom; // Track the starting position of the last move
     int _lastMoveTo;   // Track the ending position of the last move
 
+    // Track king positions
+    int _whiteKingPosition;
+    int _blackKingPosition;
+
     SquareRenderer _squareRenderer;
     BoardRenderer _boardRenderer;
 };
