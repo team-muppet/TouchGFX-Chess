@@ -4,6 +4,7 @@
 #include "writer.h"
 #include "stringbuffer.h"
 #include <string>
+#include <gui/common/Snackbar.hpp>
 
 #define BOARD_HEIGHT 272
 #define BOARD_WIDTH 272
@@ -11,15 +12,24 @@
 
 const colortype CAPTURE_MOVE_COLOR = Color::getColorFromRGB(255, 69, 0);  // Soft Red/Orange
 const colortype LAST_MOVE_COLOR = Color::getColorFromRGB(144, 238, 144); // Light Green
+const colortype KING_CHECK_COLOR = Color::getColorFromRGB(255, 182, 193); // Light Red
 
 Board::Board()
-    : _currentPlayer(PieceColor::WHITE), _selectedPiecePosition(-1), _lastMoveFrom(-1), _lastMoveTo(-1), _squareRenderer(), _pieceSelector(), _boardRenderer()
+    : _currentPlayer(PieceColor::WHITE),
+    _selectedPiecePosition(-1),
+    _lastMoveFrom(-1),
+    _lastMoveTo(-1),
+    _whiteKingPosition(-1),
+    _blackKingPosition(-1),
+    _squareRenderer(),
+    _pieceSelector(),
+    _boardRenderer()
 {
     setWidth(272);
     setHeight(272);
-    add(_squareRenderer); // Add the square renderer first
-    add(_pieceSelector); // Add the piece selector second
-    add(_boardRenderer); // Add the board renderer last
+    add(_squareRenderer);
+    add(_pieceSelector);
+    add(_boardRenderer);
 
     setupBoard();
 }
@@ -28,6 +38,19 @@ Board::~Board() {}
 
 void Board::setupBoard() {
     _boardRenderer.setupBoard(_board);
+    for (int i = 0; i < NUM_SQUARES * NUM_SQUARES; ++i) {
+        auto& piece = _board[i];
+        if (piece) {
+            if (piece->GetType() == PieceType::KING) {
+                if (piece->GetColor() == PieceColor::WHITE) {
+                    _whiteKingPosition = i;
+                }
+                else {
+                    _blackKingPosition = i;
+                }
+            }
+        }
+    }
     updateBoardColors(); // Ensure the board is updated after setup
 }
 
@@ -48,14 +71,23 @@ void Board::handleClickEvent(int position) {
         if (position == _selectedPiecePosition) {
             _pieceSelector.deselectPiece();
             _selectedPiecePosition = -1;
-            updateBoardColors(); // Update the board colors
+            updateBoardColors();
         }
         else if (_pieceSelector.isPossibleMove(position)) {
             MovePiece(_selectedPiecePosition, position);
             _pieceSelector.deselectPiece();
             _selectedPiecePosition = -1;
             _currentPlayer = (_currentPlayer == PieceColor::WHITE) ? PieceColor::BLACK : PieceColor::WHITE;
-            updateBoardColors(); // Update the board colors
+            updateBoardColors();
+
+            if (isKingInCheck(PieceColor::WHITE) != -1 || isKingInCheck(PieceColor::BLACK) != -1) {
+                Snackbar* checkSnackbar = new Snackbar(this, BITMAP_CHECKIMAGE_ID, 86, 116);
+            }
+
+            if (isCheckmate(PieceColor::WHITE) || isCheckmate(PieceColor::BLACK)) {
+                Snackbar* checkmateSnackbar = new Snackbar(this, BITMAP_CHECKMATEIMAGE_ID, 86, 116);
+                // Add additional logic for checkmate if needed, like ending the game
+            }
         }
         else {
             _pieceSelector.deselectPiece();
@@ -65,7 +97,7 @@ void Board::handleClickEvent(int position) {
             }
             else {
                 _selectedPiecePosition = -1;
-                updateBoardColors(); // Update the board colors
+                updateBoardColors();
             }
         }
     }
@@ -117,6 +149,16 @@ void Board::MovePiece(int from, int to) {
     _board[to] = std::move(_board[from]);
     _board[from] = nullptr;
 
+    // Update the king position if a king is moved
+    if (_board[to] && _board[to]->GetType() == PieceType::KING) {
+        if (_board[to]->GetColor() == PieceColor::WHITE) {
+            _whiteKingPosition = to;
+        }
+        else {
+            _blackKingPosition = to;
+        }
+    }
+
     // Store the last move positions
     _lastMoveFrom = from;
     _lastMoveTo = to;
@@ -132,18 +174,19 @@ void Board::highlightPieceAndMoves(int position) {
     }
 
     std::list<int> possibleMoves = piece->PossibleMoves(_board.data(), position);
+    std::list<int> validMoves = filterValidMoves(possibleMoves, position);
     std::list<int> captureMoves;
 
-    // Identify capture moves
-    for (int pos : possibleMoves) {
+    // Identify capture moves within valid moves
+    for (int pos : validMoves) {
         if (_board[pos] != nullptr && _board[pos]->GetColor() != piece->GetColor()) {
             captureMoves.push_back(pos);
         }
     }
 
-    _pieceSelector.selectPiece(position, possibleMoves, captureMoves);
+    _pieceSelector.selectPiece(position, validMoves, captureMoves);
 
-    // Update board colors to highlight possible moves and captures
+    // Update board colors to highlight valid moves and captures
     updateBoardColors();
 }
 
@@ -164,6 +207,103 @@ void Board::updateBoardColors() {
         _squareRenderer.updateSquareColor(pos, CAPTURE_MOVE_COLOR);
     }
 
+    // Check if any king is in check and highlight the checking piece
+    int whiteKingCheckPosition = isKingInCheck(PieceColor::WHITE);
+    int blackKingCheckPosition = isKingInCheck(PieceColor::BLACK);
+    if (whiteKingCheckPosition != -1) {
+        _squareRenderer.updateSquareColor(whiteKingCheckPosition, KING_CHECK_COLOR); // Light Red
+    }
+    if (blackKingCheckPosition != -1) {
+        _squareRenderer.updateSquareColor(blackKingCheckPosition, KING_CHECK_COLOR); // Light Red
+    }
+
     // Invalidate the board to trigger a redraw
     invalidate();
+}
+
+int Board::isKingInCheck(PieceColor color) {
+    int kingPosition = (color == PieceColor::WHITE) ? _whiteKingPosition : _blackKingPosition;
+
+    if (kingPosition == -1) {
+        return -1; // King not found, should not happen
+    }
+
+    // Check if any opponent piece can move to the king's position
+    for (int i = 0; i < NUM_SQUARES * NUM_SQUARES; ++i) {
+        auto& piece = _board[i];
+        if (piece && piece->GetColor() != color) {
+            std::list<int> possibleMoves = piece->PossibleMoves(_board.data(), i);
+            if (std::find(possibleMoves.begin(), possibleMoves.end(), kingPosition) != possibleMoves.end()) {
+                return i; // Return the position of the checking piece
+            }
+        }
+    }
+
+    return -1; // No check
+}
+
+bool Board::wouldMoveCauseCheck(int from, int to) {
+    // Temporarily move the piece
+    std::unique_ptr<AbstractPiece> tempPiece = std::move(_board[to]);
+    _board[to] = std::move(_board[from]);
+    _board[from] = nullptr;
+
+    // Update king position if the king is moved
+    if (_board[to] && _board[to]->GetType() == PieceType::KING) {
+        if (_board[to]->GetColor() == PieceColor::WHITE) {
+            _whiteKingPosition = to;
+        }
+        else {
+            _blackKingPosition = to;
+        }
+    }
+
+    bool isInCheck = isKingInCheck(_currentPlayer) != -1;
+
+    // Undo the move
+    _board[from] = std::move(_board[to]);
+    _board[to] = std::move(tempPiece);
+
+    // Restore king position if the king was moved
+    if (_board[from] && _board[from]->GetType() == PieceType::KING) {
+        if (_board[from]->GetColor() == PieceColor::WHITE) {
+            _whiteKingPosition = from;
+        }
+        else {
+            _blackKingPosition = from;
+        }
+    }
+
+    return isInCheck;
+}
+
+bool Board::hasLegalMoves(PieceColor color) {
+    for (int i = 0; i < NUM_SQUARES * NUM_SQUARES; ++i) {
+        auto& piece = _board[i];
+        if (piece && piece->GetColor() == color) {
+            std::list<int> possibleMoves = piece->PossibleMoves(_board.data(), i);
+            std::list<int> validMoves = filterValidMoves(possibleMoves, i);
+            if (!validMoves.empty()) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+bool Board::isCheckmate(PieceColor color) {
+    if (isKingInCheck(color) != -1 && !hasLegalMoves(color)) {
+        return true;
+    }
+    return false;
+}
+
+std::list<int> Board::filterValidMoves(const std::list<int>& possibleMoves, int from) {
+    std::list<int> validMoves;
+    for (int to : possibleMoves) {
+        if (!wouldMoveCauseCheck(from, to)) {
+            validMoves.push_back(to);
+        }
+    }
+    return validMoves;
 }

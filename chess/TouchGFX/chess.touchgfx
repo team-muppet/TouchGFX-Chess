@@ -42,6 +42,17 @@
               "BufferSize": 14
             },
             "WideTextAction": 1
+          },
+          {
+            "Type": "Image",
+            "Name": "Check",
+            "X": 86,
+            "Y": 116,
+            "Width": 100,
+            "Height": 40,
+            "RelativeFilename": "CheckImage.png",
+            "Alpha": 0,
+            "Fadeable": true
           }
         ],
         "Interactions": []

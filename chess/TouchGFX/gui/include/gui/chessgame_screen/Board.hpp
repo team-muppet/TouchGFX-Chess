@@ -16,6 +16,8 @@
 #include <gui/chessgame_screen/PieceSelector.hpp>
 #include <gui/chessgame_screen/SquareRenderer.hpp>
 #include <gui/chessgame_screen/BoardRenderer.hpp>
+#include <touchgfx/mixins/FadeAnimator.hpp>
+#include <BitmapDatabase.hpp>
 
 using namespace touchgfx;
 
@@ -34,15 +36,26 @@ protected:
     PieceSelector _pieceSelector;
     int _selectedPiecePosition; // Track the currently selected piece position
 
+    touchgfx::FadeAnimator< touchgfx::Image > Check;
+
     virtual void MovePiece(int from, int to);
 
 private:
     void highlightPieceAndMoves(int position);
     void updateBoardColors(); // New method to update board colors
+    int isKingInCheck(PieceColor color); // Modified method to return the position of the checking piece
+    bool wouldMoveCauseCheck(int from, int to);
+    bool hasLegalMoves(PieceColor color); // New method to check if the player has any legal moves
+    bool isCheckmate(PieceColor color); // New method to check for checkmate
+    std::list<int> filterValidMoves(const std::list<int>& possibleMoves, int from);
 
     // New variables for tracking the last move
     int _lastMoveFrom; // Track the starting position of the last move
     int _lastMoveTo;   // Track the ending position of the last move
+
+    // Track king positions
+    int _whiteKingPosition;
+    int _blackKingPosition;
 
     SquareRenderer _squareRenderer;
     BoardRenderer _boardRenderer;
