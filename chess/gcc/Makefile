@@ -192,6 +192,7 @@ include_paths := $(library_includes) \
     LIBJPEG/App \
 	Utilities/JPEG \
 	Middlewares/Third_Party/FatFs/src \
+	Middlewares/Third_Party/FatFs/src/option \
 	FATFS/Target \
 	FATFS/App \
 	Middlewares/Third_Party/rapidjson
@@ -294,6 +295,7 @@ c_source_files += \
     Middlewares/Third_Party/FatFs/src/ff.c \
     Middlewares/Third_Party/FatFs/src/diskio.c \
 	Middlewares/Third_Party/FatFs/src/ff_gen_drv.c \
+	Middlewares/Third_Party/FatFs/src/option/syscall.c \
 	FATFS/Target/fatfs_platform.c \
     FATFS/Target/sd_diskio.c \
 	FATFS/Target/bsp_driver_sd.c \
