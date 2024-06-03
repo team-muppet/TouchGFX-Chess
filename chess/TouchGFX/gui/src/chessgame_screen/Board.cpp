@@ -84,7 +84,7 @@ void Board::handleClickEvent(int position) {
                 Snackbar* checkSnackbar = new Snackbar(this, BITMAP_CHECKIMAGE_ID, 86, 116);
             }
 
-            if (isCheckmate(PieceColor::WHITE) || isCheckmate(PieceColor::BLACK)) {
+            if (hasCheckmate(_currentPlayer)) {
                 Snackbar* checkmateSnackbar = new Snackbar(this, BITMAP_CHECKMATEIMAGE_ID, 86, 116);
                 // Add additional logic for checkmate if needed, like ending the game
             }
@@ -291,7 +291,7 @@ bool Board::hasLegalMoves(PieceColor color) {
     return false;
 }
 
-bool Board::isCheckmate(PieceColor color) {
+bool Board::hasCheckmate(PieceColor color) {
     if (isKingInCheck(color) != -1 && !hasLegalMoves(color)) {
         return true;
     }
