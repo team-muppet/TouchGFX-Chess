@@ -25,30 +25,37 @@ Board::Board()
     _blackKingPosition(-1),
     _squareRenderer(),
     _boardRenderer(),
-    _pieceSelector()
+    _pieceSelector(),
+    playerTurnCallback(nullptr) // Initialize callback to nullptr
 {
     setWidth(480);
     setHeight(272);
     add(_squareRenderer);
     add(_pieceSelector);
     add(_boardRenderer);
-	_gameStateSerializer = GameStateSerializer();
+    _gameStateSerializer = GameStateSerializer();
 
     setupBoard();
 }
 
 Board::~Board() {}
 
-void Board::setupBoard() {
+void Board::setupBoard()
+{
     _boardRenderer.setupBoard(_board);
-    for (int i = 0; i < NUM_SQUARES * NUM_SQUARES; ++i) {
+    for (int i = 0; i < NUM_SQUARES * NUM_SQUARES; ++i)
+    {
         auto& piece = _board[i];
-        if (piece) {
-            if (piece->GetType() == PieceType::KING) {
-                if (piece->GetColor() == PieceColor::WHITE) {
+        if (piece)
+        {
+            if (piece->GetType() == PieceType::KING)
+            {
+                if (piece->GetColor() == PieceColor::WHITE)
+                {
                     _whiteKingPosition = i;
                 }
-                else {
+                else
+                {
                     _blackKingPosition = i;
                 }
             }
@@ -62,48 +69,65 @@ void Board::setupBoard() {
     updateBoardColors(); // Ensure the board is updated after setup
 }
 
-void Board::handleClickEvent(int position) {
+void Board::handleClickEvent(int position)
+{
     serializeBoardState();
-    if (position < 0 || position >= NUM_SQUARES * NUM_SQUARES) {
+    if (position < 0 || position >= NUM_SQUARES * NUM_SQUARES)
+    {
         return;
     }
 
     auto& piece = _board[position];
-    if (_selectedPiecePosition == -1) {
-        if (piece && piece->GetColor() == _currentPlayer) {
+    if (_selectedPiecePosition == -1)
+    {
+        if (piece && piece->GetColor() == _currentPlayer)
+        {
             _selectedPiecePosition = position;
             highlightPieceAndMoves(position);
         }
     }
-    else {
-        if (position == _selectedPiecePosition) {
+    else
+    {
+        if (position == _selectedPiecePosition)
+        {
             _pieceSelector.deselectPiece();
             _selectedPiecePosition = -1;
             updateBoardColors();
         }
-        else if (_pieceSelector.isPossibleMove(position)) {
+        else if (_pieceSelector.isPossibleMove(position))
+        {
             MovePiece(_selectedPiecePosition, position);
             _pieceSelector.deselectPiece();
             _selectedPiecePosition = -1;
             _currentPlayer = (_currentPlayer == PieceColor::WHITE) ? PieceColor::BLACK : PieceColor::WHITE;
             updateBoardColors();
 
-            if (isKingInCheck(PieceColor::WHITE) != -1 || isKingInCheck(PieceColor::BLACK) != -1) {
+            if (playerTurnCallback && playerTurnCallback->isValid())
+            {
+                playerTurnCallback->execute(_currentPlayer); // Notify the view about the player turn change
+            }
+
+            if (isKingInCheck(PieceColor::WHITE) != -1 || isKingInCheck(PieceColor::BLACK) != -1)
+            {
                 new Snackbar(this, BITMAP_CHECKIMAGE_ID, 86, 116);
             }
 
-            if (hasCheckmate(_currentPlayer)) {
+            if (hasCheckmate(_currentPlayer))
+            {
                 new Snackbar(this, BITMAP_CHECKMATEIMAGE_ID, 86, 116);
                 // Add additional logic for checkmate if needed, like ending the game
             }
         }
-        else {
+        else
+        {
             _pieceSelector.deselectPiece();
-            if (piece && piece->GetColor() == _currentPlayer) {
+            if (piece && piece->GetColor() == _currentPlayer)
+            {
                 _selectedPiecePosition = position;
                 highlightPieceAndMoves(position);
             }
-            else {
+            else
+            {
                 _selectedPiecePosition = -1;
                 updateBoardColors();
             }
@@ -111,21 +135,25 @@ void Board::handleClickEvent(int position) {
     }
 }
 
-void Board::serializeBoardState() {
+void Board::serializeBoardState()
+{
     rapidjson::Document document;
     document.SetObject();
     rapidjson::Document::AllocatorType& allocator = document.GetAllocator();
 
     // Serialize the board
     rapidjson::Value boardArray(rapidjson::kArrayType);
-    for (const auto& piece : _board) {
-        if (piece) {
+    for (const auto& piece : _board)
+    {
+        if (piece)
+        {
             rapidjson::Value pieceObject(rapidjson::kObjectType);
             pieceObject.AddMember("type", static_cast<int>(piece->GetType()), allocator);
             pieceObject.AddMember("color", static_cast<int>(piece->GetColor()), allocator);
             boardArray.PushBack(pieceObject, allocator);
         }
-        else {
+        else
+        {
             boardArray.PushBack(rapidjson::Value(rapidjson::kNullType), allocator);
         }
     }
@@ -143,12 +171,14 @@ void Board::serializeBoardState() {
     std::string serializedBoards(serializedBoard, size);
 }
 
-void Board::MovePiece(int from, int to) {
+void Board::MovePiece(int from, int to)
+{
     // Ensure the piece at 'from' is moved to its new position internally
     _board[from]->Move(to);
 
     // If there is a piece at the destination 'to', remove it from the container
-    if (_board[to] != nullptr) {
+    if (_board[to] != nullptr)
+    {
         _board[to] = nullptr;
         _squareRenderer.updateSquareColor(to, CAPTURE_MOVE_COLOR); // Highlight the capture move
     }
@@ -158,11 +188,14 @@ void Board::MovePiece(int from, int to) {
     _board[from] = nullptr;
 
     // Update the king position if a king is moved
-    if (_board[to] && _board[to]->GetType() == PieceType::KING) {
-        if (_board[to]->GetColor() == PieceColor::WHITE) {
+    if (_board[to] && _board[to]->GetType() == PieceType::KING)
+    {
+        if (_board[to]->GetColor() == PieceColor::WHITE)
+        {
             _whiteKingPosition = to;
         }
-        else {
+        else
+        {
             _blackKingPosition = to;
         }
     }
@@ -177,12 +210,14 @@ void Board::MovePiece(int from, int to) {
 
 void Board::saveGame(int _gameNumber)
 {
-	_savedGames[_gameNumber] = _gameStateSerializer.SerializeGameState(_board, _currentPlayer);
+    _savedGames[_gameNumber] = _gameStateSerializer.SerializeGameState(_board, _currentPlayer);
 }
 
-void Board::highlightPieceAndMoves(int position) {
+void Board::highlightPieceAndMoves(int position)
+{
     auto& piece = _board[position];
-    if (!piece) {
+    if (!piece)
+    {
         return;
     }
 
@@ -191,8 +226,10 @@ void Board::highlightPieceAndMoves(int position) {
     std::list<int> captureMoves;
 
     // Identify capture moves within valid moves
-    for (int pos : validMoves) {
-        if (_board[pos] != nullptr && _board[pos]->GetColor() != piece->GetColor()) {
+    for (int pos : validMoves)
+    {
+        if (_board[pos] != nullptr && _board[pos]->GetColor() != piece->GetColor())
+        {
             captureMoves.push_back(pos);
         }
     }
@@ -205,9 +242,10 @@ void Board::highlightPieceAndMoves(int position) {
 
 void Board::resetGame()
 {
-	_currentPlayer = PieceColor::WHITE;
-    for (auto& piece : _board) {
-        piece.reset();  // This sets the unique_ptr to nullptr
+    _currentPlayer = PieceColor::WHITE;
+    for (auto& piece : _board)
+    {
+        piece.reset(); // This sets the unique_ptr to nullptr
     }
     updateBoardColors();
 }
@@ -215,36 +253,42 @@ void Board::resetGame()
 void Board::loadGame(int _gameNumber)
 {
     std::array<std::unique_ptr<AbstractPiece>, 64> tmpboard = _gameStateSerializer.DeserializeBoardState(_savedGames[_gameNumber], _boardRenderer);
-	_currentPlayer = _gameStateSerializer.DeserializeCurrentPlayer(_savedGames[_gameNumber]);
+    _currentPlayer = _gameStateSerializer.DeserializeCurrentPlayer(_savedGames[_gameNumber]);
 
-	_boardRenderer.setupSavedBoard(_board, tmpboard);
-	updateBoardColors();
+    _boardRenderer.setupSavedBoard(_board, tmpboard);
+    updateBoardColors();
 }
 
-void Board::updateBoardColors() {
+void Board::updateBoardColors()
+{
     // Reset all squares to their default colors
     _squareRenderer.resetSquareColors();
 
     // Highlight the last move
-    if (_lastMoveFrom >= 0 && _lastMoveFrom < 64) {
+    if (_lastMoveFrom >= 0 && _lastMoveFrom < 64)
+    {
         _squareRenderer.updateSquareColor(_lastMoveFrom, LAST_MOVE_COLOR);
     }
-    if (_lastMoveTo >= 0 && _lastMoveTo < 64) {
+    if (_lastMoveTo >= 0 && _lastMoveTo < 64)
+    {
         _squareRenderer.updateSquareColor(_lastMoveTo, LAST_MOVE_COLOR);
     }
 
     // Highlight capture moves
-    for (int pos : _pieceSelector.getCaptureMoves()) {
+    for (int pos : _pieceSelector.getCaptureMoves())
+    {
         _squareRenderer.updateSquareColor(pos, CAPTURE_MOVE_COLOR);
     }
 
     // Check if any king is in check and highlight the checking piece
     int whiteKingCheckPosition = isKingInCheck(PieceColor::WHITE);
     int blackKingCheckPosition = isKingInCheck(PieceColor::BLACK);
-    if (whiteKingCheckPosition != -1) {
+    if (whiteKingCheckPosition != -1)
+    {
         _squareRenderer.updateSquareColor(whiteKingCheckPosition, KING_CHECK_COLOR); // Light Red
     }
-    if (blackKingCheckPosition != -1) {
+    if (blackKingCheckPosition != -1)
+    {
         _squareRenderer.updateSquareColor(blackKingCheckPosition, KING_CHECK_COLOR); // Light Red
     }
 
@@ -252,19 +296,24 @@ void Board::updateBoardColors() {
     invalidate();
 }
 
-int Board::isKingInCheck(PieceColor color) {
+int Board::isKingInCheck(PieceColor color)
+{
     int kingPosition = (color == PieceColor::WHITE) ? _whiteKingPosition : _blackKingPosition;
 
-    if (kingPosition == -1) {
+    if (kingPosition == -1)
+    {
         return -1; // King not found, should not happen
     }
 
     // Check if any opponent piece can move to the king's position
-    for (int i = 0; i < NUM_SQUARES * NUM_SQUARES; ++i) {
+    for (int i = 0; i < NUM_SQUARES * NUM_SQUARES; ++i)
+    {
         auto& piece = _board[i];
-        if (piece && piece->GetColor() != color) {
+        if (piece && piece->GetColor() != color)
+        {
             std::list<int> possibleMoves = piece->PossibleMoves(_board.data(), i);
-            if (std::find(possibleMoves.begin(), possibleMoves.end(), kingPosition) != possibleMoves.end()) {
+            if (std::find(possibleMoves.begin(), possibleMoves.end(), kingPosition) != possibleMoves.end())
+            {
                 return i; // Return the position of the checking piece
             }
         }
@@ -273,18 +322,22 @@ int Board::isKingInCheck(PieceColor color) {
     return -1; // No check
 }
 
-bool Board::wouldMoveCauseCheck(int from, int to) {
+bool Board::wouldMoveCauseCheck(int from, int to)
+{
     // Temporarily move the piece
     std::unique_ptr<AbstractPiece> tempPiece = std::move(_board[to]);
     _board[to] = std::move(_board[from]);
     _board[from] = nullptr;
 
     // Update king position if the king is moved
-    if (_board[to] && _board[to]->GetType() == PieceType::KING) {
-        if (_board[to]->GetColor() == PieceColor::WHITE) {
+    if (_board[to] && _board[to]->GetType() == PieceType::KING)
+    {
+        if (_board[to]->GetColor() == PieceColor::WHITE)
+        {
             _whiteKingPosition = to;
         }
-        else {
+        else
+        {
             _blackKingPosition = to;
         }
     }
@@ -296,11 +349,14 @@ bool Board::wouldMoveCauseCheck(int from, int to) {
     _board[to] = std::move(tempPiece);
 
     // Restore king position if the king was moved
-    if (_board[from] && _board[from]->GetType() == PieceType::KING) {
-        if (_board[from]->GetColor() == PieceColor::WHITE) {
+    if (_board[from] && _board[from]->GetType() == PieceType::KING)
+    {
+        if (_board[from]->GetColor() == PieceColor::WHITE)
+        {
             _whiteKingPosition = from;
         }
-        else {
+        else
+        {
             _blackKingPosition = from;
         }
     }
@@ -308,13 +364,17 @@ bool Board::wouldMoveCauseCheck(int from, int to) {
     return isInCheck;
 }
 
-bool Board::hasLegalMoves(PieceColor color) {
-    for (int i = 0; i < NUM_SQUARES * NUM_SQUARES; ++i) {
+bool Board::hasLegalMoves(PieceColor color)
+{
+    for (int i = 0; i < NUM_SQUARES * NUM_SQUARES; ++i)
+    {
         auto& piece = _board[i];
-        if (piece && piece->GetColor() == color) {
+        if (piece && piece->GetColor() == color)
+        {
             std::list<int> possibleMoves = piece->PossibleMoves(_board.data(), i);
             std::list<int> validMoves = filterValidMoves(possibleMoves, i);
-            if (!validMoves.empty()) {
+            if (!validMoves.empty())
+            {
                 return true;
             }
         }
@@ -322,19 +382,29 @@ bool Board::hasLegalMoves(PieceColor color) {
     return false;
 }
 
-bool Board::hasCheckmate(PieceColor color) {
-    if (isKingInCheck(color) != -1 && !hasLegalMoves(color)) {
+bool Board::hasCheckmate(PieceColor color)
+{
+    if (isKingInCheck(color) != -1 && !hasLegalMoves(color))
+    {
         return true;
     }
     return false;
 }
 
-std::list<int> Board::filterValidMoves(const std::list<int>& possibleMoves, int from) {
+std::list<int> Board::filterValidMoves(const std::list<int>& possibleMoves, int from)
+{
     std::list<int> validMoves;
-    for (int to : possibleMoves) {
-        if (!wouldMoveCauseCheck(from, to)) {
+    for (int to : possibleMoves)
+    {
+        if (!wouldMoveCauseCheck(from, to))
+        {
             validMoves.push_back(to);
         }
     }
     return validMoves;
+}
+
+void Board::setPlayerTurnCallback(touchgfx::GenericCallback<PieceColor>* callback)
+{
+    playerTurnCallback = callback;
 }

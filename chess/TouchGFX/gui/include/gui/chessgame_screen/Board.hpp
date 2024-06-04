@@ -20,6 +20,7 @@
 #include <touchgfx/mixins/FadeAnimator.hpp>
 #include <touchgfx/containers/Container.hpp>
 #include <BitmapDatabase.hpp>
+#include <touchgfx/Callback.hpp>
 
 using namespace touchgfx;
 
@@ -32,20 +33,20 @@ public:
     virtual void handleClickEvent(int position);
     virtual void serializeBoardState();
 
-
     // save and load game functions
-	virtual void saveGame(int _gameNumber);
-	virtual void loadGame(int _gameNumber);
-	virtual void resetGame();
+    virtual void saveGame(int _gameNumber);
+    virtual void loadGame(int _gameNumber);
+    virtual void resetGame();
+
+    void setPlayerTurnCallback(touchgfx::GenericCallback<PieceColor>* callback);
 
 protected:
     std::array<std::unique_ptr<AbstractPiece>, 64> _board;
     PieceColor _currentPlayer;
-    
-    int _selectedPiecePosition; // Track the currently selected piece position
-    touchgfx::FadeAnimator< touchgfx::Image > Check;
-    virtual void MovePiece(int from, int to);
 
+    int _selectedPiecePosition; // Track the currently selected piece position
+    touchgfx::FadeAnimator<touchgfx::Image> Check;
+    virtual void MovePiece(int from, int to);
 
 private:
     void highlightPieceAndMoves(int position);
@@ -67,10 +68,11 @@ private:
     SquareRenderer _squareRenderer;
     BoardRenderer _boardRenderer;
     PieceSelector _pieceSelector;
-	GameStateSerializer _gameStateSerializer;
+    GameStateSerializer _gameStateSerializer;
 
     std::string _savedGames[3];
 
+    touchgfx::GenericCallback<PieceColor>* playerTurnCallback; // Player turn callback
 };
 
 #endif /* BOARD_HPP */
