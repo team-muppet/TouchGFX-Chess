@@ -376,3 +376,8 @@ void Board::setPlayerTurnCallback(touchgfx::GenericCallback<PieceColor>* callbac
 {
     playerTurnCallback = callback;
 }
+
+PieceColor Board::getPlayerTurn()
+{
+    return _currentPlayer;
+}

@@ -72,24 +72,24 @@ void ChessGameView::screenClickedHandler(const Box& i, const ClickEvent& e)
 
 void ChessGameView::buttonCallbackHandler(const ButtonWithIcon& src, const ClickEvent& e)
 {
-    if (&src == &NewGameButton)
-    {
-        _chessboard.resetGame();
-        _chessboard.setupBoard();
-        _chessTimer.reset();
-        _chessTimer.resume();
-
-        // Set player turn callback again after resetting the game
-        _chessboard.setPlayerTurnCallback(&playerTurnCallback);
-    }
-    else if (&src == &SaveButton)
+    if (&src == &SaveButton)
     {
         _chessboard.saveGame(0);
+        return;
     }
-    else if (&src == &LoadButton)
+
+    _chessboard.resetGame();
+    _chessboard.setupBoard();
+    _chessTimer.reset();
+    _chessTimer.resume();
+
+    if (&src == &LoadButton)
     {
         _chessboard.loadGame(0);
     }
+    
+
+    updatePlayerTurn(_chessboard.getPlayerTurn());
 }
 
 void ChessGameView::setWhiteTimer(uint8_t minutes, uint8_t seconds)
@@ -124,5 +124,5 @@ void ChessGameView::updatePlayerTurn(PieceColor color)
     }
     PlayerTurn.invalidate(); // Redraw the PlayerTurn box
 
-    _chessTimer.changePlayer();
+    _chessTimer.setPlayer(color);
 }

@@ -9,7 +9,7 @@ class ChessTimer
 {
 public:
     ChessTimer(PieceColor currentPlayer);
-    void changePlayer();
+    void setPlayer(PieceColor currentPlayer);
     void resume();
     void pause();
     void tick();

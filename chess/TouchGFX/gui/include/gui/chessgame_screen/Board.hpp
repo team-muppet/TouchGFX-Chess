@@ -38,6 +38,7 @@ public:
     virtual void resetGame();
 
     void setPlayerTurnCallback(touchgfx::GenericCallback<PieceColor>* callback);
+    PieceColor getPlayerTurn();
 
 protected:
     std::array<std::unique_ptr<AbstractPiece>, 64> _board;

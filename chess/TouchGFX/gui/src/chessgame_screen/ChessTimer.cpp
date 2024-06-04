@@ -5,9 +5,9 @@ ChessTimer::ChessTimer(PieceColor currentPlayer)
     _whiteTimeUpdateCallback(nullptr), _blackTimeUpdateCallback(nullptr)
 {}
 
-void ChessTimer::changePlayer()
+void ChessTimer::setPlayer(PieceColor color)
 {
-    _currentPlayer = _currentPlayer == PieceColor::BLACK ? PieceColor::WHITE : PieceColor::BLACK; // Toggle player color.
+    _currentPlayer = color;
 }
 
 void ChessTimer::resume()
