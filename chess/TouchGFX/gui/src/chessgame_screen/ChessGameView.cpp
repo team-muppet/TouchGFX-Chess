@@ -3,12 +3,12 @@
 #include <BitmapDatabase.hpp>
 
 ChessGameView::ChessGameView()
-    : buttonClickedCallback(this, &ChessGameView::buttonCallbackHandler),
-    screenClickedCallback(this, &ChessGameView::screenClickedHandler),
+    : screenClickedCallback(this, &ChessGameView::screenClickedHandler),
+    buttonClickedCallback(this, &ChessGameView::buttonCallbackHandler),
+    _chessTimer(PieceColor::WHITE),
     whiteTimeUpdateCallback(this, &ChessGameView::whiteTimerUpdated),
     blackTimeUpdateCallback(this, &ChessGameView::blackTimerUpdated),
-    playerTurnCallback(this, &ChessGameView::updatePlayerTurn),
-    _chessTimer(PieceColor::WHITE)
+    playerTurnCallback(this, &ChessGameView::updatePlayerTurn)
 {}
 
 void ChessGameView::setupScreen()
