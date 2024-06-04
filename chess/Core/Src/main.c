@@ -179,10 +179,30 @@ int main(void)
 
   /* USER CODE END 2 */
   if(f_mount(&SDFatFS, SDPath, 1) == FR_OK)
-      {
-	  //Error_Handler();
-      }
+        {
+  	  FIL file;
+  	     UINT bytesWritten;
+  	     const char* filename = "Game2.txt";
+  	     char* data = "Hello";
 
+  	     // Open the file for writing (create if not exists)
+  	     if(f_open(&file, filename, FA_WRITE | FA_CREATE_ALWAYS) == FR_OK)
+  	     {
+  	         // Write the data to the file
+  	         f_write(&file, data, 6, &bytesWritten);
+
+  	         // Close the file
+  	         f_close(&file);
+  	     }
+  	     else
+  	     {
+  	    	 //Error_Handler();
+  	     }
+        }
+    else
+    {
+  	  //Error_Handler();
+    }
   /* Init scheduler */
   osKernelInitialize();
 
@@ -579,9 +599,8 @@ static void MX_SDMMC1_SD_Init(void)
   hsd1.Init.ClockEdge = SDMMC_CLOCK_EDGE_RISING;
   hsd1.Init.ClockPowerSave = SDMMC_CLOCK_POWER_SAVE_ENABLE;
   hsd1.Init.BusWide = SDMMC_BUS_WIDE_4B;
-  hsd1.Init.HardwareFlowControl = SDMMC_HARDWARE_FLOW_CONTROL_DISABLE;
+  hsd1.Init.HardwareFlowControl = SDMMC_HARDWARE_FLOW_CONTROL_ENABLE;
   hsd1.Init.ClockDiv = 1;
-  hsd1.Init.TranceiverPresent = SDMMC_TRANSCEIVER_PRESENT;
   /* USER CODE BEGIN SDMMC1_Init 2 */
 
   /* USER CODE END SDMMC1_Init 2 */
@@ -612,7 +631,7 @@ static void MX_MDMA_Init(void)
   hmdma_mdma_channel0_sdmmc1_end_data_0.Init.SourceDataSize = MDMA_SRC_DATASIZE_BYTE;
   hmdma_mdma_channel0_sdmmc1_end_data_0.Init.DestDataSize = MDMA_DEST_DATASIZE_BYTE;
   hmdma_mdma_channel0_sdmmc1_end_data_0.Init.DataAlignment = MDMA_DATAALIGN_PACKENABLE;
-  hmdma_mdma_channel0_sdmmc1_end_data_0.Init.BufferTransferLength = 1;
+  hmdma_mdma_channel0_sdmmc1_end_data_0.Init.BufferTransferLength = 512;
   hmdma_mdma_channel0_sdmmc1_end_data_0.Init.SourceBurst = MDMA_SOURCE_BURST_SINGLE;
   hmdma_mdma_channel0_sdmmc1_end_data_0.Init.DestBurst = MDMA_DEST_BURST_SINGLE;
   hmdma_mdma_channel0_sdmmc1_end_data_0.Init.SourceBlockAddressOffset = 0;
@@ -700,10 +719,11 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOC_CLK_ENABLE();
   __HAL_RCC_GPIOE_CLK_ENABLE();
   __HAL_RCC_GPIOJ_CLK_ENABLE();
+  __HAL_RCC_GPIOA_CLK_ENABLE();
   __HAL_RCC_GPIOH_CLK_ENABLE();
   __HAL_RCC_GPIOI_CLK_ENABLE();
+  __HAL_RCC_GPIOB_CLK_ENABLE();
   __HAL_RCC_GPIOF_CLK_ENABLE();
-  __HAL_RCC_GPIOA_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOG, LED3_Pin|LED2_Pin, GPIO_PIN_SET);
@@ -734,7 +754,7 @@ static void MX_GPIO_Init(void)
   /*Configure GPIO pin : PI8 */
   GPIO_InitStruct.Pin = GPIO_PIN_8;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOI, &GPIO_InitStruct);
 
   /*Configure GPIO pin : FRAME_RATE_Pin */
@@ -930,15 +950,15 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
   */
 void Error_Handler(void)
 {
-	while(1)
-	{
-		HAL_GPIO_TogglePin(GPIOG, GPIO_PIN_2);
-		HAL_Delay(500); // Delay for 500 ms
-
-	}
   /* USER CODE BEGIN Error_Handler_Debug */
   /* User can add his own implementation to report the HAL error return state */
 
+	while(1)
+	{
+		// Optionally, you can flash an LED or send a debug message here
+		        HAL_GPIO_TogglePin(GPIOG, GPIO_PIN_2); // Example: Toggle LED to indicate error
+		        HAL_Delay(500); // Delay for a while
+	}
   /* USER CODE END Error_Handler_Debug */
 }
 
