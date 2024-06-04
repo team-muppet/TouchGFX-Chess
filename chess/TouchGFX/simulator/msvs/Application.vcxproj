@@ -22,6 +22,7 @@
     <ClCompile Include="..\..\gui\src\chessgame_screen\SquareRenderer.cpp"/>
     <ClCompile Include="..\..\gui\src\common\FrontendApplication.cpp"/>
     <ClCompile Include="..\..\generated\gui_generated\src\common\FrontendApplicationBase.cpp"/>
+    <ClCompile Include="..\..\gui\src\common\GameStateSerializer.cpp"/>
     <ClCompile Include="..\..\gui\src\model\Model.cpp"/>
     <ClCompile Include="..\..\generated\simulator\src\video\SoftwareMJPEGDecoder.cpp"/>
     <ClCompile Include="..\..\gui\src\chessgame_screen\ChessGamePresenter.cpp"/>
@@ -29,6 +30,7 @@
     <ClCompile Include="..\..\generated\gui_generated\src\chessgame_screen\ChessGameViewBase.cpp"/>
     <ClCompile Include="..\..\gui\src\chessgame_screen\Board.cpp"/>
     <ClCompile Include="..\..\gui\src\common\Snackbar.cpp"/>
+    <ClCompile Include="..\..\gui\include\gui\common\GameStateSerializer.cpp"/>
   </ItemGroup>
   <ItemGroup>
     <None Include="$(ApplicationRoot)\assets\texts\texts.xml"/>
@@ -184,6 +186,7 @@
     <ClInclude Include="..\..\gui\include\gui\common\FrontendHeap.hpp"/>
     <ClInclude Include="..\..\generated\gui_generated\include\gui_generated\common\FrontendHeapBase.hpp"/>
     <ClInclude Include="..\..\generated\simulator\include\simulator\video\MJPEGDecoder.hpp"/>
+    <ClInclude Include="..\..\gui\include\gui\common\GameStateSerializer.hpp"/>
     <ClInclude Include="..\..\gui\include\gui\model\Model.hpp"/>
     <ClInclude Include="..\..\gui\include\gui\model\ModelListener.hpp"/>
     <ClInclude Include="..\..\generated\gui_generated\include\gui_generated\common\SimConstants.hpp"/>

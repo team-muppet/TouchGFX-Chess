@@ -645,6 +645,11 @@
 			<locationURI>PARENT-1-PROJECT_LOC/TouchGFX/target/generated/tgfx_jpeg_utils.c</locationURI>
 		</link>
 		<link>
+			<name>Application/User/gui/GameStateSerializer.cpp</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/TouchGFX/gui/include/gui/common/GameStateSerializer.cpp</locationURI>
+		</link>
+		<link>
 			<name>Application/User/gui/Board.cpp</name>
 			<type>1</type>
 			<locationURI>PARENT-1-PROJECT_LOC/TouchGFX/gui/src/chessgame_screen/Board.cpp</locationURI>
@@ -678,6 +683,11 @@
 			<name>Application/User/gui/FrontendApplication.cpp</name>
 			<type>1</type>
 			<locationURI>PARENT-1-PROJECT_LOC/TouchGFX/gui/src/common/FrontendApplication.cpp</locationURI>
+		</link>
+		<link>
+			<name>Application/User/gui/GameStateSerializer.cpp</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/TouchGFX/gui/src/common/GameStateSerializer.cpp</locationURI>
 		</link>
 		<link>
 			<name>Application/User/gui/Snackbar.cpp</name>

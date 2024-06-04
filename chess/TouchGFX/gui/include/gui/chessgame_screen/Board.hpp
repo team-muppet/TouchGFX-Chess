@@ -16,6 +16,7 @@
 #include <gui/chessgame_screen/PieceSelector.hpp>
 #include <gui/chessgame_screen/SquareRenderer.hpp>
 #include <gui/chessgame_screen/BoardRenderer.hpp>
+#include <gui/common/GameStateSerializer.hpp>
 #include <touchgfx/mixins/FadeAnimator.hpp>
 #include <touchgfx/containers/Container.hpp>
 #include <BitmapDatabase.hpp>
@@ -31,6 +32,11 @@ public:
     virtual void handleClickEvent(int position);
     virtual void serializeBoardState();
 
+
+    // save and load game functions
+	virtual void saveGame(int _gameNumber);
+	virtual void loadGame(int _gameNumber);
+
 protected:
     std::array<std::unique_ptr<AbstractPiece>, 64> _board;
     PieceColor _currentPlayer;
@@ -38,6 +44,7 @@ protected:
     int _selectedPiecePosition; // Track the currently selected piece position
     touchgfx::FadeAnimator< touchgfx::Image > Check;
     virtual void MovePiece(int from, int to);
+
 
 private:
     void highlightPieceAndMoves(int position);
@@ -59,6 +66,10 @@ private:
     SquareRenderer _squareRenderer;
     BoardRenderer _boardRenderer;
     PieceSelector _pieceSelector;
+	GameStateSerializer _gameStateSerializer;
+
+    std::string _savedGames[3];
+
 };
 
 #endif /* BOARD_HPP */

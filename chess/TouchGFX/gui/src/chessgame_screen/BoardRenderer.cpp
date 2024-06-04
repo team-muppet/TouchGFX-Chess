@@ -81,6 +81,18 @@ void BoardRenderer::setupBoard(std::array<std::unique_ptr<AbstractPiece>, 64>& b
     }
 }
 
+void BoardRenderer::setupSavedBoard(std::array<std::unique_ptr<AbstractPiece>, 64>& board, std::array<std::unique_ptr<AbstractPiece>, 64>& tmpboard)
+{
+    for (auto& piece : board) {
+        piece.reset();  // This sets the unique_ptr to nullptr
+    }
+    for (int i = 0; i < 64; ++i) {
+        if (tmpboard[i]) {
+            addPiece(std::move(tmpboard[i]), i, board);
+        }
+    }
+}
+
 void BoardRenderer::addPiece(std::unique_ptr<AbstractPiece> piece, int position, std::array<std::unique_ptr<AbstractPiece>, 64>& board) {
     board[position] = std::move(piece);
 }

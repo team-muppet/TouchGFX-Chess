@@ -32,6 +32,7 @@ Board::Board()
     add(_squareRenderer);
     add(_pieceSelector);
     add(_boardRenderer);
+	_gameStateSerializer = GameStateSerializer();
 
     setupBoard();
 }
@@ -169,6 +170,11 @@ void Board::MovePiece(int from, int to) {
     updateBoardColors();
 }
 
+void Board::saveGame(int _gameNumber)
+{
+	_savedGames[_gameNumber] = _gameStateSerializer.SerializeGameState(_board, _currentPlayer);
+}
+
 void Board::highlightPieceAndMoves(int position) {
     auto& piece = _board[position];
     if (!piece) {
@@ -190,6 +196,13 @@ void Board::highlightPieceAndMoves(int position) {
 
     // Update board colors to highlight valid moves and captures
     updateBoardColors();
+}
+
+void Board::loadGame(int _gameNumber)
+{
+    std::array<std::unique_ptr<AbstractPiece>, 64> tmpboard = _gameStateSerializer.DeserializeBoardState(_savedGames[_gameNumber], _boardRenderer);
+	_currentPlayer = _gameStateSerializer.DeserializeCurrentPlayer(_savedGames[_gameNumber]);
+	updateBoardColors();
 }
 
 void Board::updateBoardColors() {
