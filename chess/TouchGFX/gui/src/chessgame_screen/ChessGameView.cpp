@@ -2,7 +2,13 @@
 #include <texts/TextKeysAndLanguages.hpp>
 #include <BitmapDatabase.hpp>
 
-ChessGameView::ChessGameView() : buttonClickedCallback(this, &ChessGameView::buttonCallbackHandler), screenClickedCallback(this, &ChessGameView::screenClickedHandler)
+ChessGameView::ChessGameView()
+    : buttonClickedCallback(this, &ChessGameView::buttonCallbackHandler),
+    screenClickedCallback(this, &ChessGameView::screenClickedHandler),
+    whiteTimeUpdateCallback(this, &ChessGameView::whiteTimerUpdated),
+    blackTimeUpdateCallback(this, &ChessGameView::blackTimerUpdated),
+    playerTurnCallback(this, &ChessGameView::updatePlayerTurn),
+    _chessTimer(PieceColor::WHITE)
 {}
 
 void ChessGameView::setupScreen()
@@ -12,14 +18,28 @@ void ChessGameView::setupScreen()
     ChessGameViewBase::setupScreen();
 
     Background.setClickAction(screenClickedCallback);
-	SaveButton.setClickAction(buttonClickedCallback);
-	NewGameButton.setClickAction(buttonClickedCallback);
-	LoadButton.setClickAction(buttonClickedCallback);
+    SaveButton.setClickAction(buttonClickedCallback);
+    NewGameButton.setClickAction(buttonClickedCallback);
+    LoadButton.setClickAction(buttonClickedCallback);
+
+    // Initialize timers
+    _chessTimer.setWhiteTimeUpdateCallback(&whiteTimeUpdateCallback);
+    _chessTimer.setBlackTimeUpdateCallback(&blackTimeUpdateCallback);
+    _chessTimer.resume(); // Start the timer
+
+    // Set player turn callback
+    _chessboard.setPlayerTurnCallback(&playerTurnCallback);
 }
 
 void ChessGameView::tearDownScreen()
 {
     ChessGameViewBase::tearDownScreen();
+    _chessTimer.pause(); // Pause the timer
+}
+
+void ChessGameView::handleTickEvent()
+{
+    _chessTimer.tick();
 }
 
 void ChessGameView::screenClickedHandler(const Box& i, const ClickEvent& e)
@@ -34,7 +54,7 @@ void ChessGameView::screenClickedHandler(const Box& i, const ClickEvent& e)
         return;
     }
 
-    //Debug section
+    // Debug section
     Unicode::snprintf(locationTextBoxBuffer, LOCATIONTEXTBOX_SIZE, "%c%d", e.getX() / 34 + 65, 8 - e.getY() / 34);
     locationTextBox.invalidate();
     locationTextBox.invalidateContent();
@@ -52,11 +72,15 @@ void ChessGameView::screenClickedHandler(const Box& i, const ClickEvent& e)
 
 void ChessGameView::buttonCallbackHandler(const ButtonWithIcon& src, const ClickEvent& e)
 {
-    
     if (&src == &NewGameButton)
     {
         _chessboard.resetGame();
         _chessboard.setupBoard();
+        _chessTimer.reset();
+        _chessTimer.resume();
+
+        // Set player turn callback again after resetting the game
+        _chessboard.setPlayerTurnCallback(&playerTurnCallback);
     }
     else if (&src == &SaveButton)
     {
@@ -66,4 +90,39 @@ void ChessGameView::buttonCallbackHandler(const ButtonWithIcon& src, const Click
     {
         _chessboard.loadGame(0);
     }
+}
+
+void ChessGameView::setWhiteTimer(uint8_t minutes, uint8_t seconds)
+{
+    WhiteClock.setTime24Hour(minutes, seconds, 0);
+}
+
+void ChessGameView::setBlackTimer(uint8_t minutes, uint8_t seconds)
+{
+    BlackClock.setTime24Hour(minutes, seconds, 0);
+}
+
+void ChessGameView::whiteTimerUpdated(uint8_t minutes, uint8_t seconds)
+{
+    setWhiteTimer(minutes, seconds);
+}
+
+void ChessGameView::blackTimerUpdated(uint8_t minutes, uint8_t seconds)
+{
+    setBlackTimer(minutes, seconds);
+}
+
+void ChessGameView::updatePlayerTurn(PieceColor color)
+{
+    if (color == PieceColor::WHITE)
+    {
+        PlayerTurn.setColor(Color::getColorFromRGB(255, 255, 255)); // White color
+    }
+    else
+    {
+        PlayerTurn.setColor(Color::getColorFromRGB(0, 0, 0)); // Black color
+    }
+    PlayerTurn.invalidate(); // Redraw the PlayerTurn box
+
+    _chessTimer.changePlayer();
 }
