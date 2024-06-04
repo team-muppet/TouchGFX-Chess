@@ -36,6 +36,7 @@ public:
     // save and load game functions
 	virtual void saveGame(int _gameNumber);
 	virtual void loadGame(int _gameNumber);
+	virtual void resetGame();
 
 protected:
     std::array<std::unique_ptr<AbstractPiece>, 64> _board;

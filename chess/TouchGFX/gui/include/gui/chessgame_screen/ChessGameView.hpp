@@ -15,9 +15,12 @@ public:
 
     // Declaring callback handler for Box
     void imageClickedHandler(const ScalableImage& i, const ClickEvent& e);
+    void buttonCallbackHandler(const ButtonWithIcon& src, const ClickEvent& e);
+
 protected:
     // Declaring callback type of ScalableImage and clickEvent
     Callback<ChessGameView, const ScalableImage&, const ClickEvent&> imageClickedCallback;
+	Callback<ChessGameView, const ButtonWithIcon&, const ClickEvent&> buttonClickedCallback;
     ScalableImage _testpawn;
     //Add Board to view
     Board _chessboard;

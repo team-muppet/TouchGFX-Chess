@@ -2,7 +2,7 @@
 #include <texts/TextKeysAndLanguages.hpp>
 #include <BitmapDatabase.hpp>
 
-ChessGameView::ChessGameView() : imageClickedCallback(this, &ChessGameView::imageClickedHandler)
+ChessGameView::ChessGameView() : buttonClickedCallback(this, &ChessGameView::buttonCallbackHandler), imageClickedCallback(this, &ChessGameView::imageClickedHandler)
 {}
 
 void ChessGameView::setupScreen()
@@ -14,6 +14,9 @@ void ChessGameView::setupScreen()
     
     Background.setAlpha(100);
     ChessBoard.setClickAction(imageClickedCallback);
+	SaveButton.setClickAction(buttonClickedCallback);
+	NewGameButton.setClickAction(buttonClickedCallback);
+	LoadButton.setClickAction(buttonClickedCallback);
 }
 
 void ChessGameView::tearDownScreen()
@@ -47,5 +50,23 @@ void ChessGameView::imageClickedHandler(const ScalableImage& i, const ClickEvent
     else
     {
         // Menu clicks
+    }
+}
+
+void ChessGameView::buttonCallbackHandler(const ButtonWithIcon& src, const ClickEvent& e)
+{
+    
+    if (&src == &NewGameButton)
+    {
+        _chessboard.resetGame();
+        _chessboard.setupBoard();
+    }
+    else if (&src == &SaveButton)
+    {
+        _chessboard.saveGame(0);
+    }
+    else if (&src == &LoadButton)
+    {
+        _chessboard.loadGame(0);
     }
 }

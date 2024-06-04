@@ -30,7 +30,6 @@
     <ClCompile Include="..\..\generated\gui_generated\src\chessgame_screen\ChessGameViewBase.cpp"/>
     <ClCompile Include="..\..\gui\src\chessgame_screen\Board.cpp"/>
     <ClCompile Include="..\..\gui\src\common\Snackbar.cpp"/>
-    <ClCompile Include="..\..\gui\include\gui\common\GameStateSerializer.cpp"/>
   </ItemGroup>
   <ItemGroup>
     <None Include="$(ApplicationRoot)\assets\texts\texts.xml"/>

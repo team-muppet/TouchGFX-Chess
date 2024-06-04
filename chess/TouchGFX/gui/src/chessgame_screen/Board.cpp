@@ -198,6 +198,14 @@ void Board::highlightPieceAndMoves(int position) {
     updateBoardColors();
 }
 
+void Board::resetGame()
+{
+	_currentPlayer = PieceColor::WHITE;
+    for (auto& piece : _board) {
+        piece.reset();  // This sets the unique_ptr to nullptr
+    }
+}
+
 void Board::loadGame(int _gameNumber)
 {
     std::array<std::unique_ptr<AbstractPiece>, 64> tmpboard = _gameStateSerializer.DeserializeBoardState(_savedGames[_gameNumber], _boardRenderer);

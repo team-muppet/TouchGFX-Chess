@@ -243,9 +243,6 @@
     <ClCompile Include="..\..\gui\src\common\GameStateSerializer.cpp">
       <Filter>Source Files\gui\chessgame_screen</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\gui\include\gui\common\GameStateSerializer.cpp">
-      <Filter>Source Files\gui\common</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="$(ApplicationRoot)\assets\texts\texts.xml">
