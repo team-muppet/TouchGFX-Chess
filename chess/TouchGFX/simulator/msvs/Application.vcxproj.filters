@@ -246,6 +246,12 @@
     <ClCompile Include="..\..\gui\src\chessgame_screen\ChessTimer.cpp">
       <Filter>Source Files\gui\chessgame_screen</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\gui\src\chessgame_screen\BoardState.cpp">
+      <Filter>Source Files\gui\chessgame_screen</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\gui\src\chessgame_screen\BoardStateModel.cpp">
+      <Filter>Source Files\gui\chessgame_screen</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="$(ApplicationRoot)\assets\texts\texts.xml">
@@ -740,6 +746,12 @@
       <Filter>Header Files\gui\chessgame_screen</Filter>
     </ClInclude>
     <ClInclude Include="..\..\gui\include\gui\chessgame_screen\ChessTimer.hpp">
+      <Filter>Header Files\gui\chessgame_screen</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gui\include\gui\chessgame_screen\BoardState.hpp">
+      <Filter>Header Files\gui\chessgame_screen</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gui\include\gui\chessgame_screen\BoardStateModel.hpp">
       <Filter>Header Files\gui\chessgame_screen</Filter>
     </ClInclude>
   </ItemGroup>

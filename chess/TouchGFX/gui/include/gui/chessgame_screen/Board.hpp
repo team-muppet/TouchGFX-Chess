@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include <array>
 #include <memory>
+#include <utility>
 
 #include <gui/chessgame_screen/AbstractPiece.hpp>
 #include <gui/chessgame_screen/ChessEnums.hpp>
@@ -21,6 +22,8 @@
 #include <touchgfx/containers/Container.hpp>
 #include <BitmapDatabase.hpp>
 #include <touchgfx/Callback.hpp>
+#include <gui/chessgame_screen/BoardState.hpp>
+#include <gui/chessgame_screen/BoardStateModel.hpp>
 
 using namespace touchgfx;
 
@@ -41,29 +44,20 @@ public:
     PieceColor getPlayerTurn();
 
 protected:
-    std::array<std::unique_ptr<AbstractPiece>, 64> _board;
-    PieceColor _currentPlayer;
+    BoardState _boardState;
+    BoardStateModel _boardStateModel;
 
-    int _selectedPiecePosition; // Track the currently selected piece position
     touchgfx::FadeAnimator<touchgfx::Image> Check;
     virtual void MovePiece(int from, int to);
 
 private:
     void highlightPieceAndMoves(int position);
-    void updateBoardColors(); // New method to update board colors
-    int isKingInCheck(PieceColor color); // Modified method to return the position of the checking piece
+    void updateBoardColors();
+    int isKingInCheck(PieceColor color);
     bool wouldMoveCauseCheck(int from, int to);
-    bool hasLegalMoves(PieceColor color); // New method to check if the player has any legal moves
-    bool hasCheckmate(PieceColor color); // New method to check for checkmate
+    bool hasLegalMoves(PieceColor color);
+    bool hasCheckmate(PieceColor color);
     std::list<int> filterValidMoves(const std::list<int>& possibleMoves, int from);
-
-    // New variables for tracking the last move
-    int _lastMoveFrom; // Track the starting position of the last move
-    int _lastMoveTo;   // Track the ending position of the last move
-
-    // Track king positions
-    int _whiteKingPosition;
-    int _blackKingPosition;
 
     SquareRenderer _squareRenderer;
     BoardRenderer _boardRenderer;

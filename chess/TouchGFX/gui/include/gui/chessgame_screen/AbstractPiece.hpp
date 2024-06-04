@@ -6,6 +6,7 @@
 
 #include <touchgfx/widgets/Image.hpp>
 #include <touchgfx/widgets/ScalableImage.hpp>
+#include <touchgfx/containers/Container.hpp>
 
 using namespace touchgfx;
 

@@ -18,6 +18,8 @@
     <ClCompile Include="$(ApplicationRoot)\simulator\main.cpp"/>
     <ClCompile Include="$(ApplicationRoot)\generated\simulator\src\mainBase.cpp"/>
     <ClCompile Include="..\..\gui\src\chessgame_screen\BoardRenderer.cpp"/>
+    <ClCompile Include="..\..\gui\src\chessgame_screen\BoardState.cpp"/>
+    <ClCompile Include="..\..\gui\src\chessgame_screen\BoardStateModel.cpp"/>
     <ClCompile Include="..\..\gui\src\chessgame_screen\ChessTimer.cpp"/>
     <ClCompile Include="..\..\gui\src\chessgame_screen\PieceSelector.cpp"/>
     <ClCompile Include="..\..\gui\src\chessgame_screen\SquareRenderer.cpp"/>
@@ -176,6 +178,8 @@
     <ClInclude Include="..\..\gui\include\gui\chessgame_screen\Bishop.hpp"/>
     <ClInclude Include="..\..\gui\include\gui\chessgame_screen\Board.hpp"/>
     <ClInclude Include="..\..\gui\include\gui\chessgame_screen\BoardRenderer.hpp"/>
+    <ClInclude Include="..\..\gui\include\gui\chessgame_screen\BoardState.hpp"/>
+    <ClInclude Include="..\..\gui\include\gui\chessgame_screen\BoardStateModel.hpp"/>
     <ClInclude Include="..\..\gui\include\gui\chessgame_screen\ChessEnums.hpp"/>
     <ClInclude Include="..\..\gui\include\gui\chessgame_screen\ChessTimer.hpp"/>
     <ClInclude Include="..\..\gui\include\gui\chessgame_screen\PieceSelector.hpp"/>
