@@ -243,6 +243,9 @@
     <ClCompile Include="..\..\gui\src\common\GameStateSerializer.cpp">
       <Filter>Source Files\gui\chessgame_screen</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\gui\src\chessgame_screen\ChessTimer.cpp">
+      <Filter>Source Files\gui\chessgame_screen</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="$(ApplicationRoot)\assets\texts\texts.xml">
@@ -734,6 +737,9 @@
       <Filter>Header Files\gui\common</Filter>
     </ClInclude>
     <ClInclude Include="..\..\gui\include\gui\common\GameStateSerializer.hpp">
+      <Filter>Header Files\gui\chessgame_screen</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gui\include\gui\chessgame_screen\ChessTimer.hpp">
       <Filter>Header Files\gui\chessgame_screen</Filter>
     </ClInclude>
   </ItemGroup>

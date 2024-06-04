@@ -10,19 +10,34 @@
       </Text>
     </TextGroup>
     <TextGroup Id="Unsorted">
+      <Text Id="__SingleUse_MGFJ" Alignment="Left" TypographyId="Header">
+        <Translation Language="GB">0</Translation>
+      </Text>
+      <Text Id="__SingleUse_Y56L" Alignment="Left" TypographyId="Header">
+        <Translation Language="GB">Black:</Translation>
+      </Text>
+      <Text Id="WhiteScore" Alignment="Left" TypographyId="Header">
+        <Translation Language="GB">0</Translation>
+      </Text>
+      <Text Id="__SingleUse_ZU3J" Alignment="Right" TypographyId="Default">
+        <Translation Language="GB">&lt;value&gt;</Translation>
+      </Text>
+      <Text Id="__SingleUse_NZUF" Alignment="Left" TypographyId="Header">
+        <Translation Language="GB">0</Translation>
+      </Text>
+      <Text Id="__SingleUse_AYOG" Alignment="Left" TypographyId="Header">
+        <Translation Language="GB">White:</Translation>
+      </Text>
       <Text Id="__SingleUse_WXYY" Alignment="Left" TypographyId="Default">
         <Translation Language="GB">A1</Translation>
       </Text>
-      <Text Id="__SingleUse_VERC" Alignment="Left" TypographyId="Default">
-        <Translation Language="GB">&lt;&gt;</Translation>
+      <Text Id="__SingleUse_VERC" Alignment="Right" TypographyId="Default">
+        <Translation Language="GB">T: &lt;&gt;</Translation>
       </Text>
-      <Text Id="__SingleUse_XH2W" Alignment="Left" TypographyId="Default">
-        <Translation Language="GB">&lt;&gt;</Translation>
+      <Text Id="__SingleUse_XH2W" Alignment="Right" TypographyId="Default">
+        <Translation Language="GB">T: &lt;&gt;</Translation>
       </Text>
-      <Text Id="__SingleUse_NGSS" Alignment="Left" TypographyId="Default">
-        <Translation Language="GB">&lt;value&gt;</Translation>
-      </Text>
-      <Text Id="__SingleUse_OR9H" Alignment="Left" TypographyId="Default">
+      <Text Id="__SingleUse_NGSS" Alignment="Right" TypographyId="Default">
         <Translation Language="GB">&lt;value&gt;</Translation>
       </Text>
       <Text Id="__SingleUse_FT70" Alignment="Left" TypographyId="TestBox">
@@ -34,9 +49,10 @@
     </TextGroup>
   </Texts>
   <Typographies>
-    <Typography Id="Default" Font="verdana.ttf" Size="15" Bpp="4" IsVector="no" Direction="LTR" FallbackCharacter="?" WidgetWildcardCharacters="0123456789 :APM" />
+    <Typography Id="Default" Font="verdana.ttf" Size="12" Bpp="4" IsVector="yes" Direction="LTR" FallbackCharacter="?" WidgetWildcardCharacters="0123456789 :APM" WildcardCharacterRanges="0x00-0xFFFF" />
     <Typography Id="Large" Font="verdana.ttf" Size="40" Bpp="4" IsVector="no" Direction="LTR" FallbackCharacter="?" />
     <Typography Id="Small" Font="verdana.ttf" Size="10" Bpp="4" IsVector="no" Direction="LTR" FallbackCharacter="?" />
     <Typography Id="TestBox" Font="verdana.ttf" Size="20" Bpp="4" IsVector="no" Direction="LTR" FallbackCharacter="?" WildcardCharacterRanges="0x00-0xFFFF" />
+    <Typography Id="Header" Font="verdana.ttf" Size="10" Bpp="4" IsVector="yes" Direction="RTL" FallbackCharacter="?" WildcardCharacterRanges="0x00-0xFFFF" />
   </Typographies>
 </TextDatabase>

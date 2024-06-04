@@ -20,9 +20,6 @@ public:
     void tick();
 protected:
     ModelListener* modelListener;
-
-    unsigned int tickCounter;
-    std::chrono::time_point<std::chrono::high_resolution_clock> startTime;
 };
 
 #endif // MODEL_HPP

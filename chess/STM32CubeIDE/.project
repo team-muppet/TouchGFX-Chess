@@ -665,6 +665,11 @@
 			<locationURI>PARENT-1-PROJECT_LOC/TouchGFX/gui/src/chessgame_screen/ChessGameView.cpp</locationURI>
 		</link>
 		<link>
+			<name>Application/User/gui/ChessTimer.cpp</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/TouchGFX/gui/src/chessgame_screen/ChessTimer.cpp</locationURI>
+		</link>
+		<link>
 			<name>Application/User/gui/PieceSelector.cpp</name>
 			<type>1</type>
 			<locationURI>PARENT-1-PROJECT_LOC/TouchGFX/gui/src/chessgame_screen/PieceSelector.cpp</locationURI>
@@ -713,11 +718,6 @@
 			<name>Application/User/generated/Font_verdana_10_4bpp_0.cpp</name>
 			<type>1</type>
 			<locationURI>PARENT-1-PROJECT_LOC/TouchGFX/generated/fonts/src/Font_verdana_10_4bpp_0.cpp</locationURI>
-		</link>
-		<link>
-			<name>Application/User/generated/Font_verdana_15_4bpp_0.cpp</name>
-			<type>1</type>
-			<locationURI>PARENT-1-PROJECT_LOC/TouchGFX/generated/fonts/src/Font_verdana_15_4bpp_0.cpp</locationURI>
 		</link>
 		<link>
 			<name>Application/User/generated/Font_verdana_20_4bpp_0.cpp</name>
@@ -770,11 +770,6 @@
 			<locationURI>PARENT-1-PROJECT_LOC/TouchGFX/generated/fonts/src/Kerning_verdana_10_4bpp.cpp</locationURI>
 		</link>
 		<link>
-			<name>Application/User/generated/Kerning_verdana_15_4bpp.cpp</name>
-			<type>1</type>
-			<locationURI>PARENT-1-PROJECT_LOC/TouchGFX/generated/fonts/src/Kerning_verdana_15_4bpp.cpp</locationURI>
-		</link>
-		<link>
 			<name>Application/User/generated/Kerning_verdana_20_4bpp.cpp</name>
 			<type>1</type>
 			<locationURI>PARENT-1-PROJECT_LOC/TouchGFX/generated/fonts/src/Kerning_verdana_20_4bpp.cpp</locationURI>
@@ -788,11 +783,6 @@
 			<name>Application/User/generated/Table_verdana_10_4bpp.cpp</name>
 			<type>1</type>
 			<locationURI>PARENT-1-PROJECT_LOC/TouchGFX/generated/fonts/src/Table_verdana_10_4bpp.cpp</locationURI>
-		</link>
-		<link>
-			<name>Application/User/generated/Table_verdana_15_4bpp.cpp</name>
-			<type>1</type>
-			<locationURI>PARENT-1-PROJECT_LOC/TouchGFX/generated/fonts/src/Table_verdana_15_4bpp.cpp</locationURI>
 		</link>
 		<link>
 			<name>Application/User/generated/Table_verdana_20_4bpp.cpp</name>
@@ -813,6 +803,61 @@
 			<name>Application/User/generated/VectorFontRendererBuffers.cpp</name>
 			<type>1</type>
 			<locationURI>PARENT-1-PROJECT_LOC/TouchGFX/generated/fonts/src/VectorFontRendererBuffers.cpp</locationURI>
+		</link>
+		<link>
+			<name>Application/User/generated/Vector_Font_verdana_0.cpp</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/TouchGFX/generated/fonts/src/Vector_Font_verdana_0.cpp</locationURI>
+		</link>
+		<link>
+			<name>Application/User/generated/Vector_Font_verdana_1.cpp</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/TouchGFX/generated/fonts/src/Vector_Font_verdana_1.cpp</locationURI>
+		</link>
+		<link>
+			<name>Application/User/generated/Vector_Font_verdana_20.cpp</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/TouchGFX/generated/fonts/src/Vector_Font_verdana_20.cpp</locationURI>
+		</link>
+		<link>
+			<name>Application/User/generated/Vector_Font_verdana_3.cpp</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/TouchGFX/generated/fonts/src/Vector_Font_verdana_3.cpp</locationURI>
+		</link>
+		<link>
+			<name>Application/User/generated/Vector_Font_verdana_31.cpp</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/TouchGFX/generated/fonts/src/Vector_Font_verdana_31.cpp</locationURI>
+		</link>
+		<link>
+			<name>Application/User/generated/Vector_Font_verdana_4.cpp</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/TouchGFX/generated/fonts/src/Vector_Font_verdana_4.cpp</locationURI>
+		</link>
+		<link>
+			<name>Application/User/generated/Vector_Font_verdana_5.cpp</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/TouchGFX/generated/fonts/src/Vector_Font_verdana_5.cpp</locationURI>
+		</link>
+		<link>
+			<name>Application/User/generated/Vector_Kerning_verdana.cpp</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/TouchGFX/generated/fonts/src/Vector_Kerning_verdana.cpp</locationURI>
+		</link>
+		<link>
+			<name>Application/User/generated/Vector_Table_verdana.cpp</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/TouchGFX/generated/fonts/src/Vector_Table_verdana.cpp</locationURI>
+		</link>
+		<link>
+			<name>Application/User/generated/Vector_Table_verdana_10.cpp</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/TouchGFX/generated/fonts/src/Vector_Table_verdana_10.cpp</locationURI>
+		</link>
+		<link>
+			<name>Application/User/generated/Vector_Table_verdana_12.cpp</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/TouchGFX/generated/fonts/src/Vector_Table_verdana_12.cpp</locationURI>
 		</link>
 		<link>
 			<name>Application/User/generated/ChessGameViewBase.cpp</name>
