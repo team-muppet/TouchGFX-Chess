@@ -30,7 +30,6 @@ public:
     virtual ~Board();
     virtual void setupBoard();
     virtual void handleClickEvent(int position);
-    virtual void serializeBoardState();
 
 
     // save and load game functions

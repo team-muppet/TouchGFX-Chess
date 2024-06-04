@@ -93,6 +93,14 @@ void BoardRenderer::setupSavedBoard(std::array<std::unique_ptr<AbstractPiece>, 6
     }
 }
 
+void BoardRenderer::promotePawn(std::array<std::unique_ptr<AbstractPiece>, 64>& board, int position)
+{
+	PieceColor color = board[position]->GetColor();
+	board[position].reset();
+	addPiece(std::make_unique<Queen>(color, position, this), position, board);
+
+}
+
 void BoardRenderer::addPiece(std::unique_ptr<AbstractPiece> piece, int position, std::array<std::unique_ptr<AbstractPiece>, 64>& board) {
     board[position] = std::move(piece);
 }

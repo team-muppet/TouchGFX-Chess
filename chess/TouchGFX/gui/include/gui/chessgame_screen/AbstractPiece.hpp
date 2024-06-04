@@ -15,6 +15,7 @@ protected:
     PieceType type; // Symbol representing the piece on the board
     std::unique_ptr<ScalableImage> _image; // Image of the piece
     Container* _container;
+    bool hasMoved = false;
 
 public:
     AbstractPiece(PieceColor c, PieceType t, const Bitmap& bmp, Container* container)
@@ -50,4 +51,12 @@ public:
         _image->setPosition(x, y, 33, 33);
         _image->invalidate();
     }
+
+	void SetMoved() {
+		hasMoved = true;
+	}
+
+	bool HasMoved() const {
+		return hasMoved;
+	}
 };

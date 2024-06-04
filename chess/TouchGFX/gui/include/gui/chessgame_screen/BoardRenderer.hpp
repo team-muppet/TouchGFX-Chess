@@ -16,6 +16,7 @@ public:
     BoardRenderer();
     void setupBoard(std::array<std::unique_ptr<AbstractPiece>, 64>& board);
     void setupSavedBoard(std::array<std::unique_ptr<AbstractPiece>, 64>& board, std::array<std::unique_ptr<AbstractPiece>, 64>& tmpboard);
+	void promotePawn(std::array<std::unique_ptr<AbstractPiece>, 64>& board, int position);
 
 private:
     void addPiece(std::unique_ptr<AbstractPiece> piece, int position, std::array<std::unique_ptr<AbstractPiece>, 64>& board);
