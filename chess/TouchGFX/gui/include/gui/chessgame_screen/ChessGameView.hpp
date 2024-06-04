@@ -14,12 +14,12 @@ public:
     virtual void tearDownScreen();
 
     // Declaring callback handler for Box
-    void imageClickedHandler(const ScalableImage& i, const ClickEvent& e);
+    void screenClickedHandler(const Box& i, const ClickEvent& e);
     void buttonCallbackHandler(const ButtonWithIcon& src, const ClickEvent& e);
 
 protected:
     // Declaring callback type of ScalableImage and clickEvent
-    Callback<ChessGameView, const ScalableImage&, const ClickEvent&> imageClickedCallback;
+    Callback<ChessGameView, const Box&, const ClickEvent&> screenClickedCallback;
 	Callback<ChessGameView, const ButtonWithIcon&, const ClickEvent&> buttonClickedCallback;
     ScalableImage _testpawn;
     //Add Board to view

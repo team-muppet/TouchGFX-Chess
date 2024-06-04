@@ -10,36 +10,33 @@
       </Text>
     </TextGroup>
     <TextGroup Id="Unsorted">
+      <Text Id="__SingleUse_WXYY" Alignment="Left" TypographyId="Default">
+        <Translation Language="GB">A1</Translation>
+      </Text>
+      <Text Id="__SingleUse_VERC" Alignment="Left" TypographyId="Default">
+        <Translation Language="GB">&lt;&gt;</Translation>
+      </Text>
+      <Text Id="__SingleUse_XH2W" Alignment="Left" TypographyId="Default">
+        <Translation Language="GB">&lt;&gt;</Translation>
+      </Text>
       <Text Id="__SingleUse_NGSS" Alignment="Left" TypographyId="Default">
         <Translation Language="GB">&lt;value&gt;</Translation>
-      </Text>
-      <Text Id="__SingleUse_ON1A" Alignment="Left" TypographyId="Default">
-        <Translation Language="GB">Black:</Translation>
-      </Text>
-      <Text Id="__SingleUse_TSSL" Alignment="Left" TypographyId="Default">
-        <Translation Language="GB">White:</Translation>
       </Text>
       <Text Id="__SingleUse_OR9H" Alignment="Left" TypographyId="Default">
         <Translation Language="GB">&lt;value&gt;</Translation>
       </Text>
-      <Text Id="__SingleUse_S3JQ" Alignment="Left" TypographyId="Default">
-        <Translation Language="GB">Score:</Translation>
-      </Text>
-      <Text Id="__SingleUse_HVTT" Alignment="Left" TypographyId="Default">
-        <Translation Language="GB">&lt;value&gt;</Translation>
-      </Text>
-      <Text Id="__SingleUse_O8FK" Alignment="Left" TypographyId="Default">
-        <Translation Language="GB">Current Player:</Translation>
-      </Text>
       <Text Id="__SingleUse_FT70" Alignment="Left" TypographyId="TestBox">
         <Translation Language="GB">&lt;value&gt;</Translation>
+      </Text>
+      <Text Id="__SingleUse_KKWI" Alignment="Left" TypographyId="TestBox">
+        <Translation Language="GB">1A</Translation>
       </Text>
     </TextGroup>
   </Texts>
   <Typographies>
-    <Typography Id="Default" Font="verdana.ttf" Size="15" Bpp="4" IsVector="no" Direction="LTR" FallbackCharacter="?" />
+    <Typography Id="Default" Font="verdana.ttf" Size="15" Bpp="4" IsVector="no" Direction="LTR" FallbackCharacter="?" WidgetWildcardCharacters="0123456789 :APM" />
     <Typography Id="Large" Font="verdana.ttf" Size="40" Bpp="4" IsVector="no" Direction="LTR" FallbackCharacter="?" />
     <Typography Id="Small" Font="verdana.ttf" Size="10" Bpp="4" IsVector="no" Direction="LTR" FallbackCharacter="?" />
-    <Typography Id="TestBox" Font="verdana.ttf" Size="20" Bpp="4" IsVector="no" Direction="LTR" FallbackCharacter="?" WildcardCharacters="0123456789,.XYxy ABCDEFGHabcdefgh" />
+    <Typography Id="TestBox" Font="verdana.ttf" Size="20" Bpp="4" IsVector="no" Direction="LTR" FallbackCharacter="?" WildcardCharacterRanges="0x00-0xFFFF" />
   </Typographies>
 </TextDatabase>

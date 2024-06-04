@@ -2,7 +2,7 @@
 #include <texts/TextKeysAndLanguages.hpp>
 #include <BitmapDatabase.hpp>
 
-ChessGameView::ChessGameView() : buttonClickedCallback(this, &ChessGameView::buttonCallbackHandler), imageClickedCallback(this, &ChessGameView::imageClickedHandler)
+ChessGameView::ChessGameView() : buttonClickedCallback(this, &ChessGameView::buttonCallbackHandler), screenClickedCallback(this, &ChessGameView::screenClickedHandler)
 {}
 
 void ChessGameView::setupScreen()
@@ -11,9 +11,7 @@ void ChessGameView::setupScreen()
     add(_chessboard);
     ChessGameViewBase::setupScreen();
 
-    
-    Background.setAlpha(100);
-    ChessBoard.setClickAction(imageClickedCallback);
+    Background.setClickAction(screenClickedCallback);
 	SaveButton.setClickAction(buttonClickedCallback);
 	NewGameButton.setClickAction(buttonClickedCallback);
 	LoadButton.setClickAction(buttonClickedCallback);
@@ -24,9 +22,9 @@ void ChessGameView::tearDownScreen()
     ChessGameViewBase::tearDownScreen();
 }
 
-void ChessGameView::imageClickedHandler(const ScalableImage& i, const ClickEvent& e)
+void ChessGameView::screenClickedHandler(const Box& i, const ClickEvent& e)
 {
-    if (&i != &ChessBoard)
+    if (&i != &Background)
     {
         return;
     }
@@ -45,7 +43,6 @@ void ChessGameView::imageClickedHandler(const ScalableImage& i, const ClickEvent
     {
         int position = e.getX() / 34 + (e.getY() / 34) * 8;
         _chessboard.handleClickEvent(position);
-        // board.HandleClick
     }
     else
     {

@@ -14,72 +14,64 @@
               "Red": 255,
               "Green": 255,
               "Blue": 255
-            }
-          },
-          {
-            "Type": "ScalableImage",
-            "Name": "ChessBoard",
-            "Width": 272,
-            "Height": 272,
-            "LockPosition": true,
-            "Filename": "board_brown_sand.png",
-            "ScalingAlgorithm": "Nearest-neighbor",
+            },
             "Clickable": true
           },
           {
             "Type": "TextArea",
             "Name": "locationTextBox",
-            "X": 449,
-            "Y": 240,
-            "Width": 31,
-            "Height": 32,
+            "X": 453,
+            "Y": -1,
+            "Width": 27,
+            "Height": 30,
             "TextId": "__SingleUse_FT70",
             "TextRotation": "0",
             "Wildcard1": {
+              "TextId": "__SingleUse_WXYY",
               "UseBuffer": true,
               "BufferSize": 14
             },
             "WideTextAction": 1
           },
           {
-            "Type": "TextArea",
-            "Name": "CurrentPlayerBanner",
-            "X": 285,
-            "Y": 9,
-            "Width": 115,
-            "Height": 18,
-            "TextId": "__SingleUse_O8FK",
-            "TextRotation": "0",
-            "AutoSize": true
+            "Type": "BoxWithBorder",
+            "Name": "PlayerTurn",
+            "X": 284,
+            "Y": 120,
+            "Width": 63,
+            "Height": 33,
+            "Color": {
+              "Red": 255,
+              "Green": 255,
+              "Blue": 255
+            },
+            "BorderSize": 3
           },
           {
-            "Type": "TextArea",
-            "Name": "CurrentPlayerValue",
-            "X": 416,
-            "Y": 9,
-            "Width": 9,
-            "Height": 18,
-            "TextId": "__SingleUse_HVTT",
-            "TextRotation": "0",
-            "AutoSize": true,
-            "Wildcard1": {}
+            "Type": "DigitalClock",
+            "Name": "WhiteClock",
+            "X": 284,
+            "Y": 251,
+            "Width": 48,
+            "Height": 21,
+            "TextId": "__SingleUse_XH2W",
+            "DisplayLeadingZeroForHourIndicator": true
           },
           {
-            "Type": "TextArea",
-            "Name": "ScoreBanner",
-            "X": 351,
-            "Y": 38,
-            "Width": 49,
-            "Height": 18,
-            "TextId": "__SingleUse_S3JQ",
-            "TextRotation": "0",
-            "AutoSize": true
+            "Type": "DigitalClock",
+            "Name": "BlackClock",
+            "X": 284,
+            "Y": -1,
+            "Width": 48,
+            "Height": 21,
+            "TextId": "__SingleUse_VERC",
+            "DisplayLeadingZeroForHourIndicator": true
           },
           {
             "Type": "TextArea",
             "Name": "WhiteScoreValue",
-            "X": 341,
-            "Y": 65,
+            "X": 284,
+            "Y": 233,
             "Width": 65,
             "Height": 18,
             "TextId": "__SingleUse_OR9H",
@@ -89,31 +81,9 @@
           },
           {
             "Type": "TextArea",
-            "Name": "WhiteScoreBanner",
-            "X": 285,
-            "Y": 65,
-            "Width": 51,
-            "Height": 18,
-            "TextId": "__SingleUse_TSSL",
-            "TextRotation": "0",
-            "AutoSize": true
-          },
-          {
-            "Type": "TextArea",
-            "Name": "BlackScoreBanner",
-            "X": 391,
-            "Y": 65,
-            "Width": 47,
-            "Height": 18,
-            "TextId": "__SingleUse_ON1A",
-            "TextRotation": "0",
-            "AutoSize": true
-          },
-          {
-            "Type": "TextArea",
             "Name": "BlackScoreValue",
-            "X": 450,
-            "Y": 65,
+            "X": 284,
+            "Y": 20,
             "Width": 65,
             "Height": 18,
             "TextId": "__SingleUse_NGSS",
@@ -124,8 +94,8 @@
           {
             "Type": "ButtonWithIcon",
             "Name": "SaveButton",
-            "X": 291,
-            "Y": 180,
+            "X": 416,
+            "Y": 106,
             "Width": 60,
             "Height": 60,
             "Pressed": "__generated\\alternate_theme_images_widgets_button_icon_round_tiny_fill_pressed.png",
@@ -142,8 +112,8 @@
           {
             "Type": "ButtonWithIcon",
             "Name": "NewGameButton",
-            "X": 343,
-            "Y": 112,
+            "X": 416,
+            "Y": 38,
             "Width": 60,
             "Height": 60,
             "Pressed": "__generated\\alternate_theme_images_widgets_button_icon_round_tiny_fill_pressed.png",
@@ -160,8 +130,8 @@
           {
             "Type": "ButtonWithIcon",
             "Name": "LoadButton",
-            "X": 400,
-            "Y": 180,
+            "X": 416,
+            "Y": 173,
             "Width": 60,
             "Height": 60,
             "Pressed": "__generated\\alternate_theme_images_widgets_button_icon_round_tiny_fill_pressed.png",
@@ -174,6 +144,14 @@
             "IconWidth": 50,
             "Preset": "alternate_theme\\presets\\button\\icon\\round\\tiny_fill_normal.json",
             "Clickable": true
+          },
+          {
+            "Type": "ScalableImage",
+            "Name": "scalableImage1",
+            "Width": 272,
+            "Height": 272,
+            "Filename": "board_brown_sand.png",
+            "ScalingAlgorithm": "Nearest-neighbor"
           }
         ],
         "Interactions": []

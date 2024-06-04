@@ -27,7 +27,7 @@ Board::Board()
     _boardRenderer(),
     _pieceSelector()
 {
-    setWidth(272);
+    setWidth(480);
     setHeight(272);
     add(_squareRenderer);
     add(_pieceSelector);
@@ -54,6 +54,11 @@ void Board::setupBoard() {
             }
         }
     }
+
+    _selectedPiecePosition = -1;
+    _lastMoveFrom = -1;
+    _lastMoveTo = -1;
+
     updateBoardColors(); // Ensure the board is updated after setup
 }
 
@@ -204,6 +209,7 @@ void Board::resetGame()
     for (auto& piece : _board) {
         piece.reset();  // This sets the unique_ptr to nullptr
     }
+    updateBoardColors();
 }
 
 void Board::loadGame(int _gameNumber)
