@@ -1,9 +1,7 @@
 #include <gui/chessgame_screen/ChessTimer.hpp>
 
-using namespace std;
-
 ChessTimer::ChessTimer(PieceColor currentPlayer)
-    : _currentPlayer(currentPlayer), _whitePlayerTime(0), _blackPlayerTime(0), _isRunning(false),
+    : _currentPlayer(currentPlayer), _whitePlayerTime(0), _blackPlayerTime(0), _tickCounter(0), _isRunning(false),
     _whiteTimeUpdateCallback(nullptr), _blackTimeUpdateCallback(nullptr)
 {}
 
@@ -15,42 +13,37 @@ void ChessTimer::changePlayer()
 void ChessTimer::resume()
 {
     _isRunning = true;
-    _lastTick = std::chrono::steady_clock::now();
+    _tickCounter = 0;
 }
 
 void ChessTimer::pause()
 {
-    if (_isRunning)
-    {
-        tick();
-        _isRunning = false;
-    }
+    _isRunning = false;
 }
 
 void ChessTimer::tick()
 {
     if (_isRunning)
     {
-        auto now = chrono::steady_clock::now();
-        auto elapsed = now - _lastTick;
-        _lastTick = now;
-
-        if (_currentPlayer == PieceColor::WHITE)
+        _tickCounter++;
+        if (_tickCounter >= 60) // Approximately 1 second has passed
         {
-            _whitePlayerTime += elapsed;
-            if (_whiteTimeUpdateCallback && _whiteTimeUpdateCallback->isValid())
+            _tickCounter = 0;
+            if (_currentPlayer == PieceColor::WHITE)
             {
-                auto totalSeconds = chrono::duration_cast<chrono::seconds>(_whitePlayerTime).count();
-                _whiteTimeUpdateCallback->execute(static_cast<uint8_t>(totalSeconds / 60), static_cast<uint8_t>(totalSeconds % 60));
+                _whitePlayerTime++;
+                if (_whiteTimeUpdateCallback && _whiteTimeUpdateCallback->isValid())
+                {
+                    _whiteTimeUpdateCallback->execute(_whitePlayerTime / 60, _whitePlayerTime % 60);
+                }
             }
-        }
-        else
-        {
-            _blackPlayerTime += elapsed;
-            if (_blackTimeUpdateCallback && _blackTimeUpdateCallback->isValid())
+            else
             {
-                auto totalSeconds = chrono::duration_cast<chrono::seconds>(_blackPlayerTime).count();
-                _blackTimeUpdateCallback->execute(static_cast<uint8_t>(totalSeconds / 60), static_cast<uint8_t>(totalSeconds % 60));
+                _blackPlayerTime++;
+                if (_blackTimeUpdateCallback && _blackTimeUpdateCallback->isValid())
+                {
+                    _blackTimeUpdateCallback->execute(_blackPlayerTime / 60, _blackPlayerTime % 60);
+                }
             }
         }
     }
@@ -58,10 +51,11 @@ void ChessTimer::tick()
 
 void ChessTimer::reset()
 {
-    _whitePlayerTime = std::chrono::duration<double>(0);
-    _blackPlayerTime = std::chrono::duration<double>(0);
+    _whitePlayerTime = 0;
+    _blackPlayerTime = 0;
     _currentPlayer = PieceColor::WHITE;
     _isRunning = false;
+    _tickCounter = 0;
 
     if (_whiteTimeUpdateCallback && _whiteTimeUpdateCallback->isValid())
     {
@@ -81,4 +75,9 @@ void ChessTimer::setWhiteTimeUpdateCallback(touchgfx::GenericCallback<uint8_t, u
 void ChessTimer::setBlackTimeUpdateCallback(touchgfx::GenericCallback<uint8_t, uint8_t>* callback)
 {
     _blackTimeUpdateCallback = callback;
+}
+
+void ChessTimer::handleTick()
+{
+    tick(); // Call the tick function every time handleTick is called
 }

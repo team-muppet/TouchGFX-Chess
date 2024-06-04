@@ -2,8 +2,8 @@
 #define CHESSTIMER_HPP
 
 #include <gui/chessgame_screen/ChessEnums.hpp>
-#include <chrono>
 #include <touchgfx/Callback.hpp>
+#include <cstdint>
 
 class ChessTimer
 {
@@ -18,11 +18,13 @@ public:
     void setWhiteTimeUpdateCallback(touchgfx::GenericCallback<uint8_t, uint8_t>* callback);
     void setBlackTimeUpdateCallback(touchgfx::GenericCallback<uint8_t, uint8_t>* callback);
 
+    void handleTick(); // Called approximately 60 times per second
+
 private:
     PieceColor _currentPlayer;
-    std::chrono::steady_clock::time_point _lastTick;
-    std::chrono::duration<double> _whitePlayerTime;
-    std::chrono::duration<double> _blackPlayerTime;
+    uint32_t _whitePlayerTime; // Time in seconds
+    uint32_t _blackPlayerTime; // Time in seconds
+    uint32_t _tickCounter; // Counter to track ticks
     bool _isRunning;
 
     touchgfx::GenericCallback<uint8_t, uint8_t>* _whiteTimeUpdateCallback;
