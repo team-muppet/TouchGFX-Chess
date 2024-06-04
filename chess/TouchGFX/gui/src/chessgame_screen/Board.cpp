@@ -210,6 +210,8 @@ void Board::loadGame(int _gameNumber)
 {
     std::array<std::unique_ptr<AbstractPiece>, 64> tmpboard = _gameStateSerializer.DeserializeBoardState(_savedGames[_gameNumber], _boardRenderer);
 	_currentPlayer = _gameStateSerializer.DeserializeCurrentPlayer(_savedGames[_gameNumber]);
+
+	_boardRenderer.setupSavedBoard(_board, tmpboard);
 	updateBoardColors();
 }
 

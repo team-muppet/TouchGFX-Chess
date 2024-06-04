@@ -49,12 +49,12 @@ std::string GameStateSerializer::SerializeGameState(std::array<std::unique_ptr<A
     rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
     document.Accept(writer);
 
-    int size = buffer.GetSize();
+    //int size = buffer.GetSize();
 
     std::string serializedBoard = buffer.GetString();
-    std::string serializedBoards(serializedBoard, size);
+    //std::string serializedBoards(serializedBoard, size);
 
-	return std::string();
+	return serializedBoard;
 }
 
 
