@@ -178,6 +178,11 @@ void Board::handleAIMove() {
         MovePiece(aiMove.first, aiMove.second);
         updateBoardColors();
     }
+
+    if (playerTurnCallback && playerTurnCallback->isValid())
+    {
+        playerTurnCallback->execute(_boardState.getCurrentPlayer()); // Notify the view about the player turn change
+    }
 }
 
 void Board::MovePiece(int from, int to)
