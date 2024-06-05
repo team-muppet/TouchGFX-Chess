@@ -24,6 +24,7 @@
 #include <touchgfx/Callback.hpp>
 #include <gui/chessgame_screen/BoardState.hpp>
 #include <gui/chessgame_screen/BoardStateModel.hpp>
+#include <gui/chessgame_screen/ChessAI.hpp>
 
 using namespace touchgfx;
 
@@ -42,6 +43,8 @@ public:
 
     void setPlayerTurnCallback(touchgfx::GenericCallback<PieceColor>* callback);
     PieceColor getPlayerTurn();
+
+    void setAIMode(bool mode);
 
 protected:
     BoardState _boardState;
@@ -62,6 +65,10 @@ private:
     std::string _savedGames[3];
 
     touchgfx::GenericCallback<PieceColor>* playerTurnCallback; // Player turn callback
+
+    ChessAI ai;
+    void handleAIMove();
+    bool aiMode; // AI mode flag
 };
 
 #endif /* BOARD_HPP */

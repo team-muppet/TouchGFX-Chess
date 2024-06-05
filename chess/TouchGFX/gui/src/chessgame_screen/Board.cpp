@@ -20,7 +20,9 @@ Board::Board()
     : _squareRenderer(),
     _boardRenderer(),
     _pieceSelector(),
-    playerTurnCallback(nullptr) // Initialize callback to nullptr
+    playerTurnCallback(nullptr), // Initialize callback to nullptr
+    ai(PieceColor::BLACK), // Initialize AI with black pieces
+    aiMode(true) // Initialize AI mode flag
 {
     setWidth(480);
     setHeight(272);
@@ -87,7 +89,6 @@ void Board::handleClickEvent(int position)
         {
             MovePiece(_boardState.getLastMoveFrom(), position);
             _pieceSelector.deselectPiece();
-            //_boardState.setLastMoveFrom(-1);
             _boardState.setCurrentPlayer(
                 (_boardState.getCurrentPlayer() == PieceColor::WHITE) ? PieceColor::BLACK : PieceColor::WHITE);
             updateBoardColors();
@@ -114,42 +115,41 @@ void Board::handleClickEvent(int position)
                 _boardRenderer.promotePawn(_boardState.getBoard(), position);
             }
 
-			//// Check if the game is a draw
-			//if (!_boardState.hasLegalMoves(PieceColor::WHITE) && !_boardState.hasLegalMoves(PieceColor::BLACK))
-			//{
-			//	Snackbar* drawSnackbar = new Snackbar(this, BITMAP_DRAWIMAGE_ID, 86, 116);
-   //         }
-			//check if move is castling move the move the rook
-			if (piece->GetType() == PieceType::KING && abs(_boardState.getLastMoveFrom() - position) == 2)
-			{
-				int rookPosition = -1;
-				int rookDestination = -1;
-				if (position == 2)
-				{
-					rookPosition = 0;
-					rookDestination = 3;
-				}
-				else if (position == 6)
-				{
-					rookPosition = 7;
-					rookDestination = 5;
-				}
-				else if (position == 58)
-				{
-					rookPosition = 56;
-					rookDestination = 59;
-				}
-				else if (position == 62)
-				{
-					rookPosition = 63;
-					rookDestination = 61;
-				}
-				if (rookPosition != -1 && rookDestination != -1)
-				{
-					MovePiece(rookPosition, rookDestination);
-				}
-			}
+            // Check if move is castling move and move the rook
+            if (piece->GetType() == PieceType::KING && abs(_boardState.getLastMoveFrom() - position) == 2)
+            {
+                int rookPosition = -1;
+                int rookDestination = -1;
+                if (position == 2)
+                {
+                    rookPosition = 0;
+                    rookDestination = 3;
+                }
+                else if (position == 6)
+                {
+                    rookPosition = 7;
+                    rookDestination = 5;
+                }
+                else if (position == 58)
+                {
+                    rookPosition = 56;
+                    rookDestination = 59;
+                }
+                else if (position == 62)
+                {
+                    rookPosition = 63;
+                    rookDestination = 61;
+                }
+                if (rookPosition != -1 && rookDestination != -1)
+                {
+                    MovePiece(rookPosition, rookDestination);
+                }
+            }
 
+            // Handle AI move if in AI mode and it's the AI's turn
+            if (aiMode && _boardState.getCurrentPlayer() == PieceColor::BLACK) {
+                handleAIMove();
+            }
         }
         else
         {
@@ -165,6 +165,15 @@ void Board::handleClickEvent(int position)
                 updateBoardColors();
             }
         }
+    }
+}
+
+void Board::handleAIMove() {
+    std::pair<int, int> aiMove = ai.getBestMove(_boardState);
+    if (aiMove.first != -1 && aiMove.second != -1) {
+        _boardState.setCurrentPlayer(PieceColor::WHITE); // Switch turn back to player
+        MovePiece(aiMove.first, aiMove.second);
+        updateBoardColors();
     }
 }
 
@@ -205,6 +214,11 @@ void Board::MovePiece(int from, int to)
     updateBoardColors();
 
     _boardState.getBoard()[to]->SetMoved(); // Set the piece as moved
+
+    // If in AI mode and it's the AI's turn, make the AI move
+    if (aiMode && _boardState.getCurrentPlayer() == PieceColor::BLACK) {
+        handleAIMove();
+    }
 }
 
 void Board::saveGame(int _gameNumber)
@@ -301,4 +315,12 @@ void Board::setPlayerTurnCallback(touchgfx::GenericCallback<PieceColor>* callbac
 PieceColor Board::getPlayerTurn()
 {
     return _boardState.getCurrentPlayer();
+}
+
+void Board::setAIMode(bool mode) {
+    aiMode = mode;
+    // If enabling AI mode and it's AI's turn, make the AI move
+    if (aiMode && _boardState.getCurrentPlayer() == PieceColor::BLACK) {
+        handleAIMove();
+    }
 }

@@ -21,6 +21,7 @@
     <ClCompile Include="..\..\gui\src\chessgame_screen\BoardState.cpp" />
     <ClCompile Include="..\..\gui\src\chessgame_screen\BoardStateModel.cpp" />
     <ClCompile Include="..\..\gui\src\chessgame_screen\ChessTimer.cpp" />
+    <ClCompile Include="..\..\gui\src\chessgame_screen\ChessAI.cpp" />
     <ClCompile Include="..\..\gui\src\chessgame_screen\PieceSelector.cpp" />
     <ClCompile Include="..\..\gui\src\chessgame_screen\SquareRenderer.cpp" />
     <ClCompile Include="..\..\gui\src\common\FrontendApplication.cpp" />
@@ -185,6 +186,7 @@
     <ClInclude Include="..\..\gui\include\gui\chessgame_screen\BoardStateModel.hpp" />
     <ClInclude Include="..\..\gui\include\gui\chessgame_screen\ChessEnums.hpp" />
     <ClInclude Include="..\..\gui\include\gui\chessgame_screen\ChessTimer.hpp" />
+    <ClInclude Include="..\..\gui\include\gui\chessgame_screen\ChessAI.hpp" />
     <ClInclude Include="..\..\gui\include\gui\chessgame_screen\PieceSelector.hpp" />
     <ClInclude Include="..\..\gui\include\gui\chessgame_screen\Queen.hpp" />
     <ClInclude Include="..\..\gui\include\gui\chessgame_screen\Rook.hpp" />
