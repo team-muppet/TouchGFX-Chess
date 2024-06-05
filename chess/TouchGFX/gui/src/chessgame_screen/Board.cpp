@@ -209,7 +209,7 @@ void Board::MovePiece(int from, int to)
 
 void Board::saveGame(int _gameNumber)
 {
-    _boardStateModel.setBoard(std::move(_boardState.getBoard()));
+    _boardStateModel.setBoard(_boardState.getBoard());
     _boardStateModel.setCurrentPlayer(_boardState.getCurrentPlayer());
     _savedGames[_gameNumber] = _gameStateSerializer.SerializeGameState(_boardStateModel);
 }
@@ -291,31 +291,6 @@ void Board::updateBoardColors()
 
     // Invalidate the board to trigger a redraw
     invalidate();
-}
-
-int Board::isKingInCheck(PieceColor color)
-{
-    return _boardState.isKingInCheck(color);
-}
-
-bool Board::wouldMoveCauseCheck(int from, int to)
-{
-    return _boardState.wouldMoveCauseCheck(from, to);
-}
-
-bool Board::hasLegalMoves(PieceColor color)
-{
-    return _boardState.hasLegalMoves(color);
-}
-
-bool Board::hasCheckmate(PieceColor color)
-{
-    return _boardState.hasCheckmate(color);
-}
-
-std::list<int> Board::filterValidMoves(const std::list<int>& possibleMoves, int from)
-{
-    return _boardState.filterValidMoves(possibleMoves, from);
 }
 
 void Board::setPlayerTurnCallback(touchgfx::GenericCallback<PieceColor>* callback)

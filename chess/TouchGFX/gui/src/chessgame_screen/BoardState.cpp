@@ -29,12 +29,12 @@ void BoardState::reset()
     _blackKingPosition = -1;
 }
 
-std::array<std::unique_ptr<AbstractPiece>, 64>& BoardState::getBoard()
+std::array<std::shared_ptr<AbstractPiece>, 64>& BoardState::getBoard()
 {
     return _board;
 }
 
-void BoardState::setBoard(std::array<std::unique_ptr<AbstractPiece>, 64>&& board)
+void BoardState::setBoard(std::array<std::shared_ptr<AbstractPiece>, 64>&& board)
 {
     _board = std::move(board);
 }
@@ -118,7 +118,7 @@ int BoardState::isKingInCheck(PieceColor color)
 bool BoardState::wouldMoveCauseCheck(int from, int to)
 {
     // Temporarily move the piece
-    std::unique_ptr<AbstractPiece> tempPiece = std::move(_board[to]);
+    std::shared_ptr<AbstractPiece> tempPiece = std::move(_board[to]);
     _board[to] = std::move(_board[from]);
     _board[from] = nullptr;
 

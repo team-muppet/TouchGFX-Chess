@@ -12,7 +12,7 @@ public:
         Move(position);
     }
 
-    std::list<int> PotentialMoves(const std::unique_ptr<AbstractPiece> board[64], const int myPosition) const override {
+    std::list<int> PotentialMoves(const std::shared_ptr<AbstractPiece> board[64], const int myPosition) const override {
         std::list<int> moves;
         int direction = (color == PieceColor::WHITE) ? -8 : 8; // White moves up, Black moves down
 
@@ -43,7 +43,7 @@ public:
         return moves;
     }
 
-    std::list<int> PossibleMoves(const std::unique_ptr<AbstractPiece> board[64], const int myPosition) const override {
+    std::list<int> PossibleMoves(const std::shared_ptr<AbstractPiece> board[64], const int myPosition) const override {
         std::list<int> potentialMoves = PotentialMoves(board, myPosition);
         std::list<int> possibleMoves;
 

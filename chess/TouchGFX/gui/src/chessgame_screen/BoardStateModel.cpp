@@ -7,12 +7,12 @@ BoardStateModel::BoardStateModel()
     }
 }
 
-std::array<std::unique_ptr<AbstractPiece>, 64>& BoardStateModel::getBoard() {
+std::array<std::shared_ptr<AbstractPiece>, 64>& BoardStateModel::getBoard() {
     return _board;
 }
 
-void BoardStateModel::setBoard(std::array<std::unique_ptr<AbstractPiece>, 64>&& board) {
-    _board = std::move(board);
+void BoardStateModel::setBoard(const std::array<std::shared_ptr<AbstractPiece>, 64>& board) {
+    _board = board;
 }
 
 PieceColor BoardStateModel::getCurrentPlayer() const {

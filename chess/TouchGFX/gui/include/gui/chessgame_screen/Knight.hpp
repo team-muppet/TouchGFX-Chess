@@ -12,7 +12,7 @@ public:
         Move(position);
     }
 
-    std::list<int> PotentialMoves(const std::unique_ptr<AbstractPiece> board[64], const int myPosition) const override {
+    std::list<int> PotentialMoves(const std::shared_ptr<AbstractPiece> board[64], const int myPosition) const override {
         // Implementation for potential moves of a KNIGHT
         std::list<int> moves;
         int directions[8] = { -17, -15, -10, -6, 6, 10, 15, 17 }; // L-shaped moves
@@ -32,7 +32,7 @@ public:
         return moves;
     }
 
-    std::list<int> PossibleMoves(const std::unique_ptr<AbstractPiece> board[64], const int myPosition) const override {
+    std::list<int> PossibleMoves(const std::shared_ptr<AbstractPiece> board[64], const int myPosition) const override {
         // Implementation for possible moves of a KNIGHT
         std::list<int> potentialMoves = PotentialMoves(board, myPosition);
         std::list<int> possibleMoves;

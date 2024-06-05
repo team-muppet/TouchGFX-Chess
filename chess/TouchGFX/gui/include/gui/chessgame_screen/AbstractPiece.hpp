@@ -14,7 +14,7 @@ class AbstractPiece {
 protected:
     PieceColor color; // Indicates whether the piece is white or black
     PieceType type; // Symbol representing the piece on the board
-    std::unique_ptr<ScalableImage> _image; // Image of the piece
+    std::shared_ptr<ScalableImage> _image; // Image of the piece
     Container* _container;
     bool hasMoved = false;
 
@@ -28,10 +28,10 @@ public:
     };
 
     // All moves inside the board if no other piece is blocking the way
-    virtual std::list<int> PotentialMoves(const std::unique_ptr<AbstractPiece> board[64], const int myPosition) const = 0;
+    virtual std::list<int> PotentialMoves(const std::shared_ptr<AbstractPiece> board[64], const int myPosition) const = 0;
 
     // Moves that are possible to make, considering the board and other pieces
-    virtual std::list<int> PossibleMoves(const std::unique_ptr<AbstractPiece> board[64], const int myPosition) const = 0;
+    virtual std::list<int> PossibleMoves(const std::shared_ptr<AbstractPiece> board[64], const int myPosition) const = 0;
 
     virtual PieceColor GetColor() const {
         return color;

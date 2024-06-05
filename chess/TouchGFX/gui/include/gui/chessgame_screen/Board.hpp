@@ -53,11 +53,6 @@ protected:
 private:
     void highlightPieceAndMoves(int position);
     void updateBoardColors();
-    int isKingInCheck(PieceColor color);
-    bool wouldMoveCauseCheck(int from, int to);
-    bool hasLegalMoves(PieceColor color);
-    bool hasCheckmate(PieceColor color);
-    std::list<int> filterValidMoves(const std::list<int>& possibleMoves, int from);
 
     SquareRenderer _squareRenderer;
     BoardRenderer _boardRenderer;

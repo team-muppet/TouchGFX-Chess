@@ -11,14 +11,14 @@ class BoardStateModel {
 public:
     BoardStateModel();
 
-    std::array<std::unique_ptr<AbstractPiece>, 64>& getBoard();
-    void setBoard(std::array<std::unique_ptr<AbstractPiece>, 64>&& board);
+    std::array<std::shared_ptr<AbstractPiece>, 64>& getBoard();
+    void setBoard(const std::array<std::shared_ptr<AbstractPiece>, 64>& board);
 
     PieceColor getCurrentPlayer() const;
     void setCurrentPlayer(PieceColor color);
 
 private:
-    std::array<std::unique_ptr<AbstractPiece>, 64> _board;
+    std::array<std::shared_ptr<AbstractPiece>, 64> _board;
     PieceColor _currentPlayer;
 };
 

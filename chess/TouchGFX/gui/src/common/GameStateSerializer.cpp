@@ -70,8 +70,8 @@ PieceColor GameStateSerializer::DeserializeCurrentPlayer(const rapidjson::Docume
     return PieceColor::WHITE; // Default to white if not found
 }
 
-std::array<std::unique_ptr<AbstractPiece>, 64> GameStateSerializer::DeserializeBoardState(const rapidjson::Document& document, BoardRenderer& boardRenderer) {
-    std::array<std::unique_ptr<AbstractPiece>, 64> tempboard;
+std::array<std::shared_ptr<AbstractPiece>, 64> GameStateSerializer::DeserializeBoardState(const rapidjson::Document& document, BoardRenderer& boardRenderer) {
+    std::array<std::shared_ptr<AbstractPiece>, 64> tempboard;
 
     if (document.HasMember("board") && document["board"].IsArray()) {
         const rapidjson::Value& boardArray = document["board"];

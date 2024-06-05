@@ -15,8 +15,8 @@ public:
     void initialize();
     void reset();
 
-    std::array<std::unique_ptr<AbstractPiece>, 64>& getBoard();
-    void setBoard(std::array<std::unique_ptr<AbstractPiece>, 64>&& board);
+    std::array<std::shared_ptr<AbstractPiece>, 64>& getBoard();
+    void setBoard(std::array<std::shared_ptr<AbstractPiece>, 64>&& board);
 
     PieceColor getCurrentPlayer() const;
     void setCurrentPlayer(PieceColor color);
@@ -41,7 +41,7 @@ public:
     std::list<int> filterValidMoves(const std::list<int>& possibleMoves, int from);
 
 private:
-    std::array<std::unique_ptr<AbstractPiece>, 64> _board;
+    std::array<std::shared_ptr<AbstractPiece>, 64> _board;
     PieceColor _currentPlayer;
     int _lastMoveFrom;
     int _lastMoveTo;

@@ -14,7 +14,7 @@ public:
         Move(position);
     }
 
-    std::list<int> PotentialMoves(const std::unique_ptr<AbstractPiece> board[64], const int myPosition) const override {
+    std::list<int> PotentialMoves(const std::shared_ptr<AbstractPiece> board[64], const int myPosition) const override {
         // Implementation for potential moves of a KING
         std::list<int> moves;
         int directions[8] = { -9, -8, -7, -1, 1, 7, 8, 9 }; // King can move one square in any direction
@@ -30,7 +30,7 @@ public:
         return moves;
     }
 
-    std::list<int> PossibleMoves(const std::unique_ptr<AbstractPiece> board[64], const int myPosition) const override {
+    std::list<int> PossibleMoves(const std::shared_ptr<AbstractPiece> board[64], const int myPosition) const override {
         // Implementation for possible moves of a KING
         std::list<int> potentialMoves = PotentialMoves(board, myPosition);
         std::list<int> possibleMoves;
@@ -49,7 +49,7 @@ public:
         return possibleMoves;
     }
 
-    std::list<int> CastlingMove(const std::unique_ptr<AbstractPiece> board[64], const int myPosition) const {
+    std::list<int> CastlingMove(const std::shared_ptr<AbstractPiece> board[64], const int myPosition) const {
         std::list<int> castlingPositions;
 
         // Check if the king has moved
@@ -114,7 +114,7 @@ public:
     //    return false;
     //}
 
-    bool wouldMoveCauseCheck(int kingPosition, int targetPosition, const std::unique_ptr<AbstractPiece> board[64]) const {
+    bool wouldMoveCauseCheck(int kingPosition, int targetPosition, const std::shared_ptr<AbstractPiece> board[64]) const {
         //// Create a copy of the board
         //std::unique_ptr<AbstractPiece> tempBoard[64];
         //for (int i = 0; i < 64; ++i) {

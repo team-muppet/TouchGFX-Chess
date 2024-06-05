@@ -12,7 +12,7 @@ public:
         Move(position);
     }
 
-    std::list<int> PotentialMoves(const std::unique_ptr<AbstractPiece> board[64], const int myPosition) const override {
+    std::list<int> PotentialMoves(const std::shared_ptr<AbstractPiece> board[64], const int myPosition) const override {
         // Implementation for potential moves of a BISHOP
         std::list<int> moves;
         int directions[4] = { -9, -7, 7, 9 }; // Diagonal moves
@@ -36,7 +36,7 @@ public:
         return moves;
     }
 
-    std::list<int> PossibleMoves(const std::unique_ptr<AbstractPiece> board[64], const int myPosition) const override {
+    std::list<int> PossibleMoves(const std::shared_ptr<AbstractPiece> board[64], const int myPosition) const override {
         // Implementation for possible moves of a BISHOP
         std::list<int> potentialMoves = PotentialMoves(board, myPosition);
         std::list<int> possibleMoves;

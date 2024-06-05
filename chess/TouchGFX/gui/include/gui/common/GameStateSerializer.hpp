@@ -19,7 +19,7 @@ public:
 
 private:
     PieceColor DeserializeCurrentPlayer(const rapidjson::Document& document);
-    std::array<std::unique_ptr<AbstractPiece>, 64> DeserializeBoardState(const rapidjson::Document& document, BoardRenderer& boardRenderer);
+    std::array<std::shared_ptr<AbstractPiece>, 64> DeserializeBoardState(const rapidjson::Document& document, BoardRenderer& boardRenderer);
 };
 
 #endif /* GAMESTATESERIALIZER_HPP */
