@@ -87,7 +87,7 @@ void Board::handleClickEvent(int position)
         {
             MovePiece(_boardState.getLastMoveFrom(), position);
             _pieceSelector.deselectPiece();
-            _boardState.setLastMoveFrom(-1);
+            //_boardState.setLastMoveFrom(-1);
             _boardState.setCurrentPlayer(
                 (_boardState.getCurrentPlayer() == PieceColor::WHITE) ? PieceColor::BLACK : PieceColor::WHITE);
             updateBoardColors();
@@ -113,6 +113,43 @@ void Board::handleClickEvent(int position)
             {
                 _boardRenderer.promotePawn(_boardState.getBoard(), position);
             }
+
+			//// Check if the game is a draw
+			//if (!_boardState.hasLegalMoves(PieceColor::WHITE) && !_boardState.hasLegalMoves(PieceColor::BLACK))
+			//{
+			//	Snackbar* drawSnackbar = new Snackbar(this, BITMAP_DRAWIMAGE_ID, 86, 116);
+   //         }
+			//check if move is castling move the move the rook
+			if (piece->GetType() == PieceType::KING && abs(_boardState.getLastMoveFrom() - position) == 2)
+			{
+				int rookPosition = -1;
+				int rookDestination = -1;
+				if (position == 2)
+				{
+					rookPosition = 0;
+					rookDestination = 3;
+				}
+				else if (position == 6)
+				{
+					rookPosition = 7;
+					rookDestination = 5;
+				}
+				else if (position == 58)
+				{
+					rookPosition = 56;
+					rookDestination = 59;
+				}
+				else if (position == 62)
+				{
+					rookPosition = 63;
+					rookDestination = 61;
+				}
+				if (rookPosition != -1 && rookDestination != -1)
+				{
+					MovePiece(rookPosition, rookDestination);
+				}
+			}
+
         }
         else
         {

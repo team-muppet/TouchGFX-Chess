@@ -2,6 +2,8 @@
 
 #include "AbstractPiece.hpp"
 #include <BitmapDatabase.hpp>
+#include <list>
+#include <algorithm>
 
 class King : public AbstractPiece {
 public:
@@ -40,77 +42,104 @@ public:
             }
         }
 
+        // Add castling moves
+        std::list<int> castlingMoves = CastlingMove(board, myPosition);
+        possibleMoves.insert(possibleMoves.end(), castlingMoves.begin(), castlingMoves.end());
+
         return possibleMoves;
     }
 
-	//int CastlingMove(const std::unique_ptr<AbstractPiece> board[64], const int myPosition) const {
-	//	// Implementation for castling move of a KING
-	//	// Check if the king has moved
-	//	if (this->hasMoved) {
-	//		return -1;
-	//	}
+    std::list<int> CastlingMove(const std::unique_ptr<AbstractPiece> board[64], const int myPosition) const {
+        std::list<int> castlingPositions;
 
-	//	// Check if the king is in check
-	//	if (isKingInCheck(this->color, const int myPosition) != -1) {
-	//		return -1;
-	//	}
+        // Check if the king has moved
+        if (this->hasMoved) {
+            return castlingPositions;
+        }
 
-	//	// Check if the rooks are in their initial positions
-	//	int leftRookPosition = (this->color == PieceColor::WHITE) ? 56 : 0;
-	//	int rightRookPosition = (this->color == PieceColor::WHITE) ? 63 : 7;
+        // Determine the rook positions and castling paths
+        int kingInitialPosition = (this->color == PieceColor::WHITE) ? 60 : 4;
+        int leftRookPosition = (this->color == PieceColor::WHITE) ? 56 : 0;
+        int rightRookPosition = (this->color == PieceColor::WHITE) ? 63 : 7;
 
-	//	if (board[leftRookPosition] == nullptr || board[leftRookPosition]->GetType() != PieceType::ROOK || board[leftRookPosition]->GetColor() != this->color || board[leftRookPosition]->HasMoved()) {
-	//		return -1;
-	//	}
+        int leftCastlingPath[] = { kingInitialPosition - 1, kingInitialPosition - 2, kingInitialPosition - 3 };
+        int rightCastlingPath[] = { kingInitialPosition + 1, kingInitialPosition + 2 };
 
-	//	if (board[rightRookPosition] == nullptr || board[rightRookPosition]->GetType() != PieceType::ROOK || board[rightRookPosition]->GetColor() != this->color || board[rightRookPosition]->HasMoved()) {
-	//		return -1;
-	//	}
+        // Check left rook and left castling path
+        if (board[leftRookPosition] != nullptr && board[leftRookPosition]->GetType() == PieceType::ROOK &&
+            board[leftRookPosition]->GetColor() == this->color && !board[leftRookPosition]->HasMoved()) {
 
-	//	// Check if the squares between the king and the rook are empty
-	//	int leftRookSquare = (this->color == PieceColor::WHITE) ? 57 : 1;
-	//	int rightRookSquare = (this->color == PieceColor::WHITE) ? 62 : 6;
+            bool pathClear = true;
+            for (int i = 0; i < 3; ++i) {
+                if (board[leftCastlingPath[i]] != nullptr || wouldMoveCauseCheck(myPosition, leftCastlingPath[i], board)) {
+                    pathClear = false;
+                    break;
+                }
+            }
+            if (pathClear && !wouldMoveCauseCheck(myPosition, kingInitialPosition - 2, board)) {
+                castlingPositions.push_back(kingInitialPosition - 2);
+            }
+        }
 
-	//	if (board[leftRookSquare] != nullptr || board[rightRookSquare] != nullptr) {
-	//		return -1;
-	//	}
+        // Check right rook and right castling path
+        if (board[rightRookPosition] != nullptr && board[rightRookPosition]->GetType() == PieceType::ROOK &&
+            board[rightRookPosition]->GetColor() == this->color && !board[rightRookPosition]->HasMoved()) {
 
-	//	// Check if the squares are not under attack
-	//	if (wouldMoveCauseCheck(myPosition, leftRookSquare, board) || wouldMoveCauseCheck(myPosition, rightRookSquare, board)) {
-	//		return -1;
-	//	}
+            bool pathClear = true;
+            for (int i = 0; i < 2; ++i) {
+                if (board[rightCastlingPath[i]] != nullptr || wouldMoveCauseCheck(myPosition, rightCastlingPath[i], board)) {
+                    pathClear = false;
+                    break;
+                }
+            }
+            if (pathClear && !wouldMoveCauseCheck(myPosition, kingInitialPosition + 2, board)) {
+                castlingPositions.push_back(kingInitialPosition + 2);
+            }
+        }
 
-	//	// Return the position of the rook for castling
-	//	return (myPosition == leftRookSquare) ? leftRookPosition : rightRookPosition;
-	//}
+        return castlingPositions;
+    }
 
-	//bool isKingInCheck(PieceColor color, const int myPosition) const {
-	//	// Implementation for checking if the king is in check
-	//	int kingPosition = myPosition;
-	//	int directions[8] = { -9, -8, -7, -1, 1, 7, 8, 9 };
+    //bool isKingInCheck(PieceColor color, const int kingPosition, const std::unique_ptr<AbstractPiece> board[64]) const {
+    //   for (int i = 0; i < 64; ++i) {
+    //        if (board[i] != nullptr) {
+    //            if (board[i]->GetColor() != color) {
+    //                //std::list<int> possibleMoves = board[i]->PossibleMoves(board, i);
+    //                /*if (std::find(possibleMoves.begin(), possibleMoves.end(), kingPosition) != possibleMoves.end()) {
+    //                    return true;
+    //                }*/
+    //            }
+    //        }
+    //    }
+    //    return false;
+    //}
 
-	//	for (int dir : directions) {
-	//		int pos = kingPosition;
-	//		while (true) {
-	//			pos += dir;
-	//			// Check if the move is within bounds and on the correct diagonal
-	//			if (pos < 0 || pos >= 64 ||
-	//				((pos - dir) % 8 == 0 && (dir == -9 || dir == -1 || dir == 7)) ||
-	//				((pos - dir) % 8 == 7 && (dir == -7 || dir == 1 || dir == 9))) {
-	//				break;
-	//			}
-	//			// Check if the king is in check by a queen or a bishop
-	//			if (board[pos] != nullptr && (board[pos]->GetType() == PieceType::QUEEN || board[pos]->GetType() == PieceType::BISHOP) && board[pos]->GetColor() != color) {
-	//				return pos;
-	//			}
-	//			// Stop if there is a piece in the way
-	//			if (board[pos] != nullptr) {
-	//				break;
-	//			}
-	//		}
-	//	}
+    bool wouldMoveCauseCheck(int kingPosition, int targetPosition, const std::unique_ptr<AbstractPiece> board[64]) const {
+        //// Create a copy of the board
+        //std::unique_ptr<AbstractPiece> tempBoard[64];
+        //for (int i = 0; i < 64; ++i) {
+        //    if (board[i] != nullptr) {
+        //        tempBoard[i] = board[i]->clone();
+        //    }
+        //    else {
+        //        tempBoard[i] = nullptr;
+        //    }
+        //}
 
-	//	return -1;
-	//}
+        //// Simulate the move
+        //tempBoard[targetPosition] = std::move(tempBoard[kingPosition]);
+        //tempBoard[kingPosition] = nullptr;
 
+        //// Check if the king would be in check after the move
+        //bool inCheck = isKingInCheck(tempBoard[targetPosition]->GetColor(), targetPosition, tempBoard);
+
+        //// Cleanup temporary board
+        //for (int i = 0; i < 64; ++i) {
+        //    if (tempBoard[i] != nullptr) {
+        //        tempBoard[i].reset();
+        //    }
+        //}
+
+        return false;
+    }
 };
