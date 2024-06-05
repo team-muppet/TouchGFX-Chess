@@ -106,7 +106,10 @@ void Board::handleClickEvent(int position)
             if (_boardState.hasCheckmate(_boardState.getCurrentPlayer()))
             {
                 new Snackbar(this, BITMAP_CHECKMATEIMAGE_ID, 86, 116);
-                // Add additional logic for checkmate if needed, like ending the game
+                if (playerTurnCallback && playerTurnCallback->isValid())
+                {
+                    playerTurnCallback->execute(PieceColor::NONE); // Notify the view about game over
+                }
             }
 
             // Check if pawn promotion is possible
@@ -323,4 +326,9 @@ void Board::setAIMode(bool mode) {
     if (aiMode && _boardState.getCurrentPlayer() == PieceColor::BLACK) {
         handleAIMove();
     }
+}
+
+ChessAI Board::getAI()
+{
+    return ai;
 }

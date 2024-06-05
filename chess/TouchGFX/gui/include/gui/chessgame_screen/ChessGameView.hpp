@@ -7,6 +7,11 @@
 #include <gui/chessgame_screen/ChessTimer.hpp>
 #include <touchgfx/Callback.hpp>
 
+enum GameState {
+    MENU,
+    GAME
+};
+
 class ChessGameView : public ChessGameViewBase
 {
 public:
@@ -17,18 +22,29 @@ public:
 
     virtual void handleTickEvent();
 
+    // Override the difficulty slider value changed function
+    virtual void DifficultyValueChanged(int value) override;
+
     // Declaring callback handler for Box
     void screenClickedHandler(const Box& i, const ClickEvent& e);
     void buttonCallbackHandler(const ButtonWithIcon& src, const ClickEvent& e);
+    void gameModeButtonCallbackHandler(const TextButtonStyle<IconButtonStyle<BoxWithBorderButtonStyle<ClickButtonTrigger>>>& src, const ClickEvent& e);
 
     // Timer set UI
     void setWhiteTimer(uint8_t minutes, uint8_t seconds);
     void setBlackTimer(uint8_t minutes, uint8_t seconds);
 
+    // Game state management
+    void switchToMenu();
+    void switchToGame();
+    void handleGameOver();
+
 protected:
     // Declaring callback type of ScalableImage and clickEvent
     Callback<ChessGameView, const Box&, const ClickEvent&> screenClickedCallback;
     Callback<ChessGameView, const ButtonWithIcon&, const ClickEvent&> buttonClickedCallback;
+    Callback<ChessGameView, const TextButtonStyle<IconButtonStyle<BoxWithBorderButtonStyle<ClickButtonTrigger>>>&, const ClickEvent&> gameModeButtonCallback;
+
     ScalableImage _testpawn;
     // Add Board to view
     Board _chessboard;
@@ -42,6 +58,9 @@ protected:
     void whiteTimerUpdated(uint8_t minutes, uint8_t seconds);
     void blackTimerUpdated(uint8_t minutes, uint8_t seconds);
     void updatePlayerTurn(PieceColor color);
+
+    GameState currentState;
+    int aiDepth; // Variable to store the AI depth
 };
 
 #endif // CHESSGAMEVIEW_HPP

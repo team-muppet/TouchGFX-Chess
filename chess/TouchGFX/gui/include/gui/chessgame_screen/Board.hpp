@@ -45,6 +45,7 @@ public:
     PieceColor getPlayerTurn();
 
     void setAIMode(bool mode);
+    ChessAI getAI();
 
 protected:
     BoardState _boardState;

@@ -132,20 +132,19 @@
           },
           {
             "Type": "ButtonWithIcon",
-            "Name": "NewGameButton",
+            "Name": "CloseButton",
             "X": 416,
             "Y": 38,
             "Width": 60,
             "Height": 60,
             "Pressed": "__generated\\alternate_theme_images_widgets_button_icon_round_tiny_fill_pressed.png",
             "Released": "__generated\\alternate_theme_images_widgets_button_icon_round_tiny_fill_normal.png",
-            "IconPressed": "__generated\\icon_theme_images_action_done_50_50_E8F6FB.svg.png",
-            "IconReleased": "__generated\\icon_theme_images_av_fiber_new_50_50_E8F6FB.svg.png",
+            "IconPressed": "__generated\\icon_theme_images_navigation_close_50_50_E60000.svg.png",
+            "IconReleased": "__generated\\icon_theme_images_navigation_close_50_50_E60000.svg.png",
             "IconX": 5,
             "IconY": 5,
             "IconHeight": 50,
             "IconWidth": 50,
-            "Preset": "alternate_theme\\presets\\button\\icon\\round\\tiny_fill_normal.json",
             "Clickable": true
           },
           {
@@ -162,7 +161,7 @@
             "X": 284,
             "Y": 232,
             "Width": 34,
-            "Height": 10,
+            "Height": 12,
             "TextId": "__SingleUse_AYOG",
             "TextRotation": "0",
             "AutoSize": true
@@ -173,7 +172,7 @@
             "X": 284,
             "Y": 29,
             "Width": 32,
-            "Height": 10,
+            "Height": 12,
             "TextId": "__SingleUse_Y56L",
             "TextRotation": "0",
             "AutoSize": true
@@ -183,7 +182,6 @@
             "Name": "MainMenu",
             "Width": 480,
             "Height": 272,
-            "Visible": false,
             "FileName": "MainMenu.png",
             "ModalX": 90,
             "ModalY": 36,
@@ -223,7 +221,7 @@
                     "Type": "IconButtonStyle",
                     "X": 10,
                     "IconReleased": "__generated\\icon_theme_images_hardware_computer_50_50_E8F6FB.svg.png",
-                    "IconPressed": "__generated\\icon_theme_images_action_done_50_50_E8F6FB.svg.png"
+                    "IconPressed": "__generated\\icon_theme_images_hardware_computer_50_50_E8F6FB.svg.png"
                   },
                   {
                     "Type": "BoxWithBorderButtonStyle",
@@ -249,7 +247,8 @@
                       "Blue": 153
                     }
                   }
-                ]
+                ],
+                "Clickable": true
               },
               {
                 "Type": "FlexButton",
@@ -283,7 +282,7 @@
                     "Type": "IconButtonStyle",
                     "X": 10,
                     "IconReleased": "__generated\\icon_theme_images_social_people_50_50_E8F6FB.svg.png",
-                    "IconPressed": "__generated\\icon_theme_images_action_done_50_50_E8F6FB.svg.png"
+                    "IconPressed": "__generated\\icon_theme_images_social_people_50_50_E8F6FB.svg.png"
                   },
                   {
                     "Type": "BoxWithBorderButtonStyle",
@@ -309,12 +308,39 @@
                       "Blue": 153
                     }
                   }
-                ]
+                ],
+                "Clickable": true
+              },
+              {
+                "Type": "TextArea",
+                "Name": "DifficultyTextBox",
+                "X": 5,
+                "Y": 173,
+                "Width": 51,
+                "Height": 12,
+                "TextId": "__SingleUse_IUB6",
+                "TextRotation": "0",
+                "AutoSize": true
+              },
+              {
+                "Type": "TextArea",
+                "Name": "DifficultyValue",
+                "X": 262,
+                "Y": 172,
+                "Width": 22,
+                "Height": 15,
+                "TextId": "__SingleUse_2Z9V",
+                "TextRotation": "0",
+                "Wildcard1": {
+                  "TextId": "__SingleUse_DJI9",
+                  "UseBuffer": true,
+                  "BufferSize": 3
+                }
               },
               {
                 "Type": "Slider",
                 "Name": "DifficultySlider",
-                "X": 38,
+                "X": 46,
                 "Y": 167,
                 "Width": 224,
                 "Height": 24,
@@ -332,7 +358,30 @@
             ]
           }
         ],
-        "Interactions": []
+        "Interactions": [
+          {
+            "InteractionName": "SliderIntegration",
+            "Trigger": {
+              "Type": "TriggerSliderValueChanged",
+              "TriggerComponent": "DifficultySlider"
+            },
+            "Action": {
+              "Type": "ActionExecuteCode",
+              "Code": "touchgfx::Unicode::snprintf(DifficultyValueBuffer, DIFFICULTYVALUE_SIZE, \"%d\", value);\r\nDifficultyValue.invalidate();"
+            }
+          },
+          {
+            "InteractionName": "DifficultyValueChanged",
+            "Trigger": {
+              "Type": "TriggerSliderValueChanged",
+              "TriggerComponent": "DifficultySlider"
+            },
+            "Action": {
+              "Type": "ActionCustom",
+              "FunctionName": "DifficultyValueChanged"
+            }
+          }
+        ]
       }
     ],
     "CustomContainerDefinitions": [],

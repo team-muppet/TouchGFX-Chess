@@ -5,10 +5,13 @@
 ChessGameView::ChessGameView()
     : screenClickedCallback(this, &ChessGameView::screenClickedHandler),
     buttonClickedCallback(this, &ChessGameView::buttonCallbackHandler),
+    gameModeButtonCallback(this, &ChessGameView::gameModeButtonCallbackHandler),
     _chessTimer(PieceColor::WHITE),
     whiteTimeUpdateCallback(this, &ChessGameView::whiteTimerUpdated),
     blackTimeUpdateCallback(this, &ChessGameView::blackTimerUpdated),
-    playerTurnCallback(this, &ChessGameView::updatePlayerTurn)
+    playerTurnCallback(this, &ChessGameView::updatePlayerTurn),
+    currentState(GameState::MENU),
+    aiDepth(3) // Default depth
 {}
 
 void ChessGameView::setupScreen()
@@ -17,18 +20,24 @@ void ChessGameView::setupScreen()
     add(_chessboard);
     ChessGameViewBase::setupScreen();
 
+    // Set menu buttons
     Background.setClickAction(screenClickedCallback);
     SaveButton.setClickAction(buttonClickedCallback);
-    NewGameButton.setClickAction(buttonClickedCallback);
     LoadButton.setClickAction(buttonClickedCallback);
+    CloseButton.setClickAction(buttonClickedCallback);
+
+    // Set game mode buttons
+    SingleplayerButton.setClickAction(gameModeButtonCallback);
+    MultiplayerButton.setClickAction(gameModeButtonCallback);
 
     // Initialize timers
     _chessTimer.setWhiteTimeUpdateCallback(&whiteTimeUpdateCallback);
     _chessTimer.setBlackTimeUpdateCallback(&blackTimeUpdateCallback);
-    _chessTimer.resume(); // Start the timer
 
     // Set player turn callback
     _chessboard.setPlayerTurnCallback(&playerTurnCallback);
+
+    switchToMenu();
 }
 
 void ChessGameView::tearDownScreen()
@@ -39,7 +48,15 @@ void ChessGameView::tearDownScreen()
 
 void ChessGameView::handleTickEvent()
 {
-    _chessTimer.tick();
+    if (currentState == GameState::GAME)
+    {
+        _chessTimer.tick();
+    }
+}
+
+void ChessGameView::DifficultyValueChanged(int value)
+{
+    aiDepth = value;
 }
 
 void ChessGameView::screenClickedHandler(const Box& i, const ClickEvent& e)
@@ -57,7 +74,6 @@ void ChessGameView::screenClickedHandler(const Box& i, const ClickEvent& e)
     // Debug section
     Unicode::snprintf(locationTextBoxBuffer, LOCATIONTEXTBOX_SIZE, "%c%d", e.getX() / 34 + 65, 8 - e.getY() / 34);
     locationTextBox.invalidate();
-    locationTextBox.invalidateContent();
 
     if (e.getX() < 272)
     {
@@ -72,24 +88,48 @@ void ChessGameView::screenClickedHandler(const Box& i, const ClickEvent& e)
 
 void ChessGameView::buttonCallbackHandler(const ButtonWithIcon& src, const ClickEvent& e)
 {
-    if (&src == &SaveButton)
+    if (e.getType() == ClickEvent::ClickEventType::RELEASED)
     {
-        _chessboard.saveGame(0);
-        return;
+        if (&src == &CloseButton)
+        {
+            switchToMenu(); // Switch to menu on CloseGame button click
+        }
+        else if (&src == &LoadButton)
+        {
+            _chessboard.loadGame(0);
+            switchToGame();
+        }
+        else if (&src == &SaveButton)
+        {
+            _chessboard.saveGame(0);
+        }
     }
+}
 
-    _chessboard.resetGame();
-    _chessboard.setupBoard();
-    _chessTimer.reset();
-    _chessTimer.resume();
-
-    if (&src == &LoadButton)
+void ChessGameView::gameModeButtonCallbackHandler(const TextButtonStyle<IconButtonStyle<BoxWithBorderButtonStyle<ClickButtonTrigger>>>& src, const ClickEvent& e)
+{
+    if (e.getType() == ClickEvent::ClickEventType::RELEASED)
     {
-        _chessboard.loadGame(0);
+        if (&src == &SingleplayerButton)
+        {
+            _chessboard.setAIMode(true); // Enable AI mode
+            _chessboard.resetGame();
+            _chessboard.setupBoard();
+            _chessboard.getAI().setDepth(aiDepth); // Set AI depth based on slider
+            _chessTimer.reset();
+            _chessTimer.resume();
+            switchToGame();
+        }
+        else if (&src == &MultiplayerButton)
+        {
+            _chessboard.setAIMode(false); // Disable AI mode
+            _chessboard.resetGame();
+            _chessboard.setupBoard();
+            _chessTimer.reset();
+            _chessTimer.resume();
+            switchToGame();
+        }
     }
-    
-
-    updatePlayerTurn(_chessboard.getPlayerTurn());
 }
 
 void ChessGameView::setWhiteTimer(uint8_t minutes, uint8_t seconds)
@@ -125,4 +165,27 @@ void ChessGameView::updatePlayerTurn(PieceColor color)
     PlayerTurn.invalidate(); // Redraw the PlayerTurn box
 
     _chessTimer.setPlayer(color);
+}
+
+void ChessGameView::switchToMenu()
+{
+    currentState = GameState::MENU;
+    _chessboard.setVisible(false);
+    _chessboard.invalidate();
+    MainMenu.setVisible(true);
+    MainMenu.invalidate();
+}
+
+void ChessGameView::switchToGame()
+{
+    currentState = GameState::GAME;
+    _chessboard.setVisible(true);
+    _chessboard.invalidate();
+    MainMenu.setVisible(false);
+    MainMenu.invalidate();
+}
+
+void ChessGameView::handleGameOver()
+{
+    switchToMenu();
 }

@@ -13,5 +13,6 @@ enum PieceType
 enum PieceColor
 {
 	WHITE,
-	BLACK
+	BLACK,
+	NONE
 };

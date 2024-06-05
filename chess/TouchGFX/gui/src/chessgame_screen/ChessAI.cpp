@@ -35,6 +35,10 @@ std::pair<int, int> ChessAI::getBestMove(BoardState& boardState) {
     return bestMove;
 }
 
+void ChessAI::setDepth(int depth) {
+    searchDepth = depth;
+}
+
 int ChessAI::evaluateBoard(BoardState& boardState) {
     // A simple evaluation function: sum of piece values
     int pieceValues[6] = { 100, 300, 300, 500, 900, 10000 };
@@ -89,7 +93,7 @@ int ChessAI::minimax(BoardState& boardState, int depth, int alpha, int beta, boo
         return maxEval;
     }
     else {
-        int minEval = std::numeric_limits<int>::max(); // Correct initialization
+        int minEval = std::numeric_limits<int>::max();
         for (const auto& move : possibleMoves) {
             BoardState newState = boardState;
             newState.getBoard()[move.second] = std::move(newState.getBoard()[move.first]);

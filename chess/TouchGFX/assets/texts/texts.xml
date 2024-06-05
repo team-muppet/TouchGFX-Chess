@@ -5,11 +5,23 @@
   </Languages>
   <Texts>
     <TextGroup Id="Group1">
+      <Text Id="ResourceId2" Alignment="Left" TypographyId="Default">
+        <Translation Language="GB">New Text</Translation>
+      </Text>
       <Text Id="ResourceId1" Alignment="Left" TypographyId="Default">
         <Translation Language="GB"></Translation>
       </Text>
     </TextGroup>
     <TextGroup Id="Unsorted">
+      <Text Id="__SingleUse_DJI9" Alignment="Left" TypographyId="Default">
+        <Translation Language="GB">3</Translation>
+      </Text>
+      <Text Id="__SingleUse_2Z9V" Alignment="Center" TypographyId="Header">
+        <Translation Language="GB">&lt;value&gt;</Translation>
+      </Text>
+      <Text Id="__SingleUse_IUB6" Alignment="Left" TypographyId="Header">
+        <Translation Language="GB">Difficulty:</Translation>
+      </Text>
       <Text Id="__SingleUse_ABPL" Alignment="Center" TypographyId="TestBox">
         <Translation Language="GB">Multiplayer</Translation>
       </Text>

@@ -13,6 +13,8 @@ public:
 
     std::pair<int, int> getBestMove(BoardState& boardState);
 
+    void setDepth(int depth); // Function to set the depth
+
 private:
     PieceColor aiColor;
     int searchDepth;
