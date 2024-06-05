@@ -1,6 +1,7 @@
 #include <gui/chessgame_screen/BoardState.hpp>
 #include <algorithm>
 #include <utility> // for std::move
+#include <stdlib.h> // for abs
 
 BoardState::BoardState()
     : _currentPlayer(PieceColor::WHITE),
@@ -192,6 +193,26 @@ std::list<int> BoardState::filterValidMoves(const std::list<int>& possibleMoves,
         if (!wouldMoveCauseCheck(from, to))
         {
             validMoves.push_back(to);
+        }
+    }
+    // Check for castling specifically if the piece is a king
+    if (_board[from] != nullptr && _board[from]->GetType() == PieceType::KING)
+    {
+        // Filter out invalid castling moves
+        for (auto it = validMoves.begin(); it != validMoves.end(); )
+        {
+            int to = *it;
+            if (abs(from - to) == 2) // Castling move detected
+            {
+                // Simulate moving the king to the intermediate square
+                int intermediateSquare = (from + to) / 2;
+                if (wouldMoveCauseCheck(from, intermediateSquare) || wouldMoveCauseCheck(from, to))
+                {
+                    it = validMoves.erase(it);
+                    continue;
+                }
+            }
+            ++it;
         }
     }
     return validMoves;

@@ -71,12 +71,12 @@ public:
 
             bool pathClear = true;
             for (int i = 0; i < 3; ++i) {
-                if (board[leftCastlingPath[i]] != nullptr || wouldMoveCauseCheck(myPosition, leftCastlingPath[i], board)) {
+                if (board[leftCastlingPath[i]] != nullptr) {
                     pathClear = false;
                     break;
                 }
             }
-            if (pathClear && !wouldMoveCauseCheck(myPosition, kingInitialPosition - 2, board)) {
+            if (pathClear) {
                 castlingPositions.push_back(kingInitialPosition - 2);
             }
         }
@@ -87,59 +87,16 @@ public:
 
             bool pathClear = true;
             for (int i = 0; i < 2; ++i) {
-                if (board[rightCastlingPath[i]] != nullptr || wouldMoveCauseCheck(myPosition, rightCastlingPath[i], board)) {
+                if (board[rightCastlingPath[i]] != nullptr) {
                     pathClear = false;
                     break;
                 }
             }
-            if (pathClear && !wouldMoveCauseCheck(myPosition, kingInitialPosition + 2, board)) {
+            if (pathClear) {
                 castlingPositions.push_back(kingInitialPosition + 2);
             }
         }
 
         return castlingPositions;
-    }
-
-    //bool isKingInCheck(PieceColor color, const int kingPosition, const std::unique_ptr<AbstractPiece> board[64]) const {
-    //   for (int i = 0; i < 64; ++i) {
-    //        if (board[i] != nullptr) {
-    //            if (board[i]->GetColor() != color) {
-    //                //std::list<int> possibleMoves = board[i]->PossibleMoves(board, i);
-    //                /*if (std::find(possibleMoves.begin(), possibleMoves.end(), kingPosition) != possibleMoves.end()) {
-    //                    return true;
-    //                }*/
-    //            }
-    //        }
-    //    }
-    //    return false;
-    //}
-
-    bool wouldMoveCauseCheck(int kingPosition, int targetPosition, const std::shared_ptr<AbstractPiece> board[64]) const {
-        //// Create a copy of the board
-        //std::unique_ptr<AbstractPiece> tempBoard[64];
-        //for (int i = 0; i < 64; ++i) {
-        //    if (board[i] != nullptr) {
-        //        tempBoard[i] = board[i]->clone();
-        //    }
-        //    else {
-        //        tempBoard[i] = nullptr;
-        //    }
-        //}
-
-        //// Simulate the move
-        //tempBoard[targetPosition] = std::move(tempBoard[kingPosition]);
-        //tempBoard[kingPosition] = nullptr;
-
-        //// Check if the king would be in check after the move
-        //bool inCheck = isKingInCheck(tempBoard[targetPosition]->GetColor(), targetPosition, tempBoard);
-
-        //// Cleanup temporary board
-        //for (int i = 0; i < 64; ++i) {
-        //    if (tempBoard[i] != nullptr) {
-        //        tempBoard[i].reset();
-        //    }
-        //}
-
-        return false;
     }
 };
