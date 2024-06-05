@@ -10,6 +10,7 @@ ChessGameView::ChessGameView()
     whiteTimeUpdateCallback(this, &ChessGameView::whiteTimerUpdated),
     blackTimeUpdateCallback(this, &ChessGameView::blackTimerUpdated),
     playerTurnCallback(this, &ChessGameView::updatePlayerTurn),
+    winnerCallback(this, &ChessGameView::updateWinner),
     currentState(GameState::MENU),
     aiDepth(3) // Default depth
 {}
@@ -36,6 +37,7 @@ void ChessGameView::setupScreen()
 
     // Set player turn callback
     _chessboard.setPlayerTurnCallback(&playerTurnCallback);
+    _chessboard.setWinnerCallback(&winnerCallback);
 
     switchToMenu();
 }
@@ -59,6 +61,12 @@ void ChessGameView::DifficultyValueChanged(int value)
     aiDepth = value;
 }
 
+void ChessGameView::WinScreenButton()
+{
+    WinScreen.hide();
+    switchToMenu();
+}
+
 void ChessGameView::screenClickedHandler(const Box& i, const ClickEvent& e)
 {
     if (&i != &Background)
@@ -79,10 +87,6 @@ void ChessGameView::screenClickedHandler(const Box& i, const ClickEvent& e)
     {
         int position = e.getX() / 34 + (e.getY() / 34) * 8;
         _chessboard.handleClickEvent(position);
-    }
-    else
-    {
-        // Menu clicks
     }
 }
 
@@ -165,6 +169,20 @@ void ChessGameView::updatePlayerTurn(PieceColor color)
     PlayerTurn.invalidate(); // Redraw the PlayerTurn box
 
     _chessTimer.setPlayer(color);
+}
+
+void ChessGameView::updateWinner(PieceColor color)
+{
+    _chessboard.setVisible(false);
+    _chessboard.invalidate();
+    if (color == PieceColor::WHITE) {
+        touchgfx::Unicode::snprintf(WinnerTextBuffer, WINNERTEXT_SIZE, "White");
+    }
+    else {
+        touchgfx::Unicode::snprintf(WinnerTextBuffer, WINNERTEXT_SIZE, "Black");
+    }
+    WinnerText.invalidate();
+    WinScreen.show();
 }
 
 void ChessGameView::switchToMenu()

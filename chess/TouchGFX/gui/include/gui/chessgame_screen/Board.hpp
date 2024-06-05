@@ -42,6 +42,7 @@ public:
     virtual void resetGame();
 
     void setPlayerTurnCallback(touchgfx::GenericCallback<PieceColor>* callback);
+    void setWinnerCallback(touchgfx::GenericCallback<PieceColor>* callback);
     PieceColor getPlayerTurn();
 
     void setAIMode(bool mode);
@@ -66,6 +67,7 @@ private:
     std::string _savedGames[3];
 
     touchgfx::GenericCallback<PieceColor>* playerTurnCallback; // Player turn callback
+    touchgfx::GenericCallback<PieceColor>* winnerCallback; // Player turn callback
 
     ChessAI ai;
     void handleAIMove();

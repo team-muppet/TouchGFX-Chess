@@ -182,6 +182,7 @@
             "Name": "MainMenu",
             "Width": 480,
             "Height": 272,
+            "Visible": false,
             "FileName": "MainMenu.png",
             "ModalX": 90,
             "ModalY": 36,
@@ -356,6 +357,68 @@
                 "InitValue": 3
               }
             ]
+          },
+          {
+            "Type": "ModalWindow",
+            "Name": "WinScreen",
+            "Width": 480,
+            "Height": 272,
+            "Visible": false,
+            "FileName": "__generated\\alternate_theme_images_containers_small_wide_outlined_light.png",
+            "ModalX": 133,
+            "ModalY": 61,
+            "ModalWidth": 214,
+            "ModalHeight": 150,
+            "Alpha": 150,
+            "Components": [
+              {
+                "Type": "TextArea",
+                "Name": "WinnerText",
+                "X": 3,
+                "Y": 13,
+                "Width": 211,
+                "Height": 24,
+                "TextId": "__SingleUse_2O8W",
+                "TextRotation": "0",
+                "Wildcard1": {
+                  "TextId": "__SingleUse_R53Q",
+                  "UseBuffer": true,
+                  "BufferSize": 6
+                }
+              },
+              {
+                "Type": "Image",
+                "Name": "Celebration",
+                "X": 83,
+                "Y": 45,
+                "Width": 49,
+                "Height": 48,
+                "RelativeFilename": "__generated\\icon_theme_images_maps_celebration_49_48_FFD700.svg.png"
+              },
+              {
+                "Type": "ButtonWithLabel",
+                "Name": "NewGame",
+                "X": 38,
+                "Y": 99,
+                "Width": 138,
+                "Height": 36,
+                "Pressed": "__generated\\alternate_theme_images_widgets_button_regular_height_36_small_round_disabled.png",
+                "Released": "__generated\\alternate_theme_images_widgets_button_regular_height_36_small_round_disabled.png",
+                "TextId": "__SingleUse_TJ9N",
+                "ReleasedColor": {
+                  "Red": 255,
+                  "Green": 255,
+                  "Blue": 255
+                },
+                "PressedColor": {
+                  "Red": 255,
+                  "Green": 255,
+                  "Blue": 255
+                },
+                "TextRotation": "0",
+                "Preset": "alternate_theme\\presets\\button\\regular\\height_36\\small_round_disabled.json"
+              }
+            ]
           }
         ],
         "Interactions": [
@@ -379,6 +442,17 @@
             "Action": {
               "Type": "ActionCustom",
               "FunctionName": "DifficultyValueChanged"
+            }
+          },
+          {
+            "InteractionName": "WinScreenButtonClicked",
+            "Trigger": {
+              "Type": "TriggerClicked",
+              "TriggerComponent": "NewGame"
+            },
+            "Action": {
+              "Type": "ActionCustom",
+              "FunctionName": "WinScreenButton"
             }
           }
         ]

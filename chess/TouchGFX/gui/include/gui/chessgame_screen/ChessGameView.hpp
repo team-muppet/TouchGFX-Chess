@@ -24,6 +24,7 @@ public:
 
     // Override the difficulty slider value changed function
     virtual void DifficultyValueChanged(int value) override;
+    virtual void WinScreenButton() override;
 
     // Declaring callback handler for Box
     void screenClickedHandler(const Box& i, const ClickEvent& e);
@@ -54,10 +55,12 @@ protected:
     Callback<ChessGameView, uint8_t, uint8_t> whiteTimeUpdateCallback;
     Callback<ChessGameView, uint8_t, uint8_t> blackTimeUpdateCallback;
     Callback<ChessGameView, PieceColor> playerTurnCallback;
+    Callback<ChessGameView, PieceColor> winnerCallback;
 
     void whiteTimerUpdated(uint8_t minutes, uint8_t seconds);
     void blackTimerUpdated(uint8_t minutes, uint8_t seconds);
     void updatePlayerTurn(PieceColor color);
+    void updateWinner(PieceColor color);
 
     GameState currentState;
     int aiDepth; // Variable to store the AI depth

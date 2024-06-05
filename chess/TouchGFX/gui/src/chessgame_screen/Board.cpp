@@ -105,10 +105,9 @@ void Board::handleClickEvent(int position)
 
             if (_boardState.hasCheckmate(_boardState.getCurrentPlayer()))
             {
-                new Snackbar(this, BITMAP_CHECKMATEIMAGE_ID, 86, 116);
-                if (playerTurnCallback && playerTurnCallback->isValid())
+                if (winnerCallback && winnerCallback->isValid())
                 {
-                    playerTurnCallback->execute(PieceColor::NONE); // Notify the view about game over
+                    winnerCallback->execute(_boardState.getCurrentPlayer() == PieceColor::WHITE ? PieceColor::BLACK : PieceColor::WHITE); // Notify the view about game over
                 }
             }
 
@@ -318,6 +317,11 @@ void Board::updateBoardColors()
 void Board::setPlayerTurnCallback(touchgfx::GenericCallback<PieceColor>* callback)
 {
     playerTurnCallback = callback;
+}
+
+void Board::setWinnerCallback(touchgfx::GenericCallback<PieceColor>* callback)
+{
+    winnerCallback = callback;
 }
 
 PieceColor Board::getPlayerTurn()

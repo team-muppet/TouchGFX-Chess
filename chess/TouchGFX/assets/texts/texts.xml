@@ -13,6 +13,15 @@
       </Text>
     </TextGroup>
     <TextGroup Id="Unsorted">
+      <Text Id="__SingleUse_TJ9N" Alignment="Center" TypographyId="TestBox">
+        <Translation Language="GB">New Game</Translation>
+      </Text>
+      <Text Id="__SingleUse_R53Q" Alignment="Left" TypographyId="TestBox">
+        <Translation Language="GB">White</Translation>
+      </Text>
+      <Text Id="__SingleUse_2O8W" Alignment="Center" TypographyId="TestBox">
+        <Translation Language="GB">&lt;value&gt; wins!</Translation>
+      </Text>
       <Text Id="__SingleUse_DJI9" Alignment="Left" TypographyId="Default">
         <Translation Language="GB">3</Translation>
       </Text>
@@ -70,7 +79,7 @@
     <Typography Id="Default" Font="verdana.ttf" Size="12" Bpp="4" IsVector="yes" Direction="LTR" FallbackCharacter="?" WidgetWildcardCharacters="0123456789 :APM" WildcardCharacterRanges="0x00-0xFFFF" />
     <Typography Id="Large" Font="verdana.ttf" Size="40" Bpp="4" IsVector="no" Direction="LTR" FallbackCharacter="?" />
     <Typography Id="Small" Font="verdana.ttf" Size="10" Bpp="4" IsVector="no" Direction="LTR" FallbackCharacter="?" />
-    <Typography Id="TestBox" Font="verdana.ttf" Size="20" Bpp="4" IsVector="no" Direction="LTR" FallbackCharacter="?" WildcardCharacterRanges="0x00-0xFFFF" />
+    <Typography Id="TestBox" Font="verdana.ttf" Size="20" Bpp="4" IsVector="no" Direction="LTR" FallbackCharacter="?" WildcardCharacterRanges="0x00-0xFF" />
     <Typography Id="Header" Font="verdana.ttf" Size="10" Bpp="4" IsVector="yes" Direction="RTL" FallbackCharacter="?" WildcardCharacterRanges="0x00-0xFFFF" />
   </Typographies>
 </TextDatabase>
