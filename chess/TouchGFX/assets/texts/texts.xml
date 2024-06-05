@@ -10,6 +10,12 @@
       </Text>
     </TextGroup>
     <TextGroup Id="Unsorted">
+      <Text Id="__SingleUse_ABPL" Alignment="Center" TypographyId="TestBox">
+        <Translation Language="GB">Multiplayer</Translation>
+      </Text>
+      <Text Id="__SingleUse_7W5Z" Alignment="Center" TypographyId="TestBox">
+        <Translation Language="GB">Singleplayer</Translation>
+      </Text>
       <Text Id="__SingleUse_MGFJ" Alignment="Left" TypographyId="Header">
         <Translation Language="GB">0</Translation>
       </Text>

@@ -177,6 +177,159 @@
             "TextId": "__SingleUse_Y56L",
             "TextRotation": "0",
             "AutoSize": true
+          },
+          {
+            "Type": "ModalWindow",
+            "Name": "MainMenu",
+            "Width": 480,
+            "Height": 272,
+            "Visible": false,
+            "FileName": "MainMenu.png",
+            "ModalX": 90,
+            "ModalY": 36,
+            "ModalWidth": 300,
+            "ModalHeight": 200,
+            "Alpha": 125,
+            "Components": [
+              {
+                "Type": "FlexButton",
+                "Name": "SingleplayerButton",
+                "X": 38,
+                "Y": 114,
+                "Width": 224,
+                "Height": 46,
+                "ButtonTrigger": {
+                  "Type": "ClickButtonTrigger"
+                },
+                "ButtonStyles": [
+                  {
+                    "Type": "TextButtonStyle",
+                    "X": 20,
+                    "Y": 10,
+                    "TextId": "__SingleUse_7W5Z",
+                    "TextRotation": "0",
+                    "ColorReleased": {
+                      "Red": 10,
+                      "Green": 10,
+                      "Blue": 10
+                    },
+                    "ColorPressed": {
+                      "Red": 10,
+                      "Green": 10,
+                      "Blue": 10
+                    }
+                  },
+                  {
+                    "Type": "IconButtonStyle",
+                    "X": 10,
+                    "IconReleased": "__generated\\icon_theme_images_hardware_computer_50_50_E8F6FB.svg.png",
+                    "IconPressed": "__generated\\icon_theme_images_action_done_50_50_E8F6FB.svg.png"
+                  },
+                  {
+                    "Type": "BoxWithBorderButtonStyle",
+                    "Width": 224,
+                    "Height": 46,
+                    "LockToFlexButtonSize": true,
+                    "BorderSize": 5,
+                    "ColorReleased": {
+                      "Green": 102,
+                      "Blue": 153
+                    },
+                    "ColorPressed": {
+                      "Green": 153,
+                      "Blue": 204
+                    },
+                    "ColorBorderReleased": {
+                      "Green": 51,
+                      "Blue": 102
+                    },
+                    "ColorBorderPressed": {
+                      "Red": 51,
+                      "Green": 102,
+                      "Blue": 153
+                    }
+                  }
+                ]
+              },
+              {
+                "Type": "FlexButton",
+                "Name": "MultiplayerButton",
+                "X": 38,
+                "Y": 50,
+                "Width": 224,
+                "Height": 46,
+                "ButtonTrigger": {
+                  "Type": "ClickButtonTrigger"
+                },
+                "ButtonStyles": [
+                  {
+                    "Type": "TextButtonStyle",
+                    "X": 20,
+                    "Y": 10,
+                    "TextId": "__SingleUse_ABPL",
+                    "TextRotation": "0",
+                    "ColorReleased": {
+                      "Red": 10,
+                      "Green": 10,
+                      "Blue": 10
+                    },
+                    "ColorPressed": {
+                      "Red": 10,
+                      "Green": 10,
+                      "Blue": 10
+                    }
+                  },
+                  {
+                    "Type": "IconButtonStyle",
+                    "X": 10,
+                    "IconReleased": "__generated\\icon_theme_images_social_people_50_50_E8F6FB.svg.png",
+                    "IconPressed": "__generated\\icon_theme_images_action_done_50_50_E8F6FB.svg.png"
+                  },
+                  {
+                    "Type": "BoxWithBorderButtonStyle",
+                    "Width": 224,
+                    "Height": 46,
+                    "LockToFlexButtonSize": true,
+                    "BorderSize": 5,
+                    "ColorReleased": {
+                      "Green": 102,
+                      "Blue": 153
+                    },
+                    "ColorPressed": {
+                      "Green": 153,
+                      "Blue": 204
+                    },
+                    "ColorBorderReleased": {
+                      "Green": 51,
+                      "Blue": 102
+                    },
+                    "ColorBorderPressed": {
+                      "Red": 51,
+                      "Green": 102,
+                      "Blue": 153
+                    }
+                  }
+                ]
+              },
+              {
+                "Type": "Slider",
+                "Name": "DifficultySlider",
+                "X": 38,
+                "Y": 167,
+                "Width": 224,
+                "Height": 24,
+                "IsHorizontalSlider": true,
+                "BackgroundUnselected": "__generated\\alternate_theme_images_widgets_slider_horizontal_thin_track_small.png",
+                "BackgroundSelected": "__generated\\alternate_theme_images_widgets_slider_horizontal_thin_filler_small.png",
+                "Indicator": "__generated\\alternate_theme_images_widgets_slider_horizontal_thin_round_dark.png",
+                "BackgroundX": 12,
+                "BackgroundY": 9,
+                "IndicatorMax": 200,
+                "ValueMax": 10,
+                "ValueMin": 1,
+                "InitValue": 3
+              }
+            ]
           }
         ],
         "Interactions": []

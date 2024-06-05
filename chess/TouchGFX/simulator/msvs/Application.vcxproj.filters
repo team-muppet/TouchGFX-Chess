@@ -255,9 +255,6 @@
     <ClCompile Include="..\..\gui\src\chessgame_screen\ChessAI.cpp">
       <Filter>Source Files\gui\chessgame_screen</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\gui\src\chessgame_screen\MicroMax.cpp">
-      <Filter>Source Files\gui\chessgame_screen</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="$(ApplicationRoot)\assets\texts\texts.xml">
@@ -761,9 +758,6 @@
       <Filter>Header Files\gui\chessgame_screen</Filter>
     </ClInclude>
     <ClInclude Include="..\..\gui\include\gui\chessgame_screen\ChessAI.hpp">
-      <Filter>Header Files\gui\chessgame_screen</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\gui\include\gui\chessgame_screen\MicroMax.hpp">
       <Filter>Header Files\gui\chessgame_screen</Filter>
     </ClInclude>
   </ItemGroup>
