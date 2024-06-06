@@ -98,19 +98,6 @@ void Board::handleClickEvent(int position)
                 playerTurnCallback->execute(_boardState.getCurrentPlayer()); // Notify the view about the player turn change
             }
 
-            if (_boardState.isKingInCheck(PieceColor::WHITE) != -1 || _boardState.isKingInCheck(PieceColor::BLACK) != -1)
-            {
-                new Snackbar(this, BITMAP_CHECKIMAGE_ID, 86, 116);
-            }
-
-            if (_boardState.hasCheckmate(_boardState.getCurrentPlayer()))
-            {
-                if (winnerCallback && winnerCallback->isValid())
-                {
-                    winnerCallback->execute(_boardState.getCurrentPlayer() == PieceColor::WHITE ? PieceColor::BLACK : PieceColor::WHITE); // Notify the view about game over
-                }
-            }
-
             // Check if pawn promotion is possible
             if (piece->GetType() == PieceType::PAWN && (position < 8 || position >= 56))
             {
@@ -225,6 +212,19 @@ void Board::MovePiece(int from, int to)
     // If in AI mode and it's the AI's turn, make the AI move
     if (aiMode && _boardState.getCurrentPlayer() == PieceColor::BLACK) {
         handleAIMove();
+    }
+
+    if (_boardState.isKingInCheck(PieceColor::WHITE) != -1 || _boardState.isKingInCheck(PieceColor::BLACK) != -1)
+    {
+        new Snackbar(this, BITMAP_CHECKIMAGE_ID, 86, 116);
+    }
+
+    if (_boardState.hasCheckmate(_boardState.getCurrentPlayer()))
+    {
+        if (winnerCallback && winnerCallback->isValid())
+        {
+            winnerCallback->execute(_boardState.getCurrentPlayer() == PieceColor::WHITE ? PieceColor::BLACK : PieceColor::WHITE); // Notify the view about game over
+        }
     }
 }
 
