@@ -6,17 +6,12 @@
         "CanvasBufferSize": 7200,
         "Components": [
           {
-            "Type": "Box",
+            "Type": "Image",
             "Name": "Background",
             "Width": 480,
             "Height": 272,
             "LockPosition": true,
-            "Color": {
-              "Red": 224,
-              "Green": 205,
-              "Blue": 117
-            },
-            "Clickable": true
+            "RelativeFilename": "__generated\\alternate_theme_images_backgrounds_480x272_gradient_dark.png"
           },
           {
             "Type": "TextArea",
@@ -128,6 +123,28 @@
             "Height": 272,
             "Filename": "board_brown_sand.png",
             "ScalingAlgorithm": "Nearest-neighbor"
+          },
+          {
+            "Type": "TextArea",
+            "Name": "WhiteInfo",
+            "X": 284,
+            "Y": 245,
+            "Width": 34,
+            "Height": 12,
+            "TextId": "__SingleUse_AYOG",
+            "TextRotation": "0",
+            "AutoSize": true
+          },
+          {
+            "Type": "TextArea",
+            "Name": "BlackInfo",
+            "X": 283,
+            "Y": 14,
+            "Width": 32,
+            "Height": 12,
+            "TextId": "__SingleUse_Y56L",
+            "TextRotation": "0",
+            "AutoSize": true
           },
           {
             "Type": "ModalWindow",
