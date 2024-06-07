@@ -875,14 +875,14 @@
 			<locationURI>PARENT-1-PROJECT_LOC/TouchGFX/generated/images/src/__generated/image_alternate_theme_images_containers_small_wide_outlined_light.cpp</locationURI>
 		</link>
 		<link>
-			<name>Application/User/generated/image_alternate_theme_images_widgets_button_icon_round_tiny_fill_normal.cpp</name>
+			<name>Application/User/generated/image_alternate_theme_images_widgets_button_icon_round_tiny_outline_normal.cpp</name>
 			<type>1</type>
-			<locationURI>PARENT-1-PROJECT_LOC/TouchGFX/generated/images/src/__generated/image_alternate_theme_images_widgets_button_icon_round_tiny_fill_normal.cpp</locationURI>
+			<locationURI>PARENT-1-PROJECT_LOC/TouchGFX/generated/images/src/__generated/image_alternate_theme_images_widgets_button_icon_round_tiny_outline_normal.cpp</locationURI>
 		</link>
 		<link>
-			<name>Application/User/generated/image_alternate_theme_images_widgets_button_icon_round_tiny_fill_pressed.cpp</name>
+			<name>Application/User/generated/image_alternate_theme_images_widgets_button_icon_round_tiny_outline_pressed.cpp</name>
 			<type>1</type>
-			<locationURI>PARENT-1-PROJECT_LOC/TouchGFX/generated/images/src/__generated/image_alternate_theme_images_widgets_button_icon_round_tiny_fill_pressed.cpp</locationURI>
+			<locationURI>PARENT-1-PROJECT_LOC/TouchGFX/generated/images/src/__generated/image_alternate_theme_images_widgets_button_icon_round_tiny_outline_pressed.cpp</locationURI>
 		</link>
 		<link>
 			<name>Application/User/generated/image_alternate_theme_images_widgets_button_regular_height_36_small_round_disabled.cpp</name>
