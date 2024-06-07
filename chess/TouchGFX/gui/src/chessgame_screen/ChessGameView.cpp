@@ -67,7 +67,7 @@ void ChessGameView::WinScreenButton()
     switchToMenu();
 }
 
-void ChessGameView::screenClickedHandler(const Box& i, const ClickEvent& e)
+void ChessGameView::screenClickedHandler(const Image& i, const ClickEvent& e)
 {
     if (&i != &Background)
     {
