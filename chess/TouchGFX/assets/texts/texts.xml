@@ -37,8 +37,14 @@
       <Text Id="__SingleUse_7W5Z" Alignment="Center" TypographyId="TestBox">
         <Translation Language="GB">Singleplayer</Translation>
       </Text>
+      <Text Id="__SingleUse_Y56L" Alignment="Left" TypographyId="Header">
+        <Translation Language="GB">Black:</Translation>
+      </Text>
       <Text Id="WhiteScore" Alignment="Left" TypographyId="Header">
         <Translation Language="GB">0</Translation>
+      </Text>
+      <Text Id="__SingleUse_AYOG" Alignment="Left" TypographyId="Header">
+        <Translation Language="GB">White:</Translation>
       </Text>
       <Text Id="__SingleUse_WXYY" Alignment="Left" TypographyId="Default">
         <Translation Language="GB">A1</Translation>
