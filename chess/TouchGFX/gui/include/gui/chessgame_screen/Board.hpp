@@ -48,14 +48,15 @@ public:
     void setAIMode(bool mode);
     ChessAI getAI();
 
-protected:
+private:
     BoardState _boardState;
     BoardStateModel _boardStateModel;
 
     touchgfx::FadeAnimator<touchgfx::Image> Check;
     virtual void MovePiece(int from, int to);
 
-private:
+    void checkGameState();
+
     void highlightPieceAndMoves(int position);
     void updateBoardColors();
 

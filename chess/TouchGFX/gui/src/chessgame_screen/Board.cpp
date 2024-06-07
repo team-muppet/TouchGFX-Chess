@@ -131,10 +131,6 @@ void Board::processMove(int from, int to)
     if (piece->GetType() == PieceType::PAWN && (to < 8 || to >= 56))
     {
         _boardRenderer.promotePawn(_boardState.getBoard(), to);
-        if (_boardState.isKingInCheck(PieceColor::WHITE) != -1 || _boardState.isKingInCheck(PieceColor::BLACK) != -1)
-        {
-            new Snackbar(this, BITMAP_CHECKIMAGE_ID, 86, 116);
-        }
     }
 
     // Check if move is castling move and move the rook
@@ -173,13 +169,7 @@ void Board::processMove(int from, int to)
         new Snackbar(this, BITMAP_CHECKIMAGE_ID, 86, 116);
     }
 
-    if (_boardState.hasCheckmate(_boardState.getCurrentPlayer()))
-    {
-        if (winnerCallback && winnerCallback->isValid())
-        {
-            winnerCallback->execute(_boardState.getCurrentPlayer() == PieceColor::WHITE ? PieceColor::BLACK : PieceColor::WHITE); // Notify the view about game over
-        }
-    }
+    checkGameState();
 
     if (aiMode && _boardState.getCurrentPlayer() == PieceColor::BLACK) {
         handleAIMove();
@@ -223,6 +213,48 @@ void Board::MovePiece(int from, int to)
     updateBoardColors();
 
     _boardState.getBoard()[to]->SetMoved(); // Set the piece as moved
+}
+
+void Board::checkGameState()
+{
+    bool whiteHasMoves = _boardState.hasLegalMoves(PieceColor::WHITE);
+    bool blackHasMoves = _boardState.hasLegalMoves(PieceColor::BLACK);
+
+    if (!whiteHasMoves && !blackHasMoves)
+    {
+        if (winnerCallback && winnerCallback->isValid())
+        {
+            winnerCallback->execute(PieceColor::NONE); // Remis
+        }
+    }
+    else if (!whiteHasMoves)
+    {
+        if (winnerCallback && winnerCallback->isValid())
+        {
+            winnerCallback->execute(PieceColor::BLACK); // Black wins
+        }
+    }
+    else if (!blackHasMoves)
+    {
+        if (winnerCallback && winnerCallback->isValid())
+        {
+            winnerCallback->execute(PieceColor::WHITE); // White wins
+        }
+    }
+    else if (_boardState.hasCheckmate(PieceColor::WHITE))
+    {
+        if (winnerCallback && winnerCallback->isValid())
+        {
+            winnerCallback->execute(PieceColor::BLACK); // Black wins
+        }
+    }
+    else if (_boardState.hasCheckmate(PieceColor::BLACK))
+    {
+        if (winnerCallback && winnerCallback->isValid())
+        {
+            winnerCallback->execute(PieceColor::WHITE); // White wins
+        }
+    }
 }
 
 void Board::saveGame(int _gameNumber)
