@@ -71,6 +71,7 @@ private:
 
     ChessAI ai;
     void handleAIMove();
+    void processMove(int from, int to);
     bool aiMode; // AI mode flag
 };
 
