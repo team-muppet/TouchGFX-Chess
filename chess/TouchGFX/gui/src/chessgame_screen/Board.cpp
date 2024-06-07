@@ -102,6 +102,10 @@ void Board::handleClickEvent(int position)
             if (piece->GetType() == PieceType::PAWN && (position < 8 || position >= 56))
             {
                 _boardRenderer.promotePawn(_boardState.getBoard(), position);
+                if (_boardState.isKingInCheck(PieceColor::WHITE) != -1 || _boardState.isKingInCheck(PieceColor::BLACK) != -1)
+                {
+                    new Snackbar(this, BITMAP_CHECKIMAGE_ID, 86, 116);
+                }
             }
 
             // Check if move is castling move and move the rook
