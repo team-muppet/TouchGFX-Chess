@@ -37,23 +37,8 @@
       <Text Id="__SingleUse_7W5Z" Alignment="Center" TypographyId="TestBox">
         <Translation Language="GB">Singleplayer</Translation>
       </Text>
-      <Text Id="__SingleUse_MGFJ" Alignment="Left" TypographyId="Header">
-        <Translation Language="GB">0</Translation>
-      </Text>
-      <Text Id="__SingleUse_Y56L" Alignment="Left" TypographyId="Header">
-        <Translation Language="GB">Black:</Translation>
-      </Text>
       <Text Id="WhiteScore" Alignment="Left" TypographyId="Header">
         <Translation Language="GB">0</Translation>
-      </Text>
-      <Text Id="__SingleUse_ZU3J" Alignment="Right" TypographyId="Default">
-        <Translation Language="GB">&lt;value&gt;</Translation>
-      </Text>
-      <Text Id="__SingleUse_NZUF" Alignment="Left" TypographyId="Header">
-        <Translation Language="GB">0</Translation>
-      </Text>
-      <Text Id="__SingleUse_AYOG" Alignment="Left" TypographyId="Header">
-        <Translation Language="GB">White:</Translation>
       </Text>
       <Text Id="__SingleUse_WXYY" Alignment="Left" TypographyId="Default">
         <Translation Language="GB">A1</Translation>
@@ -63,9 +48,6 @@
       </Text>
       <Text Id="__SingleUse_XH2W" Alignment="Right" TypographyId="Default">
         <Translation Language="GB">T: &lt;&gt;</Translation>
-      </Text>
-      <Text Id="__SingleUse_NGSS" Alignment="Right" TypographyId="Default">
-        <Translation Language="GB">&lt;value&gt;</Translation>
       </Text>
       <Text Id="__SingleUse_FT70" Alignment="Left" TypographyId="TestBox">
         <Translation Language="GB">&lt;value&gt;</Translation>
