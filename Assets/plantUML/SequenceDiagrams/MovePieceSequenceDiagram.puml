@@ -1,0 +1,77 @@
+@startuml MovePieceSequenceDiagram
+actor User
+
+participant ChessGameView as View
+participant Board as Board
+participant BoardState as State
+participant AbstractPiece as Piece
+participant PieceSelector as Selector
+participant SquareRenderer as Renderer
+
+User -> View: screenClickedHandler(event)
+activate View
+View -> Board: handleClickEvent(position)
+activate Board
+
+alt Selecting piece
+    Board -> State: getBoard()
+    activate State
+    State --> Board: return board
+    deactivate State
+    Board -> State: getCurrentPlayer()
+    activate State
+    State --> Board: return currentPlayer
+    deactivate State
+    Board -> Piece: PossibleMoves(board, position)
+    activate Piece
+    Piece -> Piece: PotentialMoves(board, position)
+    Piece --> Board: return possibleMoves
+    deactivate Piece
+    Board -> Selector: selectPiece(position, possibleMoves, captureMoves)
+    activate Selector
+    Selector --> Board:
+    deactivate Selector
+    Board --> View:
+    deactivate Board
+    View --> User:
+    deactivate View
+
+else Moving piece
+activate Board
+    Board -> State: getLastMoveFrom()
+    activate State
+    State --> Board: return lastMoveFrom
+    deactivate State
+    Board -> State: getBoard()
+    activate State
+    State --> Board: return board
+    deactivate State
+    Board -> Board: processMove(from, to)
+    
+    Board -> State: MovePiece(from, to)
+    activate State
+    State -> Piece: Move(to)
+    activate Piece
+    Piece --> State:
+    deactivate Piece
+    State --> Board:
+    deactivate State
+    Board -> Selector: deselectPiece()
+    activate Selector
+    Selector --> Board:
+    deactivate Selector
+    Board -> Renderer: updateBoardColors()
+    activate Renderer
+    Renderer --> Board:
+    deactivate Renderer
+    Board -> View: updatePlayerTurn(newPlayer)
+    activate View
+    View --> User:
+    deactivate View
+    Board --> View:
+    deactivate Board
+    View --> User:
+    deactivate View
+end
+
+@enduml

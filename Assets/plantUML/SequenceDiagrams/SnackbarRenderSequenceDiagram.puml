@@ -1,0 +1,52 @@
+@startuml SnackbarRenderSequenceDiagram
+actor User
+
+participant ChessGameView as View
+participant Snackbar as Snackbar
+participant ParentContainer as Container
+participant Image as Image
+
+User -> View: displaySnackbar(bitmapId, x, y, \nfadeInDuration, visibleDuration, fadeOutDuration)
+activate View
+
+View -> Snackbar: new Snackbar(parentContainer, bitmapId, x, y, \nfadeInDuration, visibleDuration, fadeOutDuration)
+activate Snackbar
+
+group Fade in animation
+    Snackbar -> Image: setFadeAnimationEndedAction(\nfadeOutAnimationCallback)
+    activate Image
+    return
+    deactivate Image
+
+    Snackbar -> Image: startFadeAnimation(255, fadeInDuration, \nEasingEquations::quintEaseIn)
+    activate Image
+    return
+    deactivate Image
+end
+
+group Fade out animation
+    Snackbar -> Image: setFadeAnimationDelay(visibleDuration)
+    activate Image
+    return
+    deactivate Image
+    Snackbar -> Image: startFadeAnimation(0, fadeOutDuration, \nEasingEquations::quintEaseIn)
+    activate Image
+    return
+    deactivate Image
+end
+
+Image -> Snackbar: onFadeOutAnimationEnded()
+activate Snackbar
+Snackbar -> ParentContainer: remove(Image)
+activate ParentContainer
+ParentContainer -> Snackbar: return
+deactivate ParentContainer
+deactivate Snackbar
+
+Snackbar --> View: return
+deactivate Snackbar
+
+View --> User: return
+deactivate View
+
+@enduml

@@ -1,0 +1,46 @@
+@startuml RenderBoardSequenceDiagram
+actor User
+
+participant ChessGameView as View
+participant Board as Board
+participant BoardRenderer as Renderer
+participant PieceImpl as PieceImpl
+participant PieceSelector as PieceSelector
+participant SquareRenderer as SquareRenderer
+
+User -> View: setupScreen()
+activate View
+View -> Board: setupBoard()
+activate Board
+
+Board -> SquareRenderer: initializeSquares()
+activate SquareRenderer
+SquareRenderer --> Board: return
+deactivate SquareRenderer
+
+Board -> Renderer: setupBoard(board)
+activate Renderer
+
+alt Initialize pieces
+    loop for each piece type and position
+        Renderer -> PieceImpl: PieceImpl(color, type, position, this)
+        activate PieceImpl
+        PieceImpl -> Renderer: addPiece(PieceImpl, position, board)
+        deactivate PieceImpl
+    end
+end
+Renderer --> Board: return
+deactivate Renderer
+
+Board -> PieceSelector: initialize()
+activate PieceSelector
+PieceSelector --> Board: return
+deactivate PieceSelector
+
+Board -> Board: updateBoardColors()
+Board --> View: return
+deactivate Board
+View --> User: return
+deactivate View
+
+@enduml

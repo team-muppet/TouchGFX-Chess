@@ -1,0 +1,21 @@
+@startuml ClassDiagram
+
+AbstractPiece <|-- PieceImpl
+Board *-- BoardState
+Board *-- BoardStateModel
+Board *-- BoardRenderer
+Board *-- SquareRenderer
+Board *-- PieceSelector
+Board *-- ChessAI
+Board *-- GameStateSerializer
+Board *-- Snackbar
+BoardState *-- BoardStateModel
+BoardRenderer *-- AbstractPiece
+PieceSelector *-- SquareRenderer
+ChessAI *-- BoardState
+ChessGameView *-- Board
+ChessGameView *-- ChessTimer
+ChessTimer *-- ChessGameView
+GameStateSerializer --> BoardStateModel
+
+@enduml

@@ -1,0 +1,261 @@
+@startuml ClassDiagram
+
+class AbstractPiece {
+    - PieceColor color
+    - PieceType type
+    - std::shared_ptr<ScalableImage> _image
+    - Container* _container
+    - bool hasMoved = false
+    + AbstractPiece(PieceColor c, PieceType t, const Bitmap& bmp, Container* container)
+    + virtual ~AbstractPiece()
+    + virtual std::list<int> PotentialMoves(const std::shared_ptr<AbstractPiece> board[64], const int myPosition) const = 0
+    + virtual std::list<int> PossibleMoves(const std::shared_ptr<AbstractPiece> board[64], const int myPosition) const = 0
+    + virtual PieceColor GetColor() const
+    + virtual PieceType GetType() const
+    + virtual ScalableImage* GetImage() const
+    + void Move(int position) const
+    + void SetMoved()
+    + bool HasMoved() const
+}
+
+AbstractPiece <|-- Bishop
+AbstractPiece <|-- King
+AbstractPiece <|-- Knight
+AbstractPiece <|-- Pawn
+AbstractPiece <|-- Queen
+AbstractPiece <|-- Rook
+
+class Board {
+    - BoardState _boardState
+    - BoardStateModel _boardStateModel
+    - touchgfx::FadeAnimator<touchgfx::Image> Check
+    + Board()
+    + virtual ~Board()
+    + virtual void setupBoard()
+    + virtual void handleClickEvent(int position)
+    + virtual void saveGame(int _gameNumber)
+    + virtual void loadGame(int _gameNumber)
+    + virtual void resetGame()
+    + void setPlayerTurnCallback(touchgfx::GenericCallback<PieceColor>* callback)
+    + void setWinnerCallback(touchgfx::GenericCallback<PieceColor>* callback)
+    + PieceColor getPlayerTurn()
+    + void setAIMode(bool mode)
+    + ChessAI getAI()
+    - virtual void MovePiece(int from, int to)
+    - void checkGameState()
+    - void highlightPieceAndMoves(int position)
+    - void updateBoardColors()
+    - SquareRenderer _squareRenderer
+    - BoardRenderer _boardRenderer
+    - PieceSelector _pieceSelector
+    - GameStateSerializer _gameStateSerializer
+    - std::string _savedGames[3]
+    - touchgfx::GenericCallback<PieceColor>* playerTurnCallback
+    - touchgfx::GenericCallback<PieceColor>* winnerCallback
+    - ChessAI ai
+    - void handleAIMove()
+    - void processMove(int from, int to)
+    - bool aiMode
+}
+
+class BoardRenderer {
+    + BoardRenderer()
+    + void setupBoard(std::array<std::shared_ptr<AbstractPiece>, 64>& board)
+    + void setupSavedBoard(std::array<std::shared_ptr<AbstractPiece>, 64>& board, std::array<std::shared_ptr<AbstractPiece>, 64>& tmpboard)
+    + void promotePawn(std::array<std::shared_ptr<AbstractPiece>, 64>& board, int position)
+    - void addPiece(std::shared_ptr<AbstractPiece> piece, int position, std::array<std::shared_ptr<AbstractPiece>, 64>& board)
+}
+
+class BoardState {
+    + BoardState()
+    + void initialize()
+    + void reset()
+    + std::array<std::shared_ptr<AbstractPiece>, 64>& getBoard()
+    + void setBoard(std::array<std::shared_ptr<AbstractPiece>, 64>&& board)
+    + PieceColor getCurrentPlayer() const
+    + void setCurrentPlayer(PieceColor color)
+    + int getWhiteKingPosition() const
+    + void setWhiteKingPosition(int position)
+    + int getBlackKingPosition() const
+    + void setBlackKingPosition(int position)
+    + int getLastMoveFrom() const
+    + void setLastMoveFrom(int position)
+    + int getLastMoveTo() const
+    + void setLastMoveTo(int position)
+    + bool hasLegalMoves(PieceColor color)
+    + bool hasCheckmate(PieceColor color)
+    + bool wouldMoveCauseCheck(int from, int to)
+    + int isKingInCheck(PieceColor color)
+    + std::list<int> filterValidMoves(const std::list<int>& possibleMoves, int from)
+    - std::array<std::shared_ptr<AbstractPiece>, 64> _board
+    - PieceColor _currentPlayer
+    - int _lastMoveFrom
+    - int _lastMoveTo
+    - int _whiteKingPosition
+    - int _blackKingPosition
+}
+
+class BoardStateModel {
+    + BoardStateModel()
+    + std::array<std::shared_ptr<AbstractPiece>, 64>& getBoard()
+    + void setBoard(const std::array<std::shared_ptr<AbstractPiece>, 64>& board)
+    + PieceColor getCurrentPlayer() const
+    + void setCurrentPlayer(PieceColor color)
+    - std::array<std::shared_ptr<AbstractPiece>, 64> _board
+    - PieceColor _currentPlayer
+}
+
+class ChessAI {
+    + ChessAI(PieceColor color, int depth = 3)
+    + std::pair<int, int> getBestMove(BoardState& boardState)
+    + void setDepth(int depth)
+    - PieceColor aiColor
+    - int searchDepth
+    - int evaluateBoard(BoardState& boardState)
+    - int minimax(BoardState& boardState, int depth, int alpha, int beta, bool isMaximizingPlayer)
+    - std::list<std::pair<int, int>> getAllPossibleMoves(BoardState& boardState, PieceColor color)
+}
+
+class ChessGamePresenter {
+    + ChessGamePresenter(ChessGameView& v)
+    + virtual void activate()
+    + virtual void deactivate()
+    + virtual ~ChessGamePresenter()
+    - ChessGamePresenter()
+    - ChessGameView& view
+}
+
+class ChessGameView {
+    + ChessGameView()
+    + virtual ~ChessGameView()
+    + virtual void setupScreen()
+    + virtual void tearDownScreen()
+    + virtual void handleTickEvent()
+    + virtual void DifficultyValueChanged(int value) override
+    + virtual void WinScreenButton() override
+    + void screenClickedHandler(const Image& i, const ClickEvent& e)
+    + void buttonCallbackHandler(const ButtonWithIcon& src, const ClickEvent& e)
+    + void gameModeButtonCallbackHandler(const TextButtonStyle<IconButtonStyle<BoxWithBorderButtonStyle<ClickButtonTrigger>>>& src, const ClickEvent& e)
+    + void setWhiteTimer(uint8_t minutes, uint8_t seconds)
+    + void setBlackTimer(uint8_t minutes, uint8_t seconds)
+    + void switchToMenu()
+    + void switchToGame(bool aiMode = false, uint8_t aiDifficulty = 3)
+    + void handleGameOver()
+    - Callback<ChessGameView, const Image&, const ClickEvent&> screenClickedCallback
+    - Callback<ChessGameView, const ButtonWithIcon&, const ClickEvent&> buttonClickedCallback
+    - Callback<ChessGameView, const TextButtonStyle<IconButtonStyle<BoxWithBorderButtonStyle<ClickButtonTrigger>>>&, const ClickEvent&> gameModeButtonCallback
+    - ScalableImage _testpawn
+    - Board _chessboard
+    - ChessTimer _chessTimer
+    - Callback<ChessGameView, uint8_t, uint8_t> whiteTimeUpdateCallback
+    - Callback<ChessGameView, uint8_t, uint8_t> blackTimeUpdateCallback
+    - Callback<ChessGameView, PieceColor> playerTurnCallback
+    - Callback<ChessGameView, PieceColor> winnerCallback
+    - void whiteTimerUpdated(uint8_t minutes, uint8_t seconds)
+    - void blackTimerUpdated(uint8_t minutes, uint8_t seconds)
+    - void updatePlayerTurn(PieceColor color)
+    - void updateWinner(PieceColor color)
+    - GameState currentState
+    - int aiDepth
+}
+
+class ChessTimer {
+    + ChessTimer(PieceColor currentPlayer)
+    + void setPlayer(PieceColor currentPlayer)
+    + void resume()
+    + void pause()
+    + void tick()
+    + void reset()
+    + void setWhiteTimeUpdateCallback(touchgfx::GenericCallback<uint8_t, uint8_t>* callback)
+    + void setBlackTimeUpdateCallback(touchgfx::GenericCallback<uint8_t, uint8_t>* callback)
+    + void handleTick()
+    - PieceColor _currentPlayer
+    - uint32_t _whitePlayerTime
+    - uint32_t _blackPlayerTime
+    - uint32_t _tickCounter
+    - bool _isRunning
+    - touchgfx::GenericCallback<uint8_t, uint8_t>* _whiteTimeUpdateCallback
+    - touchgfx::GenericCallback<uint8_t, uint8_t>* _blackTimeUpdateCallback
+}
+
+class GameStateSerializer {
+    + GameStateSerializer()
+    + std::string SerializeGameState(BoardStateModel& boardStateModel)
+    + BoardStateModel DeserializeGameState(const std::string& serializedGameState, BoardRenderer& boardRenderer)
+    - PieceColor DeserializeCurrentPlayer(const rapidjson::Document& document)
+    - std::array<std::shared_ptr<AbstractPiece>, 64> DeserializeBoardState(const rapidjson::Document& document, BoardRenderer& boardRenderer)
+}
+
+class PieceSelector {
+    + PieceSelector()
+    + ~PieceSelector()
+    + void selectPiece(int position, const std::list<int>& possibleMoves, const std::list<int>& captureMoves)
+    + void deselectPiece()
+    + bool isVisible() const
+    + bool isPossibleMove(int position) const
+    + const std::list<int>& getPossibleMoves() const
+    + const std::list<int>& getCaptureMoves() const
+    - Box _pieceSelector
+    - std::list<int> _possibleMoves
+    - std::list<int> _captureMoves
+    - std::vector<Box> _moveMarkers
+    - void clearMoveMarkers()
+    - void displayMoveMarkers(const std::list<int>& positions, const std::list<int>& captures)
+}
+
+class SquareRenderer {
+    + SquareRenderer()
+    + void initializeSquares()
+    + void updateSquareColor(int index, colortype color)
+    + void resetSquareColors()
+    - std::array<Box, 64> _squares
+    static const colortype LIGHT_SQUARE_COLOR
+    static const colortype DARK_SQUARE_COLOR
+}
+
+class Snackbar {
+    + Snackbar(touchgfx::Container* parentContainer, const uint16_t& bitmapId, int x, int y, int fadeInDuration = 20, int visibleDuration = 50, int fadeOutDuration = 30)
+    + virtual ~Snackbar()
+    - Container* parentContainer
+    - FadeAnimator<Image> image
+    - int fadeInDuration
+    - int visibleDuration
+    - int fadeOutDuration
+    - Callback<Snackbar, const FadeAnimator<Image>&> fadeOutAnimationCallback
+    - void startFadeOutAnimation()
+    - void onFadeOutAnimationEnded(const FadeAnimator<Image>& animator)
+}
+
+enum PieceType {
+    PAWN,
+    ROOK,
+    KNIGHT,
+    BISHOP,
+    QUEEN,
+    KING
+}
+
+enum PieceColor {
+    WHITE,
+    BLACK,
+    NONE
+}
+
+Board *-- BoardState
+Board *-- BoardStateModel
+Board *-- BoardRenderer
+Board *-- SquareRenderer
+Board *-- PieceSelector
+Board *-- ChessAI
+Board *-- GameStateSerializer
+Board *-- Snackbar
+BoardState *-- BoardStateModel
+BoardRenderer *-- AbstractPiece
+PieceSelector *-- SquareRenderer
+ChessAI *-- BoardState
+ChessGamePresenter *-- ChessGameView
+ChessGameView *-- Board
+ChessGameView *-- ChessTimer
+ChessTimer *-- ChessGameView
+
+@enduml

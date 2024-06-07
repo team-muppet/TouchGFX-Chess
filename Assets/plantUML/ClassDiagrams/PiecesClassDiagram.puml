@@ -1,0 +1,28 @@
+@startuml PiecesClassDiagram
+
+class AbstractPiece {
+    - PieceColor color
+    - PieceType type
+    - std::shared_ptr<ScalableImage> _image
+    - Container* _container
+    - bool hasMoved = false
+    + AbstractPiece(PieceColor c, PieceType t, const Bitmap& bmp, Container* container)
+    + virtual ~AbstractPiece()
+    + virtual std::list<int> PotentialMoves(const std::shared_ptr<AbstractPiece> board[64], const int myPosition) const = 0
+    + virtual std::list<int> PossibleMoves(const std::shared_ptr<AbstractPiece> board[64], const int myPosition) const = 0
+    + virtual PieceColor GetColor() const
+    + virtual PieceType GetType() const
+    + virtual ScalableImage* GetImage() const
+    + void Move(int position) const
+    + void SetMoved()
+    + bool HasMoved() const
+}
+
+AbstractPiece <|-- Bishop
+AbstractPiece <|-- King
+AbstractPiece <|-- Knight
+AbstractPiece <|-- Pawn
+AbstractPiece <|-- Queen
+AbstractPiece <|-- Rook
+
+@enduml
