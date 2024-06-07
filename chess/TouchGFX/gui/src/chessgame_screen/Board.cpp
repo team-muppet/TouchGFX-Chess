@@ -164,6 +164,15 @@ void Board::handleAIMove() {
         MovePiece(aiMove.first, aiMove.second);
         updateBoardColors();
     }
+    else {
+        if (_boardState.hasCheckmate(PieceColor::WHITE))
+        {
+            if (winnerCallback && winnerCallback->isValid())
+            {
+                winnerCallback->execute(PieceColor::WHITE); // Notify the view about game over
+            }
+        }
+    }
 
     if (playerTurnCallback && playerTurnCallback->isValid())
     {
