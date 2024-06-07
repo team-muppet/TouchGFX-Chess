@@ -37,7 +37,7 @@ public:
 
     // Game state management
     void switchToMenu();
-    void switchToGame();
+    void switchToGame(bool aiMode = false, uint8_t aiDifficulty = 3);
     void handleGameOver();
 
 protected:

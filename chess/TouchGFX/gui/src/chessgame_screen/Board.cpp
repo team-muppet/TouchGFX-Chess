@@ -302,6 +302,12 @@ void Board::loadGame(int _gameNumber)
     _boardStateModel = _gameStateSerializer.DeserializeGameState(_savedGames[_gameNumber], _boardRenderer);
     _boardState.setBoard(std::move(_boardStateModel.getBoard()));
     _boardState.setCurrentPlayer(_boardStateModel.getCurrentPlayer());
+    _pieceSelector.deselectPiece();
+
+    if (playerTurnCallback && playerTurnCallback->isValid())
+    {
+        playerTurnCallback->execute(_boardState.getCurrentPlayer()); // Notify the view about the player turn change
+    }
 
     updateBoardColors();
 }

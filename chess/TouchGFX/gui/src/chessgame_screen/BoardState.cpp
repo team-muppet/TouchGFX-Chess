@@ -38,6 +38,8 @@ std::array<std::shared_ptr<AbstractPiece>, 64>& BoardState::getBoard()
 void BoardState::setBoard(std::array<std::shared_ptr<AbstractPiece>, 64>&& board)
 {
     _board = std::move(board);
+    _lastMoveFrom = -1;
+    _lastMoveTo = -1;
 }
 
 PieceColor BoardState::getCurrentPlayer() const

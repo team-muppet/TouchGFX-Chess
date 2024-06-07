@@ -100,8 +100,8 @@ void ChessGameView::buttonCallbackHandler(const ButtonWithIcon& src, const Click
         }
         else if (&src == &LoadButton)
         {
+            //switchToGame();
             _chessboard.loadGame(0);
-            switchToGame();
         }
         else if (&src == &SaveButton)
         {
@@ -116,21 +116,10 @@ void ChessGameView::gameModeButtonCallbackHandler(const TextButtonStyle<IconButt
     {
         if (&src == &SingleplayerButton)
         {
-            _chessboard.setAIMode(true); // Enable AI mode
-            _chessboard.resetGame();
-            _chessboard.setupBoard();
-            _chessboard.getAI().setDepth(aiDepth); // Set AI depth based on slider
-            _chessTimer.reset();
-            _chessTimer.resume();
-            switchToGame();
+            switchToGame(true, aiDepth);
         }
         else if (&src == &MultiplayerButton)
         {
-            _chessboard.setAIMode(false); // Disable AI mode
-            _chessboard.resetGame();
-            _chessboard.setupBoard();
-            _chessTimer.reset();
-            _chessTimer.resume();
             switchToGame();
         }
     }
@@ -198,8 +187,15 @@ void ChessGameView::switchToMenu()
     MainMenu.invalidate();
 }
 
-void ChessGameView::switchToGame()
+void ChessGameView::switchToGame(bool aiMode, uint8_t aiDifficulty)
 {
+    _chessboard.setAIMode(aiMode); // Enable AI mode
+    _chessboard.resetGame();
+    _chessboard.setupBoard();
+    _chessboard.getAI().setDepth(aiDifficulty); // Set AI depth based on slider
+    _chessTimer.reset();
+    _chessTimer.resume();
+
     currentState = GameState::GAME;
     _chessboard.setVisible(true);
     _chessboard.invalidate();
