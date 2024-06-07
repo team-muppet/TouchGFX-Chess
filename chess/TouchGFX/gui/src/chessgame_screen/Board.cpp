@@ -175,6 +175,9 @@ void Board::handleAIMove() {
             {
                 winnerCallback->execute(PieceColor::WHITE); // Notify the view about game over
             }
+            else {
+                winnerCallback->execute(PieceColor::NONE); // Remis!
+            }
         }
     }
 

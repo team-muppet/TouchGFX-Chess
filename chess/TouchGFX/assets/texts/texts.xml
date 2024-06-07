@@ -17,10 +17,10 @@
         <Translation Language="GB">New Game</Translation>
       </Text>
       <Text Id="__SingleUse_R53Q" Alignment="Left" TypographyId="TestBox">
-        <Translation Language="GB">White</Translation>
+        <Translation Language="GB">White wins!</Translation>
       </Text>
       <Text Id="__SingleUse_2O8W" Alignment="Center" TypographyId="TestBox">
-        <Translation Language="GB">&lt;value&gt; wins!</Translation>
+        <Translation Language="GB">&lt;value&gt;</Translation>
       </Text>
       <Text Id="__SingleUse_DJI9" Alignment="Left" TypographyId="Default">
         <Translation Language="GB">3</Translation>

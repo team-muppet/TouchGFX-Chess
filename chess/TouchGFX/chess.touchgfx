@@ -383,7 +383,7 @@
                 "Wildcard1": {
                   "TextId": "__SingleUse_R53Q",
                   "UseBuffer": true,
-                  "BufferSize": 6
+                  "BufferSize": 14
                 }
               },
               {

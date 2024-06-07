@@ -176,10 +176,14 @@ void ChessGameView::updateWinner(PieceColor color)
     _chessboard.setVisible(false);
     _chessboard.invalidate();
     if (color == PieceColor::WHITE) {
-        touchgfx::Unicode::snprintf(WinnerTextBuffer, WINNERTEXT_SIZE, "White");
+        touchgfx::Unicode::snprintf(WinnerTextBuffer, WINNERTEXT_SIZE, "White wins!");
     }
-    else {
-        touchgfx::Unicode::snprintf(WinnerTextBuffer, WINNERTEXT_SIZE, "Black");
+    else if (color == PieceColor::BLACK) {
+        touchgfx::Unicode::snprintf(WinnerTextBuffer, WINNERTEXT_SIZE, "Black wins!");
+    }
+    else
+    {
+        touchgfx::Unicode::snprintf(WinnerTextBuffer, WINNERTEXT_SIZE, "Remis!");
     }
     WinnerText.invalidate();
     WinScreen.show();
