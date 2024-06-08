@@ -178,31 +178,7 @@ int main(void)
   SDRAM_Initialization_Sequence(&hsdram1, &command);
 
   /* USER CODE END 2 */
-  if(f_mount(&SDFatFS, SDPath, 1) == FR_OK)
-        {
-  	  FIL file;
-  	     UINT bytesWritten;
-  	     const char* filename = "Game2.txt";
-  	     char* data = "Hello";
 
-  	     // Open the file for writing (create if not exists)
-  	     if(f_open(&file, filename, FA_WRITE | FA_CREATE_ALWAYS) == FR_OK)
-  	     {
-  	         // Write the data to the file
-  	         f_write(&file, data, 6, &bytesWritten);
-
-  	         // Close the file
-  	         f_close(&file);
-  	     }
-  	     else
-  	     {
-  	    	 //Error_Handler();
-  	     }
-        }
-    else
-    {
-  	  //Error_Handler();
-    }
   /* Init scheduler */
   osKernelInitialize();
 
