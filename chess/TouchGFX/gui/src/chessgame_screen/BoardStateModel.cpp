@@ -22,3 +22,9 @@ PieceColor BoardStateModel::getCurrentPlayer() const {
 void BoardStateModel::setCurrentPlayer(PieceColor color) {
     _currentPlayer = color;
 }
+
+void BoardStateModel::resetBoard() {
+    for (auto& piece : _board) {
+        piece = nullptr;
+    }
+}

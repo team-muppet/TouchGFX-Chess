@@ -17,6 +17,8 @@ public:
     PieceColor getCurrentPlayer() const;
     void setCurrentPlayer(PieceColor color);
 
+    void resetBoard();
+
 private:
     std::array<std::shared_ptr<AbstractPiece>, 64> _board;
     PieceColor _currentPlayer;

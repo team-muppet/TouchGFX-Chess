@@ -262,6 +262,7 @@ void Board::saveGame(int _gameNumber)
     _boardStateModel.setBoard(_boardState.getBoard());
     _boardStateModel.setCurrentPlayer(_boardState.getCurrentPlayer());
     _savedGames[_gameNumber] = _gameStateSerializer.SerializeGameState(_boardStateModel);
+    _boardStateModel.resetBoard();
 }
 
 void Board::highlightPieceAndMoves(int position)
