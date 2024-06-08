@@ -63,6 +63,9 @@ BoardStateModel GameStateSerializer::DeserializeGameState(const std::string& ser
 
 #ifndef SIMULATOR
     _serializedGameState = ReadFromSDCARD();
+	if (_serializedGameState.empty()) {
+        _serializedGameState = serializedGameState;
+	}
 #endif
 
 
