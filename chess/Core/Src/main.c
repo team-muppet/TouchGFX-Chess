@@ -86,6 +86,13 @@ const osThreadAttr_t videoTask_attributes = {
   .stack_size = 1000 * 4,
   .priority = (osPriority_t) osPriorityLow,
 };
+
+/*osThreadId_t SD_TaskHandle;
+const osThreadAttr_t SD_Task_attributes = {
+  .name = "SD_Task",
+  .stack_size = 1000 * 4,
+  .priority = (osPriority_t) osPriorityHigh,
+};*/
 /* USER CODE BEGIN PV */
 FMC_SDRAM_CommandTypeDef command;
 
@@ -106,6 +113,7 @@ static void MX_CRC_Init(void);
 static void MX_JPEG_Init(void);
 static void MX_SDMMC1_SD_Init(void);
 void StartDefaultTask(void *argument);
+//void StartSD_Task(void *argument);
 extern void TouchGFX_Task(void *argument);
 extern void videoTaskFunc(void *argument);
 
@@ -141,6 +149,7 @@ int main(void)
 
   /* Enable D-Cache---------------------------------------------------------*/
   SCB_EnableDCache();
+  //SCB_DisableDCache();
 
   /* MCU Configuration--------------------------------------------------------*/
 
@@ -201,7 +210,7 @@ int main(void)
   /* Create the thread(s) */
   /* creation of defaultTask */
   defaultTaskHandle = osThreadNew(StartDefaultTask, NULL, &defaultTask_attributes);
-
+  //SD_TaskHandle = osThreadNew(StartSD_Task, NULL, &SD_Task_attributes);
   /* creation of GUI_Task */
   GUI_TaskHandle = osThreadNew(TouchGFX_Task, NULL, &GUI_Task_attributes);
 
@@ -844,6 +853,7 @@ void StartDefaultTask(void *argument)
   }
   /* USER CODE END 5 */
 }
+
 
  /* MPU Configuration */
 

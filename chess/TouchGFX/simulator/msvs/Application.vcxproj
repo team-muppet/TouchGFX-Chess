@@ -267,7 +267,7 @@
       <DisableSpecificWarnings>4355</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
-      <AdditionalIncludeDirectories>$(ApplicationRoot)\..\Middlewares\Third_Party\rapidjson;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ApplicationRoot)\..\Middlewares\Third_Party\rapidjson;$(ApplicationRoot)\..\FATFS\App;$(ApplicationRoot)\..\FATFS\Target;$(ApplicationRoot)\..\Middlewares\Third_Party\FatFs\src;$(ApplicationRoot)\..\Middlewares\Third_Party\FatFs\src\option;$(ApplicationRoot)\..\Drivers\CMSIS\Include;C:\Repos\ams-project-2\chess\Drivers\STM32H7xx_HAL_Driver\Inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

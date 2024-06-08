@@ -14,6 +14,9 @@
 #include <gui/chessgame_screen/Bishop.hpp>
 #include <gui/chessgame_screen/Queen.hpp>
 #include <gui/chessgame_screen/King.hpp>
+#ifndef SIMULATOR
+#include "fatfs.h"
+#endif
 
 
 GameStateSerializer::GameStateSerializer() {}
@@ -43,13 +46,28 @@ std::string GameStateSerializer::SerializeGameState(BoardStateModel& boardStateM
     rapidjson::StringBuffer buffer;
     rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
     document.Accept(writer);
+    std::string gameStateString = buffer.GetString();
 
-    return buffer.GetString();
+#ifndef SIMULATOR
+    WriteToSDCARD(gameStateString.c_str());
+#endif
+
+
+    return gameStateString;
+
 }
 
 BoardStateModel GameStateSerializer::DeserializeGameState(const std::string& serializedGameState, BoardRenderer& boardRenderer) {
+    
+	std::string _serializedGameState = serializedGameState;
+
+#ifndef SIMULATOR
+    _serializedGameState = ReadFromSDCARD();
+#endif
+
+
     rapidjson::Document document;
-    if (document.Parse(serializedGameState.c_str()).HasParseError()) {
+    if (document.Parse(_serializedGameState.c_str()).HasParseError()) {
         printf("Error(offset %u): %s\n",
             (unsigned)document.GetErrorOffset(),
             rapidjson::GetParseError_En(document.GetParseError()));

@@ -37,6 +37,8 @@ extern FATFS SDFatFS; /* File system object for SD logical drive */
 extern FIL SDFile; /* File object for SD */
 
 void MX_FATFS_Init(void);
+void WriteToSDCARD(const char* data);
+char* ReadFromSDCARD(void);
 
 /* USER CODE BEGIN Prototypes */
 
