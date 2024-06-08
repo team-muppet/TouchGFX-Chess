@@ -1,0 +1,48 @@
+@startuml ChessAISequenceDiagram
+actor User
+
+participant ChessGameView as View
+participant Board as Board
+participant ChessAI as AI
+participant BoardState as State
+
+User -> View: makeMove(from, to)
+activate View
+View -> Board: makeMove(from, to)
+activate Board
+
+group User Move
+    Board -> State: movePiece(from, to)
+    return
+end
+
+group AI Move
+    Board -> AI: getBestMove(state)
+    activate AI
+    AI -> State: getAllPossibleMoves(color)
+    activate State
+    State --> AI: possibleMoves
+    deactivate State
+    
+    AI -> AI: evaluate possibleMoves
+    AI -> AI: minimax(state, depth, alpha, beta, isMaximizingPlayer)
+    AI --> Board: bestMove(from, to)
+    deactivate AI
+
+    Board -> State: movePiece(from, to)
+    activate State
+    State -> Board: updateBoardState(from, to)
+    deactivate State
+
+    Board -> Board: updateBoardColors()
+    Board -> Board: setCurrentPlayer(nextPlayer)
+    Board -> Board: checkGameState()
+end
+
+Board --> View: return
+deactivate Board
+
+View --> User: return
+deactivate View
+
+@enduml

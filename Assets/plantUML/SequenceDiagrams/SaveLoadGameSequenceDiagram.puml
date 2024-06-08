@@ -1,0 +1,60 @@
+@startuml SaveLoadGameSequenceDiagram
+actor User
+
+participant ChessGameView as View
+participant Board as Board
+participant BoardStateModel as StateModel
+participant GameStateSerializer as Serializer
+== Save Game ==
+User -> View: saveGame(gameNumber)
+activate View
+View -> Board: saveGame(gameNumber)
+activate Board
+
+alt Save Game
+    Board -> StateModel: setBoard(board)
+    activate StateModel
+    StateModel -> Serializer: SerializeGameState(stateModel)
+    activate Serializer
+    Serializer --> StateModel: serializedState
+    deactivate Serializer
+
+    StateModel --> Board: return
+    deactivate StateModel
+
+    Board -> Board: save serializedState to storage
+    Board --> View: return
+    deactivate Board
+end
+
+View --> User: return
+deactivate View
+
+== Load Game ==
+
+User -> View: loadGame(gameNumber)
+activate View
+View -> Board: loadGame(gameNumber)
+activate Board
+
+alt Load Game
+    Board -> Serializer: DeserializeGameState(serializedState, renderer)
+    activate Serializer
+    Serializer -> BoardStateModel: Deserialize state
+    activate BoardStateModel
+    BoardStateModel --> Serializer: return deserializedState
+    deactivate BoardStateModel
+
+    Serializer --> Board: return deserializedState
+    deactivate Serializer
+
+    Board -> Board: setBoard(deserializedState)
+    Board -> Board: updateBoardColors()
+    Board --> View: return
+    deactivate Board
+end
+
+View --> User: return
+deactivate View
+
+@enduml

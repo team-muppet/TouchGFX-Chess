@@ -1,0 +1,49 @@
+@startuml CastlingSequenceDiagram
+actor User
+
+participant ChessGameView as View
+participant Board as Board
+participant BoardState as State
+participant Piece as King
+participant Piece as Rook
+
+User -> View: handleClickEvent(from, to)
+activate View
+View -> Board: handleClickEvent(from, to)
+activate Board
+
+alt Check for Castling
+    Board -> State: getBoard()
+    activate State
+    State -> King: check for valid castling move
+    activate King
+    alt Valid Castling Move
+        King -> Board: castling move details
+        deactivate King
+        
+        Board -> State: moveKing(from, to)
+        activate State
+        State -> Board: updateKingPosition(to)
+        deactivate State
+
+        alt Move Rook
+            Board -> State: moveRook(rookFrom, rookTo)
+            activate State
+            State -> Board: updateRookPosition(rookTo)
+            deactivate State
+        end
+
+        Board -> Board: updateBoardColors()
+        Board -> Board: setCurrentPlayer(nextPlayer)
+        Board -> Board: checkGameState()
+    end
+    deactivate Board
+end
+
+Board --> View: return
+deactivate View
+
+View --> User: return
+deactivate View
+
+@enduml
